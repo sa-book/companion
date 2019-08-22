@@ -1,0 +1,13 @@
+"0","knitr::opts_chunk$set(echo = FALSE)"
+"0","setwd(""C:/Dropbox/01_Arbeit/02_Projekte/SA_book/05_datawork/04_r-scripts/Chapter_02"")"
+"2","The working directory was changed to C:/Dropbox/01_Arbeit/02_Projekte/SA_book/05_datawork/04_r-scripts/Chapter_02 inside a notebook chunk. The working directory will be reset when the chunk is finished running. Use the knitr root.dir option in the setup chunk to change the working directory for notebook chunks."
+"0","load(""Test.RData"")"
+"0","# use (and install if necessary) pacman package "
+"0","if (!require(""pacman"")) install.packages(""pacman"")"
+"2","Lade nötiges Paket: pacman
+"
+"0","library(pacman)"
+"0",""
+"0","# load and install (if necessary) required packages for this course"
+"0","p_load(TraMineR, tidyverse, haven, knitr, kableExtra, "
+"0","       RColorBrewer, colorspace, colortools, icon)"
