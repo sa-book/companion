@@ -69,7 +69,7 @@ Typing `display.brewer.all()` provides you with an overview of the color palette
 
 ```{r echo=FALSE, out.width = '80%', fig.align = "center"}
 #display.brewer.all()
-include_graphics("C:/Dropbox/01_Arbeit/02_Projekte/SA_book/05_datawork/04_r-scripts/Chapter_02/brewerpal.png")
+include_graphics("brewerpal.png")
 
 ```
 
