@@ -2,7 +2,7 @@ name: "DistillWebsite"
 title: "Sequence Analysis - Companion Website"
 description: |
   Sequence Analysis
-output_dir: "_site"
+output_dir: "."
 navbar:
   right:
     - text: "Home"
