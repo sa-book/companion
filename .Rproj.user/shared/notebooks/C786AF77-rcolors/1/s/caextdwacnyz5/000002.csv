@@ -1,0 +1,5 @@
+"0","kable(tibble(state = longlab, shortlabel = shortlab), "
+"0","      col.names = c(""State"", ""Short Label"")) %>%"
+"0","  kable_styling(bootstrap_options = "
+"0","                  c(""striped"", ""hover"", ""condensed""),"
+"0","                full_width = F)"

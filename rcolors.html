@@ -24,11 +24,6 @@
   <meta property="description" itemprop="description" content="Using (predefined) color palettes for setting colors."/>
   
   
-  <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2019-08-22"/>
-  <meta property="article:created" itemprop="dateCreated" content="2019-08-22"/>
-  <meta name="article:author" content="Marcel Raab"/>
-  <meta name="article:author" content="Emanuela Struffolino"/>
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Sequence Analysis - Companion Site: Chapter 2 - Choosing Colors"/>
@@ -46,7 +41,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date"]}},"value":[{"type":"character","attributes":{},"value":["Chapter 2 - Choosing Colors"]},{"type":"character","attributes":{},"value":["Using (predefined) color palettes for setting colors.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Marcel Raab"]},{"type":"character","attributes":{},"value":["http://marcelraab.de"]},{"type":"character","attributes":{},"value":["University of Mannheim"]},{"type":"character","attributes":{},"value":["https://www.uni-mannheim.de"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Emanuela Struffolino"]},{"type":"character","attributes":{},"value":["https://www.wzb.eu/en/persons/emanuela-struffolino"]},{"type":"character","attributes":{},"value":["WZB Berlin"]},{"type":"character","attributes":{},"value":["https://www.wzb.eu"]}]}]},{"type":"character","attributes":{},"value":["2019-08-22"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output"]}},"value":[{"type":"character","attributes":{},"value":["Chapter 2 - Choosing Colors"]},{"type":"character","attributes":{},"value":["Using (predefined) color palettes for setting colors.\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[2]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -1290,7 +1285,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Chapter 2 - Choosing Colors","description":"Using (predefined) color palettes for setting colors.","authors":[{"author":"Marcel Raab","authorURL":"http://marcelraab.de","affiliation":"University of Mannheim","affiliationURL":"https://www.uni-mannheim.de"},{"author":"Emanuela Struffolino","authorURL":"https://www.wzb.eu/en/persons/emanuela-struffolino","affiliation":"WZB Berlin","affiliationURL":"https://www.wzb.eu"}],"publishedDate":"2019-08-22T00:00:00.000+02:00","citationText":"Raab & Struffolino, 2019"}
+{"title":"Chapter 2 - Choosing Colors","description":"Using (predefined) color palettes for setting colors.","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1344,17 +1339,19 @@ Stata
 <p>Using (predefined) color palettes for setting colors.</p>
 </div>
 
-<div class="d-byline">
-  Marcel Raab <a href="http://marcelraab.de" class="uri">http://marcelraab.de</a> (University of Mannheim)<a href="https://www.uni-mannheim.de" class="uri">https://www.uni-mannheim.de</a>
-  
-,   Emanuela Struffolino <a href="https://www.wzb.eu/en/persons/emanuela-struffolino" class="uri">https://www.wzb.eu/en/persons/emanuela-struffolino</a> (WZB Berlin)<a href="https://www.wzb.eu" class="uri">https://www.wzb.eu</a>
-  
-<br/>2019-08-22
-</div>
 
 <div class="d-article">
-<p>The community of <i class="fab  fa-r-project " style="color:#384CB7;"></i> developers provides you with plenty of tools for finding suitable colors for sequence visualization. We illustrate how to use <code>RColorBrewer</code> (which is also used by <code>TraMiner::seqdef</code>), <code>colorspace</code>, and <code>colortools</code> to choose colors. If you are using R Studio you also might want to consider the very helpful package <code>colourpicker</code>.</p>
-<p>For a brief introduction to the “Selecting Colors for Statistical Graphics” we recommend the paper by <a href="https://dx.doi.org/10.1016/j.csda.2008.11.033">Zeileis et al. (2009)</a>. For a more detailed discussion of color palettes based on the HCL (Hue-Chroma-Luminance) color space using R we refer to <a href="https://arxiv.org/abs/1903.06490">Zeileis et al. (2019)</a>.</p>
+<h3 class="d-toc-header">Table of Contents</h3>
+<nav class="d-toc" id="TOC">
+<ul>
+<li><a href="#defining-the-sequence-color-palette">Defining the sequence color palette</a></li>
+<li><a href="#choosing-colors-with-rcolorbrewer">Choosing colors with <code>RColorBrewer</code></a></li>
+<li><a href="#choosing-colors-with-colorspace">Choosing colors with <code>colorspace</code></a></li>
+</ul>
+</nav>
+<hr class="d-toc-separator"/>
+<p>The community of <i class="fab  fa-r-project " style="color:#384CB7;"></i> developers provides you with plenty of tools for finding suitable colors for sequence visualization. We illustrate how to use <code>RColorBrewer</code> (which is also used by <code>TraMiner::seqdef</code>) and <code>colorspace</code>to choose colors. If you are using R Studio you also might want to consider the very helpful package <code>colourpicker</code>.</p>
+<p>For a brief introduction to “Selecting Colors for Statistical Graphics” we recommend the paper by <a href="https://dx.doi.org/10.1016/j.csda.2008.11.033">Zeileis et al. (2009)</a>. For a more detailed discussion of color palettes based on the HCL (Hue-Chroma-Luminance) color space using R we refer to <a href="https://arxiv.org/abs/1903.06490">Zeileis et al. (2019)</a>.</p>
 <p>For this excercise we want to find a suitable color palette for visualizing sequences with the following state space (alphabet):</p>
 <div class="layout-chunk" data-layout="l-body">
 <table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
@@ -1468,23 +1465,51 @@ display.brewer.pal(3, &quot;Blues&quot;)
 display.brewer.pal(7, &quot;Blues&quot;)</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<p><img src="rcolors_files/figure-html5/unnamed-chunk-5-1.png" width="672" /><img src="rcolors_files/figure-html5/unnamed-chunk-5-2.png" width="672" /></p>
+<p><img src="rcolors_files/figure-html5/unnamed-chunk-4-1.png" width="672" /><img src="rcolors_files/figure-html5/unnamed-chunk-4-2.png" width="672" /></p>
 </div>
-<h2 id="continue-testing">Continue testing</h2>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <p>The resulting color palette can be inspected using the <code>swatchplot</code> function of the <code>colorspace</code> package. The resulting color palette can be inspected using the <code>swatchplot</code> function of the <code>colorspace</code> package. The resulting color palette can be inspected using the <code>swatchplot</code> function of the <code>colorspace</code> package. The resulting color palette can be inspected using the <code>swatchplot</code> function of the <code>colorspace</code> package.</p>
-<aside>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 swatchplot(colspace1)</code></pre>
-<p><img src="rcolors_files/figure-html5/unnamed-chunk-7-1.png" width="624" /></p>
 </div>
-</aside>
-<h2 id="next-step">Next step</h2>
-<p>Distill is a publication format for scientific and technical writing, native to the web.</p>
-<p>Learn more about using Distill for R Markdown at <a href="https://rstudio.github.io/distill" class="uri">https://rstudio.github.io/distill</a>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="rcolors_files/figure-html5/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<h2 id="choosing-colors-with-colorspace">Choosing colors with <code>colorspace</code></h2>
+<p>Like in the previous step we start by plotting the color palettes available in the package:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="hcl_palettes.png" width="80%" style="display: block; margin: auto;" /></p>
+</div>
+<p>Again, we continue with inspecting the suitable palettes.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+swatchplot(sequential_hcl(5, palette = &quot;Blues&quot;))</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="rcolors_files/figure-html5/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+<p>Note that the resulting color vector starts with the darkest blue, whereas our intended color palette should start with a light blue. Accordingly, the colors must be extracted in rerverse order (as in the code below) or one could change the order of the vector by adding the option <code>rev = TRUE</code> when running <code>sequential_hcl</code>.</p>
+<p>This is our final choice using the palettes provided by `colorspace´:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+col1 &lt;- sequential_hcl(5, palette = &quot;Blues&quot;)[3:2]
+col2 &lt;- sequential_hcl(5, palette = &quot;Greens&quot;)[2:1]
+col3 &lt;- sequential_hcl(5, palette = &quot;Oranges&quot;)[3:2]
+col4 &lt;- sequential_hcl(5, palette = &quot;magenta&quot;)[3:1]
+
+colspace2 &lt;- c(col1, col2, col3, col4)
+
+swatchplot(colspace2)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="rcolors_files/figure-html5/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

@@ -2,21 +2,24 @@
 title: "Chapter 2 - Choosing Colors"
 description: |
   Using (predefined) color palettes for setting colors.
-author:
-  - name: "Marcel Raab"
-    url: http://marcelraab.de
-    affiliation: University of Mannheim
-    affiliation_url: https://www.uni-mannheim.de
-  - name: "Emanuela Struffolino"
-    url: https://www.wzb.eu/en/persons/emanuela-struffolino
-    affiliation: WZB Berlin
-    affiliation_url: https://www.wzb.eu
-date: "`r Sys.Date()`"
+# author:
+#   - name: "Marcel Raab"
+#     url: http://marcelraab.de
+#     affiliation: University of Mannheim
+#     affiliation_url: https://www.uni-mannheim.de
+#   - name: "Emanuela Struffolino"
+#     url: https://www.wzb.eu/en/persons/emanuela-struffolino
+#     affiliation: WZB Berlin
+#     affiliation_url: https://www.wzb.eu
+# date: "`r Sys.Date()`"
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 2
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-setwd("C:/Dropbox/01_Arbeit/02_Projekte/SA_book/05_datawork/04_r-scripts/Chapter_02")
 load("Test.RData")
 # use (and install if necessary) pacman package 
 if (!require("pacman")) install.packages("pacman")
@@ -27,17 +30,13 @@ p_load(TraMineR, tidyverse, haven, knitr, kableExtra,
        RColorBrewer, colorspace, colortools, icon)
 ```
 
-The community of `r fa_r_project(colour = "#384CB7")` developers provides you with plenty of tools for finding suitable colors for sequence visualization. We illustrate how to use `RColorBrewer` (which is also used by `TraMiner::seqdef`), `colorspace`, and `colortools` to choose colors. If you are using R Studio you also might want to consider the very helpful package `colourpicker`.
+The community of `r fa_r_project(colour = "#384CB7")` developers provides you with plenty of tools for finding suitable colors for sequence visualization. We illustrate how to use `RColorBrewer` (which is also used by `TraMiner::seqdef`) and `colorspace`to choose colors. If you are using R Studio you also might want to consider the very helpful package `colourpicker`.
 
-For a brief introduction to the "Selecting Colors for Statistical Graphics" we recommend the paper by [Zeileis et al. (2009)](https://dx.doi.org/10.1016/j.csda.2008.11.033). For a more detailed discussion of color palettes based on the HCL (Hue-Chroma-Luminance) color space using R we refer to [Zeileis et al. (2019)](https://arxiv.org/abs/1903.06490).
+For a brief introduction to "Selecting Colors for Statistical Graphics" we recommend the paper by [Zeileis et al. (2009)](https://dx.doi.org/10.1016/j.csda.2008.11.033). For a more detailed discussion of color palettes based on the HCL (Hue-Chroma-Luminance) color space using R we refer to [Zeileis et al. (2019)](https://arxiv.org/abs/1903.06490).
 
 
 For this excercise we want to find a suitable color palette for visualizing sequences with the following state space (alphabet):
 
-```{r include=FALSE}
-setwd("C:/Dropbox/01_Arbeit/02_Projekte/SA_book/05_datawork/04_r-scripts/Chapter_02")
-source("Test.R")
-```
 
 ```{r echo=FALSE}
 kable(tibble(state = longlab, shortlabel = shortlab), 
@@ -91,7 +90,6 @@ display.brewer.pal(7, "Blues")
 title(xlab="Blues (sequential, n = 7)", line=0)
 ```
 
-## Continue testing
 
 ```{r}
 # extract color palettes for the different partnership-fertility combinations
@@ -106,20 +104,55 @@ colspace1 <- c(col1, col2, col3, col4)
 
 The resulting color palette can be inspected using the `swatchplot` function of the `colorspace` package. The resulting color palette can be inspected using the `swatchplot` function of the `colorspace` package. The resulting color palette can be inspected using the `swatchplot` function of the `colorspace` package. The resulting color palette can be inspected using the `swatchplot` function of the `colorspace` package.
 
-<aside>
-```{r, echo=TRUE}
+```{r eval = FALSE, echo=TRUE}
 swatchplot(colspace1)
 ```
-</aside>
 
+```{r, echo=FALSE, fig.height = 1, fig.width = 7}
+par(mar = c(2, 4, 0, 2) + 0.1)
+swatchplot(colspace1)
+```
 
-## Next step
+## Choosing colors with `colorspace`
 
-Distill is a publication format for scientific and technical writing, native to the web. 
+Like in the previous step we start by plotting the color palettes available in the package:
 
-Learn more about using Distill for R Markdown at <https://rstudio.github.io/distill>.
+```{r eval=FALSE}
+hcl_palettes(plot = TRUE)
+```
 
+```{r echo=FALSE, out.width = '80%', fig.align = "center"}
+include_graphics("hcl_palettes.png")
+```
 
+Again, we continue with inspecting the suitable palettes.
 
+```{r eval=FALSE, echo=TRUE}
+swatchplot(sequential_hcl(5, palette = "Blues"))
+```
 
+```{r, echo=FALSE, fig.height = 1, fig.width = 7}
+par(mar = c(0, 4, 0, 2) + 0.1)
+swatchplot(sequential_hcl(5, palette = "Blues"))
+```
+
+Note that the resulting color vector starts with the darkest blue, whereas our intended color palette should start with a light blue. Accordingly, the colors must be extracted in rerverse order (as in the code below) or one could change the order of the vector by adding the option `rev = TRUE` when running `sequential_hcl`.
+
+This is our final choice using the palettes provided by `colorspace´: 
+
+```{r, eval=FALSE, echo=TRUE}
+col1 <- sequential_hcl(5, palette = "Blues")[3:2]
+col2 <- sequential_hcl(5, palette = "Greens")[2:1]
+col3 <- sequential_hcl(5, palette = "Oranges")[3:2]
+col4 <- sequential_hcl(5, palette = "magenta")[3:1]
+
+colspace2 <- c(col1, col2, col3, col4)
+
+swatchplot(colspace2)
+```
+
+```{r, echo=FALSE, fig.height = 1, fig.width = 7}
+par(mar = c(2, 4, 0, 2) + 0.1)
+swatchplot(colspace2)
+```
 

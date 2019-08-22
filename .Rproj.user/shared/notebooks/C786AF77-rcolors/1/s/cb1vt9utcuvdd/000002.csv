@@ -1,0 +1,2 @@
+"0","par(mar = c(0, 4, 0, 2) + 0.1)"
+"0","swatchplot(sequential_hcl(5, palette = ""Blues""))"
