@@ -1,19 +1,19 @@
 {
     "collab_server" : "",
     "contents" : "",
-    "created" : 1566411738106.000,
+    "created" : 1566465147696.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "857791945",
-    "id" : "F76ACD38",
-    "lastKnownWriteTime" : 1566413990,
-    "last_content_update" : 1566413990869,
-    "path" : "C:/Dropbox/01_Arbeit/02_Projekte/Rprojects/DistillWebsite/index.Rmd",
+    "hash" : "3502398305",
+    "id" : "6E099379",
+    "lastKnownWriteTime" : 1566465179,
+    "last_content_update" : 1566465179887,
+    "path" : "C:/Dropbox/01_Arbeit/02_Projekte/Rprojects/DistillWebsiteGithub/companion/index.Rmd",
     "project_path" : "index.Rmd",
     "properties" : {
-        "cursorPosition" : "27,410",
-        "scrollLine" : "10"
+        "cursorPosition" : "27,325",
+        "scrollLine" : "18"
     },
     "read_only" : false,
     "read_only_alternatives" : [

@@ -1,24 +1,24 @@
 {
     "collab_server" : "",
     "contents" : "",
-    "created" : 1566411739243.000,
+    "created" : 1566466247501.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "111014559",
-    "id" : "4DC38379",
-    "lastKnownWriteTime" : 1566463028,
-    "last_content_update" : 1566463028591,
-    "path" : "C:/Dropbox/01_Arbeit/02_Projekte/Rprojects/DistillWebsite/_site.yml",
+    "hash" : "4199397527",
+    "id" : "ABF4244F",
+    "lastKnownWriteTime" : 1566466362,
+    "last_content_update" : 1566466362945,
+    "path" : "C:/Dropbox/01_Arbeit/02_Projekte/Rprojects/DistillWebsiteGithub/companion/_site.yml",
     "project_path" : "_site.yml",
     "properties" : {
-        "cursorPosition" : "4,14",
+        "cursorPosition" : "1,42",
         "scrollLine" : "0"
     },
     "read_only" : false,
     "read_only_alternatives" : [
     ],
-    "relative_order" : 3,
+    "relative_order" : 2,
     "source_on_save" : false,
     "source_window" : "",
     "type" : "yaml"

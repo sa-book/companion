@@ -25,7 +25,7 @@ library(icon)
 ```
 
 
-This site is intended to enhance your use of the book *Sequence Analysis* by Marcel Raab & Emanuela Struffolino. On this webpage we provide accompanying material illustrating how to conduct sequence analysis in `r fa_r_project(colour = "#384CB7")` using `TraMineR`. We also provide some materials for Stata users but the site's main focus is on applying sequence analsis in `r fa_r_project(colour = "#384CB7")`. 
+This site is intended to enhance your use of the book *Sequence Analysis* by Marcel Raab & Emanuela Struffolino. On this webpage we provide accompanying material illustrating how to conduct sequence analysis in `r fa_r_project(colour = "#384CB7")` using the `TraMineR` package. We also provide some materials for Stata users but the site's main focus is on applying sequence analsis in `r fa_r_project(colour = "#384CB7")`. 
 
 Please note that most of the materials on this site are designed to be used in tandem with the book (which we clearly recommend to buy). 
 
