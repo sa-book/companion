@@ -43,7 +43,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","site","description","author"]}},"value":[{"type":"character","attributes":{},"value":["Sequence Analysis"]},{"type":"character","attributes":{},"value":["distill::distill_website"]},{"type":"character","attributes":{},"value":["Companion Website for the little green book\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Marcel Raab"]},{"type":"character","attributes":{},"value":["http://marcelraab.de"]},{"type":"character","attributes":{},"value":["University of Mannheim"]},{"type":"character","attributes":{},"value":["https://www.uni-mannheim.de"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Emanuela Struffolino"]},{"type":"character","attributes":{},"value":["https://www.wzb.eu/en/persons/emanuela-struffolino"]},{"type":"character","attributes":{},"value":["WZB Berlin"]},{"type":"character","attributes":{},"value":["https://www.wzb.eu"]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","output","site"]}},"value":[{"type":"character","attributes":{},"value":["Sequence Analysis"]},{"type":"character","attributes":{},"value":["Companion Website for the little green book\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Marcel Raab"]},{"type":"character","attributes":{},"value":["http://marcelraab.de"]},{"type":"character","attributes":{},"value":["University of Mannheim"]},{"type":"character","attributes":{},"value":["https://www.uni-mannheim.de"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Emanuela Struffolino"]},{"type":"character","attributes":{},"value":["https://www.wzb.eu/en/persons/emanuela-struffolino"]},{"type":"character","attributes":{},"value":["WZB Berlin"]},{"type":"character","attributes":{},"value":["https://www.wzb.eu"]}]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -1273,6 +1273,15 @@
     font-weight: 700;
   }
   
+  .img-circle {
+    width:100px;
+    border-radius: 50%;
+  }
+  
+  
+  ul li {
+      margin-bottom: 1px;
+  }
   
   </style>
   <!--/radix_placeholder_site_in_header-->
@@ -1349,8 +1358,9 @@ Stata
 </div>
 
 <div class="d-article">
-<p>This site is intended to enhance your use of the book <em>Sequence Analysis</em> by Marcel Raab &amp; Emanuela Struffolino. On this webpage we provide accompanying material illustrating how to conduct sequence analysis in <i class="fab  fa-r-project " style="color:#384CB7;"></i> using the <code>TraMineR</code> package. We also provide some materials for Stata users but the site’s main focus is on applying sequence analsis in <i class="fab  fa-r-project " style="color:#384CB7;"></i>.</p>
-<p>Please note that most of the materials on this site are designed to be used in tandem with the book (which we clearly recommend to buy).</p>
+<p>This site is intended to enhance your use of the book <em>Sequence Analysis</em> by Marcel Raab &amp; Emanuela Struffolino. On this webpage we provide accompanying material illustrating how to conduct sequence analysis in <i class="fab  fa-r-project " style="color:#384CB7;"></i> using the <a href="http://traminer.unige.ch"><code>TraMineR</code> package</a> <span class="citation" data-cites="knuth1984">[@knuth1984]</span>.</p>
+<p>We also provide materials for Stata, although not as exhaustive, using the user-written ados <code>sq</code><span class="citation" data-cites="knuth1984">[@knuth1984]</span> and <code>SADI</code><span class="citation" data-cites="knuth1984">[@knuth1984]</span>.</p>
+<p>Please note that most of the materials on this site are designed to be used in tandem with the book (which we clearly recommend to buy [once it has been published]).</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

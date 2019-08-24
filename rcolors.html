@@ -1272,6 +1272,15 @@
     font-weight: 700;
   }
   
+  .img-circle {
+    width:100px;
+    border-radius: 50%;
+  }
+  
+  
+  ul li {
+      margin-bottom: 1px;
+  }
   
   </style>
   <!--/radix_placeholder_site_in_header-->
@@ -1347,6 +1356,7 @@ Stata
 <li><a href="#defining-the-sequence-color-palette">Defining the sequence color palette</a></li>
 <li><a href="#choosing-colors-with-rcolorbrewer">Choosing colors with <code>RColorBrewer</code></a></li>
 <li><a href="#choosing-colors-with-colorspace">Choosing colors with <code>colorspace</code></a></li>
+<li><a href="#comparison-of-the-two-different-color-palettes">Comparison of the two different color palettes</a></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
@@ -1509,6 +1519,20 @@ swatchplot(colspace2)</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="rcolors_files/figure-html5/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+<h2 id="comparison-of-the-two-different-color-palettes">Comparison of the two different color palettes</h2>
+<p>Both approaches produce satisfactory results:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+swatchplot(&quot;RColorBrewer&quot; = colspace1,
+           &quot;colorspace&quot; = colspace2)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="rcolors_files/figure-html5/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
+<p>For our final decision we compare the palettes by inspecting the state distribution plots for our sequence data. We prefer the solution obtained by <code>colorspace</code> and will proceed with the respective color palette.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="dplot_colorpals2.png" width="80%" style="display: block; margin: auto;" /></p>
 </div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

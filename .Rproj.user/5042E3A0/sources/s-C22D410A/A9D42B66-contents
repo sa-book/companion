@@ -1,0 +1,53 @@
+---
+title: "About the authors"
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Marcel Raab
+
+Marcel Raab is assistant professor for sociology in the department of sociology at the University of Mannheim and visiting researcher in the research group Demography and Inequality at the WZB Berlin Social Science Center.
+
+
+<aside>
+<img src="https://lh3.googleusercontent.com/IVSlD0DfMmy6m2oUFByGvpWCNvPACK4TXnrfMILAS73kfLJbdecLQqgnZE6nDmjO0ArZMJe66ovILShePRg=s440-rw" class="img-circle" alt="Marcel Raab">
+</aside>
+
+
+Previously, he worked as research assistant at the National Educational Panel Study, the Professorship of Demography at the University of Bamberg, and as research fellow in the research group Demography and Inequality at the WZB Berlin Social Science Center. In 2011 he was a visiting pre-doctoral fellow at the Center for Research on Inequalities and the Life Course (CIQLE) at Yale University. In 2014, he completed his PhD (“Family Effects on Family Formation”) at the University of Bamberg.
+
+**Interests**  
+
+- Family Sociology/Demography
+- Life Course Sociology
+- Aging
+- Demography & Inequality
+
+\
+
+## Emanuela Struffolino 
+
+Emanuela Struffolino is currently part of the research unit "Demography and Inequality" at WZB - Berlin Social Science Center as a postdoc. She was postdoc fellow at NCCR LIVES at the University of Lausanne - CH. In 2014, she got PhD in Applied Sociology and Social Research Methods at the University of Milano Bicocca, working on early career pathways and models of labor market participation in Italy. 
+
+<aside>
+<img src="https://i1.rgstatic.net/ii/profile.image/315266821492738-1452176875846_Q128/Emanuela_Struffolino.jpg" class="img-circle" alt="Emanuela Struffolino">
+</aside>
+
+**Interests**  
+
+- inequality in the labour market
+- poverty 
+- family dynamics
+- life course research
+
+
+
+
+
+
