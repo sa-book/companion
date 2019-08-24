@@ -22,9 +22,6 @@ site: distill::distill_website
 knitr::opts_chunk$set(echo = FALSE)
 library(icon)
 
-# Learn more about creating websites with Distill at:
-# https://rstudio.github.io/distill/website.html
-
 ```
 
 

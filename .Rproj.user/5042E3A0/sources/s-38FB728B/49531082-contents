@@ -66,11 +66,11 @@ In order to indicate differences in fertility within partnership states we incre
 
 Typing `display.brewer.all()` provides you with an overview of the color palettes available in the `RColorBrewer` package.
 
-```{r echo=FALSE, out.width = '80%', fig.align = "center"}
-#display.brewer.all()
-include_graphics("brewerpal.png")
 
-```
+<p align="center">
+![](images/brewerpal.png){width=80%}
+</p>
+
 
 Knowing the names of the palettes we want to use (`"Blues", "Greens", "Oranges", "Purples"`) we can continue by choosing specific colors from these palettes. Usually this is an iterative process which involves inspecting multiple palettes.
 
@@ -121,9 +121,13 @@ Like in the previous step we start by plotting the color palettes available in t
 hcl_palettes(plot = TRUE)
 ```
 
-```{r echo=FALSE, out.width = '80%', fig.align = "center"}
-include_graphics("hcl_palettes.png")
-```
+
+<p align="center">
+![](images/hcl_palettes.png){width=80%}
+</p>
+
+
+
 
 Again, we continue with inspecting the suitable palettes.
 
@@ -174,7 +178,8 @@ swatchplot("RColorBrewer" = colspace1,
 For our final decision we compare the  palettes by inspecting the state distribution plots for our sequence data. We prefer the solution obtained by `colorspace` and will proceed with the respective color palette.
 
 
-```{r echo=FALSE, out.width = '80%', fig.align = "center"}
-include_graphics("dplot_colorpals2.png")
-```
+
+<p align="center">
+![](images/dplot_colorpals2.png){width=80%}
+</p>
 
