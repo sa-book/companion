@@ -1,0 +1,23 @@
+par(mar=c(9, 4, 1, 4), las = 1)
+seqdplot(fam.seq, xlab = "Age", ylab = "Relative frequency",
+         with.legend = "FALSE" , axes = FALSE, border = NA)
+par(new=TRUE)
+seqdplot(fam.seq2, xlab = "Age", ylab = "Relative frequency",
+         with.legend = "FALSE" , axes = FALSE, , border = NA,
+         density=c(0,20,0,20,0,20,0,20,20), 
+         angle=c(0,45,0,45,0,45,0,45,0))
+axis(1, at=(seq(0,264, by = 24)), labels = seq(18,40, by = 2))
+
+par(mar=c(0, 1, 0, 1))
+legend_large_box("bottom", legend = longlab,
+                 ncol=3, fill =colgrey,
+                 box.cex=c(4.5,1.5),  y.intersp=2,
+                 inset=c(0,-.35), xpd=TRUE)
+par(new=TRUE)
+legend_large_box("bottom", legend = longlab,
+                 ncol=3, bg = "transparent",
+                 box.cex=c(4.5,1.5),  y.intersp=2,
+                 inset=c(0,-.35), xpd=TRUE,
+                 density=c(0,20,0,20,0,20,0,20,20), 
+                 angle=c(0,45,0,45,0,45,0,45,0))
+

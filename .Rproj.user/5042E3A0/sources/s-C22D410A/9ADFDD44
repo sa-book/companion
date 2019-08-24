@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1566657633341.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1741465076",
+    "id" : "9ADFDD44",
+    "lastKnownWriteTime" : 1566662249,
+    "last_content_update" : 1566662249549,
+    "path" : "C:/Dropbox/01_Arbeit/02_Projekte/Rprojects/DistillWebsiteGithub/companion/rChapter2.Rmd",
+    "project_path" : "rChapter2.Rmd",
+    "properties" : {
+        "cursorPosition" : "20,27",
+        "scrollLine" : "16",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 9,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

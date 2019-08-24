@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1566661159349.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "14AF3CB6",
+    "lastKnownWriteTime" : 1565267211,
+    "last_content_update" : 1565267211,
+    "path" : "C:/Dropbox/01_Arbeit/02_Projekte/SA_book/05_datawork/04_r-scripts/Chapter_02/seqdplotGRAY.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "7,11",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 10,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
