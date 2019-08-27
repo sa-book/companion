@@ -5,15 +5,15 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "504725140",
+    "hash" : "351916461",
     "id" : "6E099379",
-    "lastKnownWriteTime" : 1566668589,
-    "last_content_update" : 1566668589362,
+    "lastKnownWriteTime" : 1566920726,
+    "last_content_update" : 1566920726221,
     "path" : "C:/Dropbox/01_Arbeit/02_Projekte/Rprojects/DistillWebsiteGithub/companion/index.Rmd",
     "project_path" : "index.Rmd",
     "properties" : {
-        "cursorPosition" : "23,0",
-        "scrollLine" : "16"
+        "cursorPosition" : "27,115",
+        "scrollLine" : "26"
     },
     "read_only" : false,
     "read_only_alternatives" : [
