@@ -1,0 +1,41 @@
+name: "DistillWebsite"
+title: "Sequence Analysis - Companion Site"
+description: |
+  Sequence Analysis
+output_dir: "."
+navbar:
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "R"
+      menu:
+        - text: "Overview"
+          href: about.html
+        - text: "Chapter 02"
+          href: rChapter2.html
+        - text: "Chapter 03"
+          href: rChapter3.html
+        - text: "Chapter 04"
+          href: about.html
+        - text: "Chapter 05"
+          href: about.html
+    - text: "Stata"
+      menu:
+        - text: "Overview"
+          href: stata.html
+        - text: "Chapter 02"
+          href: about.html
+        - text: "Chapter 03"
+          href: about.html
+        - text: "Chapter 04"
+          href: about.html
+        - text: "Chapter 05"
+          href: about.html
+    - text: "About the Authors"
+      href: about.html
+output: 
+  distill::distill_article:
+    css: styles.css
+creative_commons: CC BY-NC
+repository_url: https://github.com/sa-book/companion
+
