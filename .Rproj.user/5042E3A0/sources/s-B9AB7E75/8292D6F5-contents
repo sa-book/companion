@@ -1,0 +1,121 @@
+
+
+rm(list = ls())
+
+### load main packages and ancillary packages
+
+# use (and install if necessary) pacman package 
+if (!require("pacman")) install.packages("pacman")
+
+# load and install (if necessary) required packages for this course
+pacman::p_load(TraMineR, TraMineRextras, WeightedCluster, cluster,
+               SDMTools, rio, survival, RColorBrewer, colorspace, vcd,
+               tidyverse)
+
+### indicate the working directory
+
+#!!!Insert Your Name Below!!!#
+#setwd("C:/Users/struffolino/Dropbox/SAcourse/SA_gesis/session_04/##chaos/SA_session_04_preparation")
+### load the data from Stata
+
+family <- import("01_OptimalMatching.dta")
+
+
+start <- match("state1",names(family))
+end <- match("state264",names(family))
+
+### Sequence States
+
+seqstatl(family[, start:end])
+
+
+### Generate Labels
+
+shortlab <- c("SNC", "SC", "LATNC", "LATC", "CONC", "COC", "MARNC", "MAR1C", "MAR2+C")
+
+longlab <- c("Single, no child", "Single, child(ren)", "LAT, no child", "LAT, child(ren)",
+             "Cohabiting, no child", "Cohabiting, child(ren)", "Married, no child", "Married, 1 child", "Married 2+ children")
+
+### Generate colors
+
+cpal <- brewer.pal(9,"Set1")
+
+my.cpal <-c ("#a6cee3","#1f78b4","#b2df8a","#33a02c","#fdbf6f","#ff7f00","#8c6bb1","#810f7c","#4d004b")
+
+
+### Generate axis label for future graphs
+
+xtlab <- seq(18, 40, by=0.08333)
+# ! with the following command I substitute the previous content of the object "xtlab" with a new content !
+xtlab <- round(xtlab, digits=0)
+
+
+### Generate (state) sequences
+
+#The state sequence object contains:
+#-the sequences
+#-and their attributes (alphabet, labels, colors, weights, ...)
+
+fam.seq <- seqdef(family, start:end, states = shortlab, labels = longlab, 
+                  weights = family$weight40, alphabet = c(1:9),cpal=my.cpal, xtstep=12, border = NA)
+
+###display example sequences
+print(fam.seq[1:5,], format="SPS")
+seqplot(fam.seq[1:5, ], border=NA, with.legend = FALSE)
+seqplot(fam.seq[1:5, ])
+seqlegend(fam.seq)
+
+
+
+
+## OM with default costs
+
+#optimal matching with standard constant indel/sub costs
+om.const<-seqdist(fam.seq, method = "OM", indel = 1,sm = "CONSTANT")
+
+#print a selection of the distance matrix
+om.const[1:5, 1:5]
+
+
+
+unhappy <- family %>% filter(sat1i4 < 8)
+average <- family %>% filter(sat1i4 %in% c(8,9))
+happy   <- family %>% filter(sat1i4 == 10)
+
+# dataobj <- list(unhappy, average, happy)
+# seqobj <- list()
+
+# for(i in dataobj) {
+#   seqobj[i] <- seqdef(i, start:end, states = shortlab, labels = longlab, 
+#                     weights = i$weight40, alphabet = c(1:9),cpal=my.cpal, xtstep=12, border = NA)
+#   
+# }
+
+unhappy.seq <- seqdef(unhappy, start:end, states = shortlab, labels = longlab, 
+                  weights = unhappy$weight40, alphabet = c(1:9),cpal=my.cpal, xtstep=12, border = NA)
+
+average.seq <- seqdef(average, start:end, states = shortlab, labels = longlab, 
+                      weights = average$weight40, alphabet = c(1:9),cpal=my.cpal, xtstep=12, border = NA)
+
+happy.seq <- seqdef(happy, start:end, states = shortlab, labels = longlab, 
+                      weights = happy$weight40, alphabet = c(1:9),cpal=my.cpal, xtstep=12, border = NA)
+
+
+
+unhappy.dist <-seqdist(unhappy.seq, method = "OM", indel = 1,sm = "CONSTANT", norm = "maxlength")
+average.dist <-seqdist(average.seq, method = "OM", indel = 1,sm = "CONSTANT")
+happy.dist <-seqdist(happy.seq, method = "OM", indel = 1,sm = "CONSTANT", norm = "maxlength")
+
+
+unhappy.dhd <-seqdist(unhappy.seq, method = "DHD", norm = "maxlength")
+average.dhd <-seqdist(average.seq, method = "DHD", norm = "maxlength")
+happy.dhd <-seqdist(happy.seq, method = "DHD", norm = "maxlength")
+
+
+mean(unhappy.dhd)
+sd(unhappy.dhd)
+
+mean(happy.dhd)
+sd(happy.dhd)
+
+join

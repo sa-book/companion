@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1569497623739.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2902455741",
+    "id" : "1F0A1449",
+    "lastKnownWriteTime" : 1566920268,
+    "last_content_update" : 1566920268,
+    "path" : "C:/Dropbox/01_Arbeit/02_Projekte/Rprojects/DistillWebsiteGithub/companion/_site.yml",
+    "project_path" : "_site.yml",
+    "properties" : {
+        "cursorPosition" : "16,25",
+        "scrollLine" : "2"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "yaml"
+}

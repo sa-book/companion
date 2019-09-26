@@ -1258,7 +1258,7 @@
   </script>
   
   <!--/radix_placeholder_distill-->
-  <link href="site_libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet" />
+  <link href="site_libs/font-awesome-5.0.12/css/fontawesome-all.min.css" rel="stylesheet" />
   <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
   <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
@@ -1478,8 +1478,16 @@ display.brewer.pal(7, &quot;Blues&quot;)</code></pre>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="rcolors_files/figure-html5/unnamed-chunk-3-1.png" width="672" /><img src="rcolors_files/figure-html5/unnamed-chunk-3-2.png" width="672" /></p>
 </div>
+<p>This is the code for extracting the colors and creating a vector that contains the colors in the desired order:</p>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+col1 &lt;- brewer.pal(3, &quot;Blues&quot;)[2:3]   # Single states
+col2 &lt;- brewer.pal(3, &quot;Greens&quot;)[2:3]  # LAT states
+col3 &lt;- brewer.pal(3, &quot;Oranges&quot;)[2:3] # Cohabitation states
+col4 &lt;- brewer.pal(7, &quot;Purples&quot;)[5:7] # Marriage states
 
+# define complete color palette
+colspace1 &lt;- c(col1, col2, col3, col4)</code></pre>
 </div>
 <p>The resulting color palette can be inspected using the <code>swatchplot</code> function of the <code>colorspace</code> package. The resulting color palette can be inspected using the <code>swatchplot</code> function of the <code>colorspace</code> package. The resulting color palette can be inspected using the <code>swatchplot</code> function of the <code>colorspace</code> package. The resulting color palette can be inspected using the <code>swatchplot</code> function of the <code>colorspace</code> package.</p>
 <div class="layout-chunk" data-layout="l-body">

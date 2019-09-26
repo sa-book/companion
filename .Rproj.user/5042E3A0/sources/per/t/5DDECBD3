@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1569497568700.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1184171261",
+    "id" : "5DDECBD3",
+    "lastKnownWriteTime" : 1566920321,
+    "last_content_update" : 1566920321,
+    "path" : "C:/Dropbox/01_Arbeit/02_Projekte/Rprojects/DistillWebsiteGithub/companion/about.Rmd",
+    "project_path" : "about.Rmd",
+    "properties" : {
+        "cursorPosition" : "43,22",
+        "scrollLine" : "19"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

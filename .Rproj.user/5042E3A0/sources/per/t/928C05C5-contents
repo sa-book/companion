@@ -1,0 +1,30 @@
+---
+title: "Chapter 02"
+description: |
+  Describing and Visualizing Sequences
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+| TOC                      | Content (click for jumping to examples)  |
+|-------------------------------------|-------------------------------|
+| 2.1  Basic Concepts and Terminology | Data Formats                  |
+| 2.2  Defining sequence              | Defining the alphabet         |
+|                                     | Changing sequence granularity |
+| 2.4	Basic description and visualization | [Choosing colors](rcolors.html) |
+|                                     | Gray color palette            |
+|                                     | Visualizing sequences         |
+|                                     | Basic description             |
+| 2.5 Advanced description and more   | Complexity, turbulence ...    | 
+
+
+Chapter 2 introduces the basic concepts and discusses how to define sequence data. The corresponding material provided on this site shows `TraMineR`'s capabilites of processing different data formats. It is further illustrated 
+how the alphabet and the granularity of sequences can be easily changed with `TraMineR`'s built-in helper functions.
+
+With visualizition being one of the key features of sequence analysis we provide extensive material on optimizing the qualitiy of figures by choosing appropriate color palettes. Although the use of color is highly recommended for visualizing sequences, the associated print-costs are often prohibitively high (for instance in the case of our book). We therefore provide some material illustrating how to produce acceptable results by using a grayscale color palette and by adding texture.
+
+We further show useful commands for a comprehensive description of the sequence data. Finally, we turn to more advanced composite measures of sequence complexity. These indices are not only interesting in themselves, but also because they can be used either as independent or as dependent variable in subsequent regression analyses. 

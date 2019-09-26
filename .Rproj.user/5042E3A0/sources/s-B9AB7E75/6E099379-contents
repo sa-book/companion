@@ -1,0 +1,41 @@
+---
+title: "Sequence Analysis"
+description: |
+  Companion Website for the little green book
+author:
+  - name: "Marcel Raab"
+    url: http://marcelraab.de
+    affiliation: University of Mannheim
+    affiliation_url: https://www.uni-mannheim.de
+  - name: "Emanuela Struffolino"
+    url: https://www.wzb.eu/en/persons/emanuela-struffolino
+    affiliation: WZB Berlin
+    affiliation_url: https://www.wzb.eu
+citation_url: https://sa-book.github.io/companion    
+output:
+  distill::distill_article:
+    toc: false
+site: distill::distill_website
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(icon)
+```
+
+This site is intended to enhance your use of the book **Sequence Analysis** by *Marcel Raab & Emanuela Struffolino*. On this webpage we provide accompanying material illustrating how to conduct sequence analysis in `r fa_r_project(colour = "#384CB7")` using the [`TraMineR` package](http://traminer.unige.ch). 
+
+We also provide materials for Stata, although not as exhaustive, using the user-written ados `sq` and `SADI`.    
+
+Please note that most of the materials on this site are designed to be used in tandem with the book (which we clearly recommend to buy [once it has been published]). 
+
+
+
+<style>
+div.red { background-color:#CD0000; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "red">
+**Note: This site is under construction!**
+</div>
+
