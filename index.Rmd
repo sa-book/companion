@@ -2,6 +2,7 @@
 title: "Sequence Analysis"
 description: |
   Companion Website for the little green book
+date: September 27, 2019
 author:
   - name: "Marcel Raab"
     url: http://marcelraab.de
@@ -11,7 +12,8 @@ author:
     url: https://www.wzb.eu/en/persons/emanuela-struffolino
     affiliation: WZB Berlin
     affiliation_url: https://www.wzb.eu
-citation_url: https://sa-book.github.io/companion    
+citation_url: https://sa-book.github.io/companion
+slug: raabstruffolino2019companion
 output:
   distill::distill_article:
     toc: false
@@ -36,6 +38,6 @@ Please note that most of the materials on this site are designed to be used in t
 div.red { background-color:#CD0000; border-radius: 5px; padding: 20px;}
 </style>
 <div class = "red">
-**Note: This site is under construction!**
+**Note:<br> This site is under construction! We kindly ask you to cite us anyway, if you use the material shared on this page.**
 </div>
 
