@@ -54,10 +54,11 @@
   <meta name="citation_author" content="Emanuela Struffolino"/>
   <meta name="citation_author_institution" content="WZB Berlin"/>
   <!--/radix_placeholder_meta_tags-->
+  
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","author","citation_url","slug","output","site"]}},"value":[{"type":"character","attributes":{},"value":["Sequence Analysis"]},{"type":"character","attributes":{},"value":["Companion Website for the little green book\n"]},{"type":"character","attributes":{},"value":["September 27, 2019"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Marcel Raab"]},{"type":"character","attributes":{},"value":["http://marcelraab.de"]},{"type":"character","attributes":{},"value":["University of Mannheim"]},{"type":"character","attributes":{},"value":["https://www.uni-mannheim.de"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Emanuela Struffolino"]},{"type":"character","attributes":{},"value":["https://www.wzb.eu/en/persons/emanuela-struffolino"]},{"type":"character","attributes":{},"value":["WZB Berlin"]},{"type":"character","attributes":{},"value":["https://www.wzb.eu"]}]}]},{"type":"character","attributes":{},"value":["https://sa-book.github.io/companion"]},{"type":"character","attributes":{},"value":["raabstruffolino2019companion"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","author","citation_url","slug","bibliography","output","site"]}},"value":[{"type":"character","attributes":{},"value":["Sequence Analysis"]},{"type":"character","attributes":{},"value":["Companion Website for the little green book\n"]},{"type":"character","attributes":{},"value":["September 27, 2019"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Marcel Raab"]},{"type":"character","attributes":{},"value":["http://marcelraab.de"]},{"type":"character","attributes":{},"value":["University of Mannheim"]},{"type":"character","attributes":{},"value":["https://www.uni-mannheim.de"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Emanuela Struffolino"]},{"type":"character","attributes":{},"value":["https://www.wzb.eu/en/persons/emanuela-struffolino"]},{"type":"character","attributes":{},"value":["WZB Berlin"]},{"type":"character","attributes":{},"value":["https://www.wzb.eu"]}]}]},{"type":"character","attributes":{},"value":["https://sa-book.github.io/companion"]},{"type":"character","attributes":{},"value":["raabstruffolino2019companion"]},{"type":"character","attributes":{},"value":["biblio.bib"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -1273,7 +1274,7 @@
   </script>
   
   <!--/radix_placeholder_distill-->
-  <link href="site_libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet" />
+  <link href="site_libs/font-awesome-5.0.12/css/fontawesome-all.min.css" rel="stylesheet" />
   <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
@@ -1372,15 +1373,26 @@ Stata
 </div>
 
 <div class="d-article">
-<p>This site is intended to enhance your use of the book <strong>Sequence Analysis</strong> by <em>Marcel Raab &amp; Emanuela Struffolino</em>. On this webpage we provide accompanying material illustrating how to conduct sequence analysis in <i class="fab  fa-r-project " style="color:#384CB7;"></i> using the <a href="http://traminer.unige.ch"><code>TraMineR</code> package</a>.</p>
-<p>We also provide materials for Stata, although not as exhaustive, using the user-written ados <code>sq</code> and <code>SADI</code>.</p>
-<p>Please note that most of the materials on this site are designed to be used in tandem with the book (which we clearly recommend to buy [once it has been published]).</p>
+<p>This site is intended to enhance your use of the book <strong>Sequence Analysis</strong> by <em>Marcel Raab &amp; Emanuela Struffolino</em>. On this webpage we provide accompanying material illustrating how to conduct sequence analysis in <i class="fab  fa-r-project " style="color:#384CB7;"></i> using the <code>TraMineR</code> package <a href="https://doi.org/10.18637/jss.v040.i04">(Gabadinho et al. 2011)</a><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
+<p>We also provide materials for Stata, although not as exhaustive, using the user-written ados <code>sq</code> <a href="https://doi.org/10.1177%2F1536867X0600600401">(Brzinsky-Fay et al. 2006)</a> and <code>SADI</code> <a href="https://doi.org/10.1177%2F1536867X1701700302">(Halpin 2017)</a>.</p>
+<p>Please note that most of the materials on this site are designed to be used in tandem with the book (which we strongly recommend to buy [once it has been published]).</p>
 <style>
 div.red { background-color:#CD0000; border-radius: 5px; padding: 20px;}
 </style>
 <div class="red">
 <p><strong>Note:<br> This site is under construction! We kindly ask you to cite us anyway, if you use the material shared on this page.</strong></p>
 </div>
+<h2 id="references" class="appendix">References</h2>
+<p>Brzinsky-Fay, C., Kohler, U., &amp; Luniak, M. (2006). <em>Sequence analysis with Stata</em>. Stata Journal, 6(4), 435–460.</p>
+<p>Brzinsky-Fay, C., Kohler, U., &amp; Luniak, M. (2006). <em>Sequence Analysis with Stata. The Stata Journal: Promoting Communications on Statistics and Stata</em>, 6(4), 435–460. doi: 10.1177/1536867X0600600401</p>
+<p>Halpin, B. (2017). <em>SADI: Sequence Analysis Tools for Stata</em>. The Stata Journal: Promoting Communications on Statistics and Stata, 17(3), 546–572. doi: 10.1177/1536867X1701700302</p>
+<p>Gabadinho, A., Ritschard, G., Müller, N. S., &amp; Studer, M. (2011). <em>Analyzing and Visualizing State Sequences in R with TraMineR.</em> Journal of Statistical Software, 40(4). doi: 10.18637/jss.v040.i04</p>
+<section class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>also see <a href="http://traminer.unige.ch" class="uri">http://traminer.unige.ch</a><a href="#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
+</section>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -1408,6 +1420,45 @@ div.red { background-color:#CD0000; border-radius: 5px; padding: 20px;}
   year = {2019}
 }</pre>
 </div>
+<script id="distill-bibliography" type="text/bibtex">
+@article{Halpin2017,
+address = {College Station, TX},
+author = {Halpin, Brendan},
+journal = {Stata Journal},
+keywords = {SADI,ari,combinadd,combinprep,corrsqm,cumuldur,dynhamming,maketrpr,metricp,nspells,oma,omav,permtab,sdchronogram,sddiscrep,sdentropy,sdhamming,sdhollister,sdstripe,sequence analysis tools,trans2subs,trprgr,twed},
+number = {3},
+pages = {546--572},
+publisher = {Stata Press},
+title = {{SADI: Sequence analysis tools for Stata}},
+url = {http://www.stata-journal.com/article.html?article=st0486},
+volume = {17},
+year = {2017}
+}
+@article{Brzinsky-Fay2006,
+address = {College Station, TX},
+author = {Brzinsky-Fay, C and Kohler, U and Luniak, M},
+journal = {Stata Journal},
+keywords = {cluster analysis,explorative data analysis,longitudinal data,optimal matching,panel data,sequence analysis,sequence index plot,sqclusterdat,sqclustermat,sqdes,sqindexplot,sqom,sqparcoord,sqset,sqstatlist,sqstatsum,sqstattab1,sqstattab2,sqstattabsum,sqtab},
+number = {4},
+pages = {435--460},
+publisher = {Stata Press},
+title = {{Sequence analysis with Stata}},
+url = {http://www.stata-journal.com/article.html?article=st0111},
+volume = {6},
+year = {2006}
+}
+@article{Gabadinho2011,
+author = {Gabadinho, Alexis and Ritschard, Gilbert and MÃ¼ller, Nicolas S. and Studer, Matthias},
+doi = {10.18637/jss.v040.i04},
+issn = {1548-7660},
+journal = {Journal of Statistical Software},
+number = {4},
+title = {{Analyzing and Visualizing State Sequences in R with TraMineR}},
+url = {http://www.jstatsoft.org/v40/i04/},
+volume = {40},
+year = {2011}
+}
+</script>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <!--/radix_placeholder_navigation_after_body-->
