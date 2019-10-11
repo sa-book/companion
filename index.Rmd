@@ -45,11 +45,9 @@ div.red { background-color:#CD0000; border-radius: 5px; padding: 20px;}
 
 ## References {.appendix}
 
-Brzinsky-Fay, C., Kohler, U., & Luniak, M. (2006). *Sequence analysis with Stata*. Stata Journal, 6(4), 435–460.
-
 Brzinsky-Fay, C., Kohler, U., & Luniak, M. (2006). *Sequence Analysis with Stata. The Stata Journal: Promoting Communications on Statistics and Stata*, 6(4), 435–460. doi: 10.1177/1536867X0600600401
 
-Halpin, B. (2017). *SADI: Sequence Analysis Tools for Stata*. The Stata Journal: Promoting Communications on Statistics and Stata, 17(3), 546–572. doi: 10.1177/1536867X1701700302
-
 Gabadinho, A., Ritschard, G., Müller, N. S., & Studer, M. (2011). *Analyzing and Visualizing State Sequences in R with TraMineR.* Journal of Statistical Software, 40(4). doi: 10.18637/jss.v040.i04
+
+Halpin, B. (2017). *SADI: Sequence Analysis Tools for Stata*. The Stata Journal: Promoting Communications on Statistics and Stata, 17(3), 546–572. doi: 10.1177/1536867X1701700302
 
