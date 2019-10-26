@@ -19,33 +19,30 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-  <title>Sequence Analysis - Companion Site: Chapter 03</title>
+  <title>Sequence Analysis - Companion Site: 2.3.1 Basic Description</title>
   
-  <meta property="description" itemprop="description" content="Comparing Sequences"/>
+  <meta property="description" itemprop="description" content="Simple descriptives summarizing sequence data"/>
   
   <link rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/"/>
   
-  <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2019-10-26"/>
-  <meta property="article:created" itemprop="dateCreated" content="2019-10-26"/>
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Sequence Analysis - Companion Site: Chapter 03"/>
+  <meta property="og:title" content="Sequence Analysis - Companion Site: 2.3.1 Basic Description"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="Comparing Sequences"/>
+  <meta property="og:description" content="Simple descriptives summarizing sequence data"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="Sequence Analysis - Companion Site"/>
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Sequence Analysis - Companion Site: Chapter 03"/>
-  <meta property="twitter:description" content="Comparing Sequences"/>
+  <meta property="twitter:title" content="Sequence Analysis - Companion Site: 2.3.1 Basic Description"/>
+  <meta property="twitter:description" content="Simple descriptives summarizing sequence data"/>
   
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Chapter 03"]},{"type":"character","attributes":{},"value":["Comparing Sequences\n"]},{"type":"character","attributes":{},"value":["2019-10-26"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output"]}},"value":[{"type":"character","attributes":{},"value":["2.3.1 Basic Description"]},{"type":"character","attributes":{},"value":["Simple descriptives summarizing sequence data\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[2]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -1261,6 +1258,7 @@
   </script>
   
   <!--/radix_placeholder_distill-->
+  <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
   <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
@@ -1296,7 +1294,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Chapter 03","description":"Comparing Sequences","authors":[],"publishedDate":"2019-10-26T00:00:00.000+02:00"}
+{"title":"2.3.1 Basic Description","description":"Simple descriptives summarizing sequence data","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1346,54 +1344,318 @@ Stata
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Chapter 03</h1>
-<p>Comparing Sequences</p>
+<h1>2.3.1 Basic Description</h1>
+<p>Simple descriptives summarizing sequence data</p>
 </div>
 
 
 <div class="d-article">
-<table>
+<h3 class="d-toc-header">Table of Contents</h3>
+<nav class="d-toc" id="TOC">
+<ul>
+<li><a href="#time-spent-in-different-states">Time spent in different states</a></li>
+<li><a href="#state-distribution-at-different-positions-cross-sections">State distribution at different positions (cross-sections)</a></li>
+</ul>
+</nav>
+<hr class="d-toc-separator"/>
+<p>We use a simple alphabet differentiating four partnership states to illustrate <code>TraMineR</code>’s capabilities of producing simple descriptive statistics on our sequence data. The sequences cover the partnership biographies from age 18 to 40 (monthly data)</p>
+<div class="layout-chunk" data-layout="l-body">
+<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
-<tr class="header">
-<th>TOC</th>
-<th>Content (click for jumping to examples)</th>
+<tr>
+<th style="text-align:left;">
+State
+</th>
+<th style="text-align:left;">
+Short Label
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td>3.1 whatever</td>
-<td>Data Formats</td>
+<tr>
+<td style="text-align:left;">
+Single
+</td>
+<td style="text-align:left;">
+S
+</td>
 </tr>
-<tr class="even">
-<td>3.2 whatever</td>
-<td>Defining the alphabet</td>
+<tr>
+<td style="text-align:left;">
+LAT
+</td>
+<td style="text-align:left;">
+LAT
+</td>
 </tr>
-<tr class="odd">
-<td></td>
-<td>Changing sequence granularity</td>
+<tr>
+<td style="text-align:left;">
+Cohabiting
+</td>
+<td style="text-align:left;">
+COH
+</td>
 </tr>
-<tr class="even">
-<td>3.4 whatever</td>
-<td><a href="rtest.html">test</a></td>
-</tr>
-<tr class="odd">
-<td></td>
-<td>Gray color palette</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>Visualizing sequences</td>
-</tr>
-<tr class="odd">
-<td></td>
-<td>Basic description</td>
-</tr>
-<tr class="even">
-<td>3.5 whatever</td>
-<td>Complexity, turbulence …</td>
+<tr>
+<td style="text-align:left;">
+Married
+</td>
+<td style="text-align:left;">
+MAR
+</td>
 </tr>
 </tbody>
 </table>
+</div>
+<p> </p>
+<h2 id="time-spent-in-different-states">Time spent in different states</h2>
+<p>The function <code>seqmeant</code> computes the mean total time spent in each state of the alphabet. The arguments <code>serr = TRUE</code> and <code>prop = TRUE</code> provide standard errors and relative frequencies instead of the average number of months spent in each state.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+seqmeant(fam.month.seq, serr = TRUE)
+seqmeant(fam.month.seq, prop = TRUE)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="border-bottom:hidden" colspan="1">
+</th>
+<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="3">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Mean time spent…
+</div>
+</th>
+</tr>
+<tr>
+<th style="text-align:left;">
+State
+</th>
+<th style="text-align:right;">
+… in months
+</th>
+<th style="text-align:right;">
+SD
+</th>
+<th style="text-align:right;">
+… relative freq.
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+S
+</td>
+<td style="text-align:right;">
+72.5
+</td>
+<td style="text-align:right;">
+69.8
+</td>
+<td style="text-align:right;">
+0.27
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LAT
+</td>
+<td style="text-align:right;">
+48.0
+</td>
+<td style="text-align:right;">
+43.9
+</td>
+<td style="text-align:right;">
+0.18
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+COH
+</td>
+<td style="text-align:right;">
+48.6
+</td>
+<td style="text-align:right;">
+53.3
+</td>
+<td style="text-align:right;">
+0.18
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MAR
+</td>
+<td style="text-align:right;">
+95.0
+</td>
+<td style="text-align:right;">
+78.9
+</td>
+<td style="text-align:right;">
+0.36
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="state-distribution-at-different-positions-cross-sections">State distribution at different positions (cross-sections)</h2>
+<p>Among other things <code>seqstatd</code> computes the distribution of states at each position in the sequence. Usually this information is displayed in a graphical fashion (state distribution plot) rather than as a descriptive table.</p>
+<p>Usually the tabular presentation of the state distribution requires to extract the distribution for a selection of (meaningful) positions of the sequence. In the example below we display the distribution at age 18, 20, 24, 28, 32, 36, and 40. Note that time is measured in months. Hence, we do not extract the descriptives at positions 1 and 3 but at positions 1 and 24 to obtain the state distribution at age 18 and 20.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+seqstatd(fam.month.seq)$Frequencies[,c(1, seq(24, 264, by = 48))]</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="border-bottom:hidden" colspan="1">
+</th>
+<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="7">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Age
+</div>
+</th>
+</tr>
+<tr>
+<th style="text-align:left;">
+State
+</th>
+<th style="text-align:right;">
+18
+</th>
+<th style="text-align:right;">
+20
+</th>
+<th style="text-align:right;">
+24
+</th>
+<th style="text-align:right;">
+28
+</th>
+<th style="text-align:right;">
+32
+</th>
+<th style="text-align:right;">
+36
+</th>
+<th style="text-align:right;">
+40
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+S
+</td>
+<td style="text-align:right;">
+0.65
+</td>
+<td style="text-align:right;">
+0.52
+</td>
+<td style="text-align:right;">
+0.36
+</td>
+<td style="text-align:right;">
+0.25
+</td>
+<td style="text-align:right;">
+0.18
+</td>
+<td style="text-align:right;">
+0.15
+</td>
+<td style="text-align:right;">
+0.14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LAT
+</td>
+<td style="text-align:right;">
+0.31
+</td>
+<td style="text-align:right;">
+0.32
+</td>
+<td style="text-align:right;">
+0.25
+</td>
+<td style="text-align:right;">
+0.17
+</td>
+<td style="text-align:right;">
+0.12
+</td>
+<td style="text-align:right;">
+0.10
+</td>
+<td style="text-align:right;">
+0.05
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+COH
+</td>
+<td style="text-align:right;">
+0.03
+</td>
+<td style="text-align:right;">
+0.11
+</td>
+<td style="text-align:right;">
+0.23
+</td>
+<td style="text-align:right;">
+0.25
+</td>
+<td style="text-align:right;">
+0.22
+</td>
+<td style="text-align:right;">
+0.15
+</td>
+<td style="text-align:right;">
+0.13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MAR
+</td>
+<td style="text-align:right;">
+0.01
+</td>
+<td style="text-align:right;">
+0.05
+</td>
+<td style="text-align:right;">
+0.17
+</td>
+<td style="text-align:right;">
+0.33
+</td>
+<td style="text-align:right;">
+0.48
+</td>
+<td style="text-align:right;">
+0.60
+</td>
+<td style="text-align:right;">
+0.68
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

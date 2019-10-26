@@ -15,7 +15,8 @@ knitr::opts_chunk$set(echo = FALSE)
 | 2.1  Basic Concepts and Terminology | Data Formats                  |
 | 2.2  Defining sequence              | Defining the alphabet         |
 |                                     | Changing sequence granularity |
-| 2.4	Basic description and visualization | [Choosing colors](rcolors.html) |
+| 2.3	Basic description and visualization | [Basic Description](rChapter2-3-1.html) |
+|                                     | [Choosing colors](rcolors.html) |
 |                                     | Gray color palette            |
 |                                     | Visualizing sequences         |
 |                                     | Basic description             |
