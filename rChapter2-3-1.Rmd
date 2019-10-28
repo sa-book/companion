@@ -20,15 +20,23 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+
 load("Test.RData")
+
+# ******************************************************************************
+# ******************************************************************************
+
+# ===================================================
+# Load and download (if necessary) required packages
+# ===================================================
 
 # use (and install if necessary) pacman package 
 if (!require("pacman")) install.packages("pacman")
 library(pacman)
 
 # load and install (if necessary) required packages for this course
-p_load(TraMineR, TraMineRextras, tidyverse, haven, 
-       RColorBrewer, colorspace, knitr, kableExtra)
+p_load(TraMineR, TraMineRextras, tidyverse, haven, Hmisc,
+       RColorBrewer, colorspace, knitr, kableExtra, reshape2)
 
 
 # ******************************************************************************
@@ -38,7 +46,7 @@ p_load(TraMineR, TraMineRextras, tidyverse, haven,
 
 seqvars <- family %>%
   select(starts_with("state")) %>%
-  mutate_all(funs(case_when(
+  mutate_all(list(~case_when(
     . < 3 ~ 1,            # Single
     . %in% c(3,4) ~ 2,    # LAT
     . %in% c(5,6) ~ 3,    # Cohabiting
@@ -69,15 +77,17 @@ fam.month.seq <- seqdef(seqvars,
                         id = family$id,
                         xtstep = 24)
 
+
 # change granularity --> years instead of months (using modal values)
 fam.year.seq <- seqgranularity(fam.month.seq, 
                                tspan=12, 
                                method="mostfreq")
 
-
 fam.year.eseq <- seqecreate(fam.year.seq, use.labels = FALSE)
 
 # ******************************************************************************
+
+# mean time spent in each state
 
 statemeandur <- as_tibble(round(seqmeant(fam.month.seq, serr = TRUE)[,c(1,3)],1), 
                           rownames = "State")
@@ -86,17 +96,72 @@ statemeandur <- statemeandur %>%
   mutate(reltime = round(seqmeant(fam.month.seq, prop = TRUE),2))
 
 
+
 # ******************************************************************************
 
+# mean no of episodes by state
+
+sum_episodes <- as_tibble(round(seqmeant(seqdss(fam.month.seq), 
+                                         serr = TRUE)[,c(1,3)],1),
+                          rownames = "State") %>%
+  rename(ep_Mean = 2, ep_SD = 3)
+
+table1 <- statemeandur %>% inner_join(sum_episodes)
+
+
+# ******************************************************************************
+# ******************************************************************************
+
+
+# State distribution at specific dates
+ 
 statedis <- seqstatd(fam.month.seq)$Frequencies
 
 statedis2 <- as_tibble(round(statedis[,c(1, seq(24, 264, by = 48))],2),
                        rownames = "State")
 
 
+# ******************************************************************************
+
+# Transition matrix
+
+transmat <- seqtrate(fam.year.seq)
+
+rownames(transmat) <- shortlab
+colnames(transmat) <- shortlab
+
+
+transmat.tbl <- as_tibble(round(transmat,2),
+                          rownames = "Origin")
+
+
+# ******************************************************************************  
+# ******************************************************************************
+
+# Number of tranistions
+
+# monthly
+m1 <- round(wtd.mean(seqtransn(fam.month.seq), family$weight40),1)
+m2 <- round(sqrt(wtd.var(seqtransn(fam.month.seq), family$weight40)),1)
+
+# yearly
+y1 <- round(wtd.mean(seqtransn(fam.year.seq), family$weight40),1)
+y2 <- round(sqrt(wtd.var(seqtransn(fam.year.seq), family$weight40)),1)
+
+
+transfreq <- tibble(Granularity = c("Monthly data", "Yearly data"), 
+                    Mean = c(m1, y1), 
+                    SD = c(m2, y2))
+
+
+
+# ******************************************************************************
+
+
 ```
 
-We use a simple alphabet differentiating four partnership states to illustrate `TraMineR`'s capabilities of producing simple descriptive statistics on our sequence data. The sequences cover the partnership biographies from age 18 to 40 (monthly data)
+We use a simple alphabet differentiating four partnership states to illustrate `TraMineR`'s capabilities of producing simple descriptive statistics on our sequence data. The sequences cover the partnership biographies from age 18 to 40 (monthly data).
+The sequences are stored in the object `fam.month.seq`.
 
 
 ```{r echo=FALSE}
@@ -111,7 +176,7 @@ kable(tibble(state = longlab, shortlabel = shortlab),
 \  
 
 
-## Time spent in different states
+## Time spent in different states & occurence of episodes 
 
 The function `seqmeant` computes the mean total time spent in each state of the alphabet. The arguments `serr = TRUE` and `prop = TRUE` provide standard errors and relative frequencies instead of the average number of months spent in each state.
 
@@ -121,13 +186,22 @@ seqmeant(fam.month.seq, serr = TRUE)
 seqmeant(fam.month.seq, prop = TRUE)
 ```
 
+We also can use `seqmeant` to identify the average number of episodes for each state of the alphabet by applying it to a sequence data object in the **DSS** format.
+
+```{r, eval=FALSE, echo=TRUE}
+seqmeant(seqdss(fam.month.seq),serr = TRUE)
+```
+
+
 ```{r, echo=FALSE}
-kable(statemeandur,
-      col.names = c("State", "... in months", "SD", "... relative freq.")) %>%
-  add_header_above(c(" ", "Mean time spent..." = 3)) %>%
+
+kable(table1,
+      col.names = c("State", "Mean", "SD", "relative freq.", "Mean", "SD")) %>%
+  add_header_above(c(" ", "Time spent in months" = 3, "Number of episodes" = 2)) %>%
   kable_styling(bootstrap_options = 
                   c("striped", "hover", "condensed"),
                 full_width = F)
+
 ```
 
 
@@ -148,6 +222,45 @@ kable(statedis2,
   kable_styling(bootstrap_options = 
                   c("striped", "hover", "condensed"),
                 full_width = F)
+```
+
+
+## Number of transitions and transition matrix
+
+The person-specific number of transitions between states can be obtained by `seqtransn`. However, we are usually interested in the average number of transitions. We use `wtd.mean` and `wtd.var` from the `Hmisc` package to compute the weighted mean and standard deviation. The weights are stored in the variable `weight40` of the data frame `family` which served as source for generating the sequence object `fam.month.seq`.
+
+```{r, eval=FALSE, echo=TRUE}
+wtd.mean(seqtransn(fam.month.seq), family$weight40)
+sqrt(wtd.var(seqtransn(fam.month.seq), family$weight40))
+```
+
+We did the computation for the sequence object `fam.year.seq` which comes with a *yearly* instead of a *monthly granularity* (see chapter 2.2).
+
+```{r, echo=FALSE}
+kable(transfreq) %>%
+  kable_styling(bootstrap_options = 
+                  c("striped", "hover", "condensed"),
+                full_width = F) 
+```
+
+
+Transition rates between states can be computed by using `seqtrate`. In most applications sequence data with a high granularity - such as monthly partnership biographies - yield a modest share of transitions between different states. Hence, we illustrate the transitions rates using sequences with yearly partnership information from age 18-40 (`fam.year.seq`). This reduces sequence length from 264 to 22. If you are interested in transitions rates at specific positions of the sequence you can specify `time.varying = TRUE`.
+
+
+```{r, eval=FALSE, echo=TRUE}
+seqtrate(fam.year.seq)
+```
+
+```{r, echo=FALSE}
+
+transmat.tbl %>%
+  mutate(Origin = cell_spec(Origin, bold = TRUE, color = "black")) %>%
+  kable(col.names = c("State at t", "S", "LAT", "COH", "MAR"),
+        escape = FALSE) %>%
+  add_header_above(c(" ", "State at t+1" = 4)) %>%
+  kable_styling(bootstrap_options = 
+                  c("striped", "hover", "condensed"),
+                full_width = F) 
 ```
 
 
