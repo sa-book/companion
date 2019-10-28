@@ -224,6 +224,14 @@ kable(statedis2,
                 full_width = F)
 ```
 
+The distribution above  indicates the dominance of the partnership states "Single" and "Married" at the beginning and ending of the sequence. This is also reflected in the sequence of modal states. 
+
+```{r, echo=TRUE}
+modal.seq <- seqdef(as_tibble(seqmodst(fam.month.seq)))
+print(modal.seq, format = "SPS")
+```
+
+
 
 ## Number of transitions and transition matrix
 

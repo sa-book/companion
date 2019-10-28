@@ -1697,6 +1697,15 @@ MAR
 </tbody>
 </table>
 </div>
+<p>The distribution above indicates the dominance of the partnership states “Single” and “Married” at the beginning and ending of the sequence. This is also reflected in the sequence of modal states.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+modal.seq &lt;- seqdef(as_tibble(seqmodst(fam.month.seq)))
+print(modal.seq, format = &quot;SPS&quot;)</code></pre>
+<pre><code>
+    Sequence         
+[1] (S,102)-(MAR,162)</code></pre>
+</div>
 <h2 id="number-of-transitions-and-transition-matrix">Number of transitions and transition matrix</h2>
 <p>The person-specific number of transitions between states can be obtained by <code>seqtransn</code>. However, we are usually interested in the average number of transitions. We use <code>wtd.mean</code> and <code>wtd.var</code> from the <code>Hmisc</code> package to compute the weighted mean and standard deviation. The weights are stored in the variable <code>weight40</code> of the data frame <code>family</code> which served as source for generating the sequence object <code>fam.month.seq</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
