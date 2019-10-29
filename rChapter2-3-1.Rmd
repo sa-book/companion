@@ -178,7 +178,7 @@ kable(tibble(state = longlab, shortlabel = shortlab),
 \  
 
 
-## Time spent in different states & occurence of episodes 
+## Time spent in different states & <br/>occurence of episodes 
 
 The function `seqmeant` computes the mean total time spent in each state of the alphabet. The arguments `serr = TRUE` and `prop = TRUE` provide standard errors and relative frequencies instead of the average number of months spent in each state.
 
@@ -207,7 +207,7 @@ kable(table1,
 ```
 
 
-## State distribution at different positions (cross-sections)
+## State distribution at different positions <br/>(cross-sectional perspective)
 
 Among other things `seqstatd` computes the distribution of states at each position in the sequence. Usually this information is displayed in a graphical fashion (state distribution plot) rather than as a descriptive table.
 
@@ -235,7 +235,7 @@ print(modal.seq, format = "SPS")
 
 
 
-## Number of transitions and transition matrix
+## Number of transitions & transition matrix
 
 The person-specific number of transitions between states can be obtained by `seqtransn`. However, we are usually interested in the average number of transitions. We use `wtd.mean` and `wtd.var` from the `Hmisc` package to compute the weighted mean and standard deviation. The weights are stored in the variable `weight40` of the data frame `family` which served as source for generating the sequence object `fam.month.seq`.
 
@@ -273,7 +273,7 @@ transmat.tbl %>%
                 full_width = F) 
 ```
 
-### Extra material: Graphical illustration of transition rates
+### Additional material: <br/>Graphical illustration of transition rates
 
 Chapter 2.3.1 of the book is restricted to the tabular description of sequence data. TraMineR's plot functions are presented in Chapter 2.3.2
 In addition to this material, we use this page to illustrate how to visualize transition rates using `ggplot2` and `gganimate`.
