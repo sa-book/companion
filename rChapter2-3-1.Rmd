@@ -318,11 +318,9 @@ seqtrate_df %>%
 
 \  
 
-
 <p align="center">
   ![](images/transitionbubbles.png){width=80%}
 </p>
-
 
 
 With the following code we can generate an animated illustration of time varying transitions rates.
@@ -376,6 +374,4 @@ anim <- animate(p, nframes = 21, duration = 10.5)
 <p align="center">
   ![](images/transitionbubbles.gif){width=70%}
 </p>
-
-
 
