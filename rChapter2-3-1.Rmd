@@ -21,6 +21,8 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 
+options("kableExtra.html.bsTable" = T)
+
 load("Test.RData")
 
 # ******************************************************************************
@@ -168,7 +170,7 @@ The sequences are stored in the object `fam.month.seq`.
 kable(tibble(state = longlab, shortlabel = shortlab), 
       col.names = c("State", "Short Label")) %>%
   kable_styling(bootstrap_options = 
-                  c("striped", "hover", "condensed"),
+                  c("responsive", "hover", "condensed"),
                 full_width = F)
 ```
 
@@ -199,7 +201,7 @@ kable(table1,
       col.names = c("State", "Mean", "SD", "relative freq.", "Mean", "SD")) %>%
   add_header_above(c(" ", "Time spent in months" = 3, "Number of episodes" = 2)) %>%
   kable_styling(bootstrap_options = 
-                  c("striped", "hover", "condensed"),
+                  c("responsive", "hover", "condensed"),
                 full_width = F)
 
 ```
@@ -220,7 +222,7 @@ kable(statedis2,
       col.names = c("State", 18, seq(20,40, by = 4))) %>%
   add_header_above(c(" ", "Age" = 7)) %>%
   kable_styling(bootstrap_options = 
-                  c("striped", "hover", "condensed"),
+                  c("responsive", "hover", "condensed"),
                 full_width = F)
 ```
 
@@ -247,7 +249,7 @@ We did the computation for the sequence object `fam.year.seq` which comes with a
 ```{r, echo=FALSE}
 kable(transfreq) %>%
   kable_styling(bootstrap_options = 
-                  c("striped", "hover", "condensed"),
+                  c("responsive", "hover", "condensed"),
                 full_width = F) 
 ```
 
@@ -267,8 +269,107 @@ transmat.tbl %>%
         escape = FALSE) %>%
   add_header_above(c(" ", "State at t+1" = 4)) %>%
   kable_styling(bootstrap_options = 
-                  c("striped", "hover", "condensed"),
+                  c("responsive", "hover", "condensed"),
                 full_width = F) 
 ```
 
+### Extra material: Graphical illustration of transition rates
 
+Chapter 2.3.1 of the book is restricted to the tabular description of sequence data. TraMineR's plot functions are presented in Chapter 2.3.2
+In addition to this material, we use this page to illustrate how to visualize transition rates using `ggplot2` and `gganimate`.
+
+
+```{r, eval=FALSE, echo=TRUE}
+
+# Transform transition rates into tibble
+transmat <- seqtrate(fam.year.seq)
+rownames(transmat) <- c(1, 2, 3, 4)
+colnames(transmat) <- c(1, 2, 3, 4)
+seqtrate_df <- as_tibble(melt(transmat))
+
+
+# Plot transition rates using ggplot
+seqtrate_df %>%
+  ggplot(aes(x = Var2, y = Var1)) + 
+  geom_point(aes(color = value, size = value), alpha = .9) +
+  scale_color_continuous_sequential(palette = "Green-Yellow", 
+                                    begin = 0.2, end = 0.8) +
+  scale_size(range = c(0, 50)) + 
+  geom_text(data = filter(seqtrate_df, value>.10), 
+            aes(label=round(value, 2)), size = 5) +
+  theme_minimal() +
+  theme(legend.position = "none",
+        axis.text = element_text(color = "black", 
+                                 size = 12, face = "bold"),
+        axis.title = element_text(color = "black", 
+                                  size = 20, face = "bold"),
+        axis.title.y = element_text(margin = margin(0, 20, 0, 0)),
+        axis.title.x = element_text(margin = margin(20, 0, 0, 0))) +
+  scale_x_continuous(name=expression('State at'~italic("t + 1")), 
+                     breaks=c(1,2,3,4), 
+                     labels=c("S", "LAT", "COH", "MAR"), 
+                     limits=c(0.5, 4.5)) +
+  scale_y_continuous(name=expression('State at'~italic("t")),
+                     breaks=c(1,2,3,4), 
+                     labels=c("S", "LAT", "COH", "MAR"), 
+                     limits=c(0.5, 4.5))
+
+```
+
+\  
+
+<p align="center">
+![](images/transitionbubbles.png){width=80%}
+</p>
+
+With the following code we can generate an animated illustration of time varying transitions rates.
+
+
+```{r, eval=FALSE, echo=TRUE}
+# Transform array with time varying transition rates into tibble
+tratesvar <- seqtrate(fam.year.seq, time.varying = TRUE)
+rownames(tratesvar) <- c(1, 2, 3, 4)
+colnames(tratesvar) <- c(1, 2, 3, 4)
+
+tratesvar <- as_tibble(melt(tratesvar)) %>%
+  mutate(Var3 = as.numeric(Var3) + 17,
+         value = round(value, 2))
+
+
+# Use ggplot and gganimate to generate animated illustration
+p <- tratesvar %>%
+  ggplot(aes(x = Var2, y = Var1)) + 
+  geom_point(aes(color = value, size = value), alpha = .9) +
+  scale_color_continuous_sequential(palette = "Green-Yellow", 
+                                    begin = 0.2, end = 0.8) +
+  scale_size(range = c(0, 50)) + 
+  geom_text(data = filter(tratesvar, value>.10), 
+            aes(label=value), size = 5) +
+  theme_minimal() +
+  theme(legend.position = "none",
+        axis.text = element_text(color = "black",
+                                 size = 12, face = "bold"),
+        axis.title = element_text(color = "black", 
+                                  size = 20, face = "bold"),
+        axis.title.y = element_text(margin = margin(0, 20, 0, 0)),
+        axis.title.x = element_text(margin = margin(20,0, 0, 0)),
+        plot.title = element_text(size = 20, face = "bold")) +
+  scale_x_continuous(name=expression('State at'~italic("t + 1")), 
+                     breaks=c(1,2,3,4), 
+                     labels=c("S", "LAT", "COH", "MAR"), 
+                     limits=c(0.5, 4.5)) +
+  scale_y_continuous(name=expression('State at'~italic("t")), 
+                     breaks=c(1,2,3,4), 
+                     labels=c("S", "LAT", "COH", "MAR"), 
+                     limits=c(0.5, 4.5)) +
+  transition_states(Var3) +
+  ggtitle('Age {closest_state}')
+
+anim <- animate(p, nframes = 21, duration = 10.5)
+```
+
+\  
+
+<p align="center">
+![](images/transitionbubbles.gif){width=70%}
+</p>

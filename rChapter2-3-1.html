@@ -1259,6 +1259,7 @@
   
   <!--/radix_placeholder_distill-->
   <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="site_libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
   <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
@@ -1361,7 +1362,7 @@ Stata
 <hr class="d-toc-separator"/>
 <p>We use a simple alphabet differentiating four partnership states to illustrate <code>TraMineR</code>’s capabilities of producing simple descriptive statistics on our sequence data. The sequences cover the partnership biographies from age 18 to 40 (monthly data). The sequences are stored in the object <code>fam.month.seq</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
-<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -1422,7 +1423,7 @@ seqmeant(fam.month.seq, prop = TRUE)</code></pre>
 seqmeant(seqdss(fam.month.seq),serr = TRUE)</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="border-bottom:hidden" colspan="1">
@@ -1551,7 +1552,7 @@ MAR
 seqstatd(fam.month.seq)$Frequencies[,c(1, seq(24, 264, by = 48))]</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="border-bottom:hidden" colspan="1">
@@ -1715,7 +1716,7 @@ sqrt(wtd.var(seqtransn(fam.month.seq), family$weight40))</code></pre>
 </div>
 <p>We did the computation for the sequence object <code>fam.year.seq</code> which comes with a <em>yearly</em> instead of a <em>monthly granularity</em> (see chapter 2.2).</p>
 <div class="layout-chunk" data-layout="l-body">
-<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -1761,7 +1762,7 @@ Yearly data
 seqtrate(fam.year.seq)</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="border-bottom:hidden" colspan="1">
@@ -1862,6 +1863,95 @@ MAR
 </tbody>
 </table>
 </div>
+<h3 id="extra-material-graphical-illustration-of-transition-rates">Extra material: Graphical illustration of transition rates</h3>
+<p>Chapter 2.3.1 of the book is restricted to the tabular description of sequence data. TraMineR’s plot functions are presented in Chapter 2.3.2 In addition to this material, we use this page to illustrate how to visualize transition rates using <code>ggplot2</code> and <code>gganimate</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Transform transition rates into tibble
+transmat &lt;- seqtrate(fam.year.seq)
+rownames(transmat) &lt;- c(1, 2, 3, 4)
+colnames(transmat) &lt;- c(1, 2, 3, 4)
+seqtrate_df &lt;- as_tibble(melt(transmat))
+
+
+# Plot transition rates using ggplot
+seqtrate_df %&gt;%
+  ggplot(aes(x = Var2, y = Var1)) + 
+  geom_point(aes(color = value, size = value), alpha = .9) +
+  scale_color_continuous_sequential(palette = &quot;Green-Yellow&quot;, 
+                                    begin = 0.2, end = 0.8) +
+  scale_size(range = c(0, 50)) + 
+  geom_text(data = filter(seqtrate_df, value&gt;.10), 
+            aes(label=round(value, 2)), size = 5) +
+  theme_minimal() +
+  theme(legend.position = &quot;none&quot;,
+        axis.text = element_text(color = &quot;black&quot;, 
+                                 size = 12, face = &quot;bold&quot;),
+        axis.title = element_text(color = &quot;black&quot;, 
+                                  size = 20, face = &quot;bold&quot;),
+        axis.title.y = element_text(margin = margin(0, 20, 0, 0)),
+        axis.title.x = element_text(margin = margin(20, 0, 0, 0))) +
+  scale_x_continuous(name=expression(&#39;State at&#39;~italic(&quot;t + 1&quot;)), 
+                     breaks=c(1,2,3,4), 
+                     labels=c(&quot;S&quot;, &quot;LAT&quot;, &quot;COH&quot;, &quot;MAR&quot;), 
+                     limits=c(0.5, 4.5)) +
+  scale_y_continuous(name=expression(&#39;State at&#39;~italic(&quot;t&quot;)),
+                     breaks=c(1,2,3,4), 
+                     labels=c(&quot;S&quot;, &quot;LAT&quot;, &quot;COH&quot;, &quot;MAR&quot;), 
+                     limits=c(0.5, 4.5))</code></pre>
+</div>
+<p> </p>
+<p align="center">
+<img src="images/transitionbubbles.png" style="width:80.0%" />
+</p>
+<p>With the following code we can generate an animated illustration of time varying transitions rates.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Transform array with time varying transition rates into tibble
+tratesvar &lt;- seqtrate(fam.year.seq, time.varying = TRUE)
+rownames(tratesvar) &lt;- c(1, 2, 3, 4)
+colnames(tratesvar) &lt;- c(1, 2, 3, 4)
+
+tratesvar &lt;- as_tibble(melt(tratesvar)) %&gt;%
+  mutate(Var3 = as.numeric(Var3) + 17,
+         value = round(value, 2))
+
+
+# Use ggplot and gganimate to generate animated illustration
+p &lt;- tratesvar %&gt;%
+  ggplot(aes(x = Var2, y = Var1)) + 
+  geom_point(aes(color = value, size = value), alpha = .9) +
+  scale_color_continuous_sequential(palette = &quot;Green-Yellow&quot;, 
+                                    begin = 0.2, end = 0.8) +
+  scale_size(range = c(0, 50)) + 
+  geom_text(data = filter(tratesvar, value&gt;.10), 
+            aes(label=value), size = 5) +
+  theme_minimal() +
+  theme(legend.position = &quot;none&quot;,
+        axis.text = element_text(color = &quot;black&quot;,
+                                 size = 12, face = &quot;bold&quot;),
+        axis.title = element_text(color = &quot;black&quot;, 
+                                  size = 20, face = &quot;bold&quot;),
+        axis.title.y = element_text(margin = margin(0, 20, 0, 0)),
+        axis.title.x = element_text(margin = margin(20,0, 0, 0)),
+        plot.title = element_text(size = 20, face = &quot;bold&quot;)) +
+  scale_x_continuous(name=expression(&#39;State at&#39;~italic(&quot;t + 1&quot;)), 
+                     breaks=c(1,2,3,4), 
+                     labels=c(&quot;S&quot;, &quot;LAT&quot;, &quot;COH&quot;, &quot;MAR&quot;), 
+                     limits=c(0.5, 4.5)) +
+  scale_y_continuous(name=expression(&#39;State at&#39;~italic(&quot;t&quot;)), 
+                     breaks=c(1,2,3,4), 
+                     labels=c(&quot;S&quot;, &quot;LAT&quot;, &quot;COH&quot;, &quot;MAR&quot;), 
+                     limits=c(0.5, 4.5)) +
+  transition_states(Var3) +
+  ggtitle(&#39;Age {closest_state}&#39;)
+
+anim &lt;- animate(p, nframes = 21, duration = 10.5)</code></pre>
+</div>
+<p> </p>
+<p align="center">
+<img src="images/transitionbubbles.gif" style="width:70.0%" />
+</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
