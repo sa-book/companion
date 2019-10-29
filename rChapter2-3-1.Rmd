@@ -319,11 +319,9 @@ seqtrate_df %>%
 \  
 
 
-<div class="lightbox"> 
-  <p align="center">
+<p align="center">
   ![](images/transitionbubbles.png){width=80%}
-  </p>
-</div>
+</p>
 
 
 
@@ -375,12 +373,9 @@ anim <- animate(p, nframes = 21, duration = 10.5)
 
 \  
 
-<div class="lightbox"> 
-  <p align="center">
+<p align="center">
   ![](images/transitionbubbles.gif){width=70%}
-  </p>
-</div>
+</p>
 
 
-<script type="text/javascript" src="lightbox.js"></script>
 
