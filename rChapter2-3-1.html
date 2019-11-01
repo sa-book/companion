@@ -1753,7 +1753,7 @@ Yearly data
 wtd.mean(seqtransn(fam.month.seq), family$weight40)
 sqrt(wtd.var(seqtransn(fam.month.seq), family$weight40))</code></pre>
 </div>
-<p>We did the computation for the sequence object <code>fam.year.seq</code> which comes with a <em>yearly</em> instead of a <em>monthly granularity</em> (see chapter 2.2).</p>
+<p>We did the same computation for the sequence object <code>fam.year.seq</code> which comes with a <em>yearly</em> instead of a <em>monthly granularity</em> (see chapter 2.2).</p>
 <div class="layout-chunk" data-layout="l-body">
 <table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
@@ -1795,7 +1795,7 @@ Yearly data
 </tbody>
 </table>
 </div>
-<p>Transition rates between states can be computed by using <code>seqtrate</code>. In most applications sequence data with a high granularity - such as monthly partnership biographies - yield a modest share of transitions between different states. Hence, we illustrate the transitions rates using sequences with yearly partnership information from age 18-40 (<code>fam.year.seq</code>). This reduces sequence length from 264 to 22. If you are interested in transitions rates at specific positions of the sequence you can specify <code>time.varying = TRUE</code>.</p>
+<p>Transition rates between states can be computed by using <code>seqtrate</code>. In most applications sequence data with reccurent appearance of states and a high granularity - such as monthly partnership biographies - yield a modest share of transitions between different states. Hence, we illustrate the transitions rates using sequences with yearly partnership information from age 18-40 (<code>fam.year.seq</code>). This reduces sequence length from 264 to 22. It is also possible to calculate transitions rates at specific positions of the sequence by typing <code>time.varying = TRUE</code>. This option is also used for generating the animated illustration at the bottom of this page.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 seqtrate(fam.year.seq)</code></pre>
@@ -1902,12 +1902,120 @@ MAR
 </tbody>
 </table>
 </div>
+<p>Additional insights can be gained by using sequence data stored in the DSS format. A computation based on this format provides transition rates between episodes of distinct states. Accordingly, the diagonal equals zero. Note, that we use monthly sequence data for this excercise in order to keep track of short lasting spells which might be obscured in the yearly data.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+seqtrate(seqdss(fam.month.seq))</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="border-bottom:hidden" colspan="1">
+</th>
+<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="4">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+State at t+1
+</div>
+</th>
+</tr>
+<tr>
+<th style="text-align:left;">
+State at t
+</th>
+<th style="text-align:right;">
+S
+</th>
+<th style="text-align:right;">
+LAT
+</th>
+<th style="text-align:right;">
+COH
+</th>
+<th style="text-align:right;">
+MAR
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<span style=" font-weight: bold;    color: black !important;">S</span>
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.91
+</td>
+<td style="text-align:right;">
+0.07
+</td>
+<td style="text-align:right;">
+0.02
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style=" font-weight: bold;    color: black !important;">LAT</span>
+</td>
+<td style="text-align:right;">
+0.42
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.50
+</td>
+<td style="text-align:right;">
+0.08
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style=" font-weight: bold;    color: black !important;">COH</span>
+</td>
+<td style="text-align:right;">
+0.20
+</td>
+<td style="text-align:right;">
+0.12
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.68
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span style=" font-weight: bold;    color: black !important;">MAR</span>
+</td>
+<td style="text-align:right;">
+0.44
+</td>
+<td style="text-align:right;">
+0.46
+</td>
+<td style="text-align:right;">
+0.11
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <h3 id="additional-material-graphical-illustration-of-transition-rates">Additional material: <br/>Graphical illustration of transition rates</h3>
 <p>Chapter 2.3.1 of the book is restricted to the tabular description of sequence data. TraMineR’s plot functions are presented in Chapter 2.3.2 In addition to this material, we use this page to illustrate how to visualize transition rates using <code>ggplot2</code> and <code>gganimate</code>.</p>
+<p>This is an illustration of the transition matrix based on the sequence object stored in the DSS format.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 # Transform transition rates into tibble
-transmat &lt;- seqtrate(fam.year.seq)
+seqtrate(seqdss(fam.month.seq))
 rownames(transmat) &lt;- c(1, 2, 3, 4)
 colnames(transmat) &lt;- c(1, 2, 3, 4)
 seqtrate_df &lt;- as_tibble(melt(transmat))
@@ -1941,9 +2049,9 @@ seqtrate_df %&gt;%
 </div>
 <p> </p>
 <p align="center">
-<img src="images/transitionbubbles.png" style="width:80.0%" />
+<img src="images/seqtrate_monthly_DSS.png" style="width:80.0%" />
 </p>
-<p>With the following code we can generate an animated illustration of time varying transitions rates.</p>
+<p>The following code generates an animated illustration of time varying transitions rates using the yearly sequenc data.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 # Transform array with time varying transition rates into tibble
@@ -1989,7 +2097,7 @@ anim &lt;- animate(p, nframes = 21, duration = 10.5)</code></pre>
 </div>
 <p> </p>
 <p align="center">
-<img src="images/transitionbubbles.gif" style="width:70.0%" />
+<img src="images/seqtrate_yearly.gif" style="width:70.0%" />
 </p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
