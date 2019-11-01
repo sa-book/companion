@@ -1363,6 +1363,7 @@ Stata
 <ul>
 <li><a href="#time-spent-in-different-states-occurence-of-episodes">Time spent in different states &amp; <br/>occurence of episodes</a></li>
 <li><a href="#state-distribution-at-different-positions-cross-sectional-perspective">State distribution at different positions <br/>(cross-sectional perspective)</a></li>
+<li><a href="#modal-and-representative-sequences">Modal and representative sequences</a></li>
 <li><a href="#number-of-transitions-transition-matrix">Number of transitions &amp; transition matrix</a></li>
 </ul>
 </nav>
@@ -1705,6 +1706,7 @@ MAR
 </tbody>
 </table>
 </div>
+<h2 id="modal-and-representative-sequences">Modal and representative sequences</h2>
 <p>The distribution above indicates the dominance of the partnership states “Single” and “Married” at the beginning and ending of the sequence. This is also reflected in the sequence of modal states. The following commands extract the modal sequences using sequence data with monthly and yearly granularity (see chapter 2.2).</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1741,6 +1743,111 @@ Yearly data
 </td>
 <td style="text-align:left;">
 (S,9)-(MAR,13)
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Usually the modal sequence is a hypothetical sequence that is not actually observed in the data. In contrast, <code>seqrep</code> aims at identifying those sequences that represent the data best. Note that this approach requires the computation of a distance matrix. The following commands illustrate the identification of representative sequences using yearly sequences (<code>fam.year.seq</code>). For details on computing sequence distances (<code>seqdist</code>) see Chapter 3.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+fam.year.om &lt;- seqdist(fam.year.seq, method=&quot;OM&quot;, sm=&quot;CONSTANT&quot;)
+fam.year.rep &lt;- seqrep(fam.year.seq, diss=fam.year.om, criterion=&quot;density&quot;)</code></pre>
+</div>
+<p>The following command prints the sequences in the more accesible SPS format.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+print(fam.year.seq[attributes(fam.year.rep)$Index,], format = &quot;SPS&quot;)</code></pre>
+</div>
+<p>Descriptive statistics on the quality of the representative Sequence are stored in <code>attributes(fam.year.rep)$Statistics</code>. These can be easily accessed by typing:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+summary(fam.year.rep)</code></pre>
+</div>
+<p>The table below presents a set of representative sequences (SPS format) and the corresponding coverage statistics:</p>
+<div class="layout-chunk" data-layout="l-body">
+<table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Sequence
+</th>
+<th style="text-align:right;">
+Coverage
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(S,1)-(LAT,2)-(MAR,19)
+</td>
+<td style="text-align:right;">
+5.7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,20)-(MAR,2)
+</td>
+<td style="text-align:right;">
+4.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,4)-(LAT,1)-(COH,1)-(MAR,16)
+</td>
+<td style="text-align:right;">
+3.8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(LAT,3)-(COH,2)-(MAR,17)
+</td>
+<td style="text-align:right;">
+3.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,2)-(LAT,2)-(COH,3)-(MAR,15)
+</td>
+<td style="text-align:right;">
+2.7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,5)-(LAT,2)-(COH,2)-(MAR,13)
+</td>
+<td style="text-align:right;">
+2.7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(COH,2)-(MAR,20)
+</td>
+<td style="text-align:right;">
+2.6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,1)-(LAT,5)-(MAR,16)
+</td>
+<td style="text-align:right;">
+2.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<strong>Total Coverage</strong>
+</td>
+<td style="text-align:right;">
+27.5
 </td>
 </tr>
 </tbody>
@@ -2048,9 +2155,9 @@ seqtrate_df %&gt;%
                      limits=c(0.5, 4.5))</code></pre>
 </div>
 <p> </p>
-<p align="center">
-<img src="images/seqtrate_monthly_DSS.png" style="width:80.0%" />
-</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="images/seqtrate_monthly_DSS.png" width="1804" /></p>
+</div>
 <p>The following code generates an animated illustration of time varying transitions rates using the yearly sequenc data.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>

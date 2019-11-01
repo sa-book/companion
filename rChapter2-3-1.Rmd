@@ -110,6 +110,8 @@ kable(statedis2,
                 full_width = F)
 ```
 
+## Modal and representative sequences
+
 The distribution above  indicates the dominance of the partnership states "Single" and "Married" at the beginning and ending of the sequence. This is also reflected in the sequence of modal states. The following commands extract the modal sequences using sequence data with monthly and yearly granularity (see chapter 2.2).
 
 ```{r, echo=TRUE, eval=FALSE}
@@ -126,6 +128,38 @@ kable(modalseqs) %>%
   kable_styling(bootstrap_options = 
                   c("responsive", "hover", "condensed"),
                 full_width = F)
+```
+
+Usually the modal sequence is a hypothetical sequence that is not actually observed in the data. In contrast, `seqrep` aims at identifying those  sequences that represent the data best. Note that this approach requires the computation of a distance matrix. The following commands illustrate the identification of representative sequences using yearly sequences (`fam.year.seq`). For details on computing sequence distances (`seqdist`) see Chapter 3.
+
+```{r, echo=TRUE, eval=FALSE}
+fam.year.om <- seqdist(fam.year.seq, method="OM", sm="CONSTANT")
+fam.year.rep <- seqrep(fam.year.seq, diss=fam.year.om, criterion="density")
+```
+
+The following command prints the sequences in the more accesible SPS format.
+
+```{r, echo=TRUE, eval=FALSE}
+print(fam.year.seq[attributes(fam.year.rep)$Index,], format = "SPS")
+
+```
+
+Descriptive statistics on the quality of the representative Sequence are stored in `attributes(fam.year.rep)$Statistics`. These can be easily accessed by typing:
+
+```{r, echo=TRUE, eval=FALSE}
+summary(fam.year.rep)
+
+```
+
+The table below presents a set of representative sequences (SPS format) and the corresponding coverage statistics:
+
+
+```{r, echo=FALSE}
+kable(fam.year.rep) %>%
+  kable_styling(bootstrap_options = 
+                  c("responsive", "hover", "condensed"),
+                full_width = F)
+      
 ```
 
 
@@ -232,9 +266,10 @@ seqtrate_df %>%
 
 \  
 
-<p align="center">
-  ![](images/seqtrate_monthly_DSS.png){width=80%}
-</p>
+
+```{r layout="l-body-outset"}
+knitr::include_graphics("images/seqtrate_monthly_DSS.png")
+```
 
 
 The following code generates an animated illustration of time varying transitions rates using the yearly sequenc data.
