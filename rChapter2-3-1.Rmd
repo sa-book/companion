@@ -23,7 +23,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 options("kableExtra.html.bsTable" = T)
 
-load("Test.RData")
+load("2-3-1_BasicDescription.RData")
 
 # ******************************************************************************
 # ******************************************************************************
@@ -39,122 +39,6 @@ library(pacman)
 # load and install (if necessary) required packages for this course
 p_load(TraMineR, TraMineRextras, tidyverse, haven, Hmisc,
        RColorBrewer, colorspace, knitr, kableExtra, reshape2)
-
-
-# ******************************************************************************
-
-# extracting and recoding the sequence variables (which all start with state)
-# recode to reduced state space capturing partnership status only 
-
-seqvars <- family %>%
-  select(starts_with("state")) %>%
-  mutate_all(list(~case_when(
-    . < 3 ~ 1,            # Single
-    . %in% c(3,4) ~ 2,    # LAT
-    . %in% c(5,6) ~ 3,    # Cohabiting
-    . > 6 ~ 4,)))         # Married
-
-
-# ******************************************************************************
-
-# Defining the labels
-shortlab <- c("S", "LAT", "COH", "MAR")
-longlab <-  c("Single", "LAT", "Cohabiting", "Married")
-
-
-# ******************************************************************************
-
-# Choosing colors with the pre-defined color palettes of colorspace
-colspace <- sequential_hcl(4, palette = "Heat", rev = TRUE)
-
-
-# ******************************************************************************
-
-
-# define sequence object using monthly data
-fam.month.seq <- seqdef(seqvars, 
-                        states = shortlab, labels = longlab, alphabet = c(1:4),  
-                        cpal = colspace,
-                        weights = family$weight40,
-                        id = family$id,
-                        xtstep = 24)
-
-
-# change granularity --> years instead of months (using modal values)
-fam.year.seq <- seqgranularity(fam.month.seq, 
-                               tspan=12, 
-                               method="mostfreq")
-
-fam.year.eseq <- seqecreate(fam.year.seq, use.labels = FALSE)
-
-# ******************************************************************************
-
-# mean time spent in each state
-
-statemeandur <- as_tibble(round(seqmeant(fam.month.seq, serr = TRUE)[,c(1,3)],1), 
-                          rownames = "State")
-
-statemeandur <- statemeandur %>%
-  mutate(reltime = round(seqmeant(fam.month.seq, prop = TRUE),2))
-
-
-
-# ******************************************************************************
-
-# mean no of episodes by state
-
-sum_episodes <- as_tibble(round(seqmeant(seqdss(fam.month.seq), 
-                                         serr = TRUE)[,c(1,3)],1),
-                          rownames = "State") %>%
-  rename(ep_Mean = 2, ep_SD = 3)
-
-table1 <- statemeandur %>% inner_join(sum_episodes)
-
-
-# ******************************************************************************
-# ******************************************************************************
-
-
-# State distribution at specific dates
- 
-statedis <- seqstatd(fam.month.seq)$Frequencies
-
-statedis2 <- as_tibble(round(statedis[,c(1, seq(24, 264, by = 48))],2),
-                       rownames = "State")
-
-
-# ******************************************************************************
-
-# Transition matrix
-
-transmat <- seqtrate(fam.year.seq)
-
-rownames(transmat) <- shortlab
-colnames(transmat) <- shortlab
-
-
-transmat.tbl <- as_tibble(round(transmat,2),
-                          rownames = "Origin")
-
-
-# ******************************************************************************  
-# ******************************************************************************
-
-# Number of tranistions
-
-# monthly
-m1 <- round(wtd.mean(seqtransn(fam.month.seq), family$weight40),1)
-m2 <- round(sqrt(wtd.var(seqtransn(fam.month.seq), family$weight40)),1)
-
-# yearly
-y1 <- round(wtd.mean(seqtransn(fam.year.seq), family$weight40),1)
-y2 <- round(sqrt(wtd.var(seqtransn(fam.year.seq), family$weight40)),1)
-
-
-transfreq <- tibble(Granularity = c("Monthly data", "Yearly data"), 
-                    Mean = c(m1, y1), 
-                    SD = c(m2, y2))
-
 
 
 # ******************************************************************************
@@ -226,13 +110,23 @@ kable(statedis2,
                 full_width = F)
 ```
 
-The distribution above  indicates the dominance of the partnership states "Single" and "Married" at the beginning and ending of the sequence. This is also reflected in the sequence of modal states. 
+The distribution above  indicates the dominance of the partnership states "Single" and "Married" at the beginning and ending of the sequence. This is also reflected in the sequence of modal states. The following commands extract the modal sequences using sequence data with monthly and yearly granularity (see chapter 2.2).
 
-```{r, echo=TRUE}
-modal.seq <- seqdef(as_tibble(seqmodst(fam.month.seq)))
-print(modal.seq, format = "SPS")
+```{r, echo=TRUE, eval=FALSE}
+modal.month.seq <- seqdef(as_tibble(seqmodst(fam.month.seq)))
+print(modal.month,seq, format = "SPS")
+
+modal.year.seq <- seqdef(as_tibble(seqmodst(fam.year.seq)))
+print(modal.year.seq, format = "SPS")
+
 ```
 
+```{r, echo=FALSE}
+kable(modalseqs) %>%
+  kable_styling(bootstrap_options = 
+                  c("responsive", "hover", "condensed"),
+                full_width = F)
+```
 
 
 ## Number of transitions & transition matrix
