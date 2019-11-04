@@ -1368,7 +1368,7 @@ Stata
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
-<p>We use a simple alphabet differentiating four partnership states to illustrate <code>TraMineR</code>’s capabilities of producing simple descriptive statistics on our sequence data. The sequences cover the partnership biographies from age 18 to 40 (monthly data). The sequences are stored in the object <code>fam.month.seq</code>.</p>
+<p>We use a simple alphabet differentiating four partnership states to illustrate <code>TraMineR</code>’s capabilities of producing simple descriptive statistics on our sequence data. The sequences cover the partnership biographies from age 18 to 40 (monthly data). The sequences are stored in the object <code>partner.month.seq</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
@@ -1422,13 +1422,13 @@ MAR
 <p>The function <code>seqmeant</code> computes the mean total time spent in each state of the alphabet. The arguments <code>serr = TRUE</code> and <code>prop = TRUE</code> provide standard errors and relative frequencies instead of the average number of months spent in each state.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-seqmeant(fam.month.seq, serr = TRUE)
-seqmeant(fam.month.seq, prop = TRUE)</code></pre>
+seqmeant(partner.month.seq, serr = TRUE)
+seqmeant(partner.month.seq, prop = TRUE)</code></pre>
 </div>
 <p>We also can use <code>seqmeant</code> to identify the average number of episodes for each state of the alphabet by applying it to a sequence data object in the <strong>DSS</strong> format.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-seqmeant(seqdss(fam.month.seq),serr = TRUE)</code></pre>
+seqmeant(seqdss(partner.month.seq),serr = TRUE)</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
@@ -1557,7 +1557,7 @@ MAR
 <p>Usually the tabular presentation of the state distribution requires to extract the distribution for a selection of (meaningful) positions of the sequence. In the example below we display the distribution at age 18, 20, 24, 28, 32, 36, and 40. Note that time is measured in months. Hence, we do not extract the descriptives at positions 1 and 3 but at positions 1 and 24 to obtain the state distribution at age 18 and 20.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-seqstatd(fam.month.seq)$Frequencies[,c(1, seq(24, 264, by = 48))]</code></pre>
+seqstatd(partner.month.seq)$Frequencies[,c(1, seq(24, 264, by = 48))]</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
@@ -1710,10 +1710,10 @@ MAR
 <p>The distribution above indicates the dominance of the partnership states “Single” and “Married” at the beginning and ending of the sequence. This is also reflected in the sequence of modal states. The following commands extract the modal sequences using sequence data with monthly and yearly granularity (see chapter 2.2).</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-modal.month.seq &lt;- seqdef(as_tibble(seqmodst(fam.month.seq)))
+modal.month.seq &lt;- seqdef(as_tibble(seqmodst(partner.month.seq)))
 print(modal.month,seq, format = &quot;SPS&quot;)
 
-modal.year.seq &lt;- seqdef(as_tibble(seqmodst(fam.year.seq)))
+modal.year.seq &lt;- seqdef(as_tibble(seqmodst(partner.year.seq)))
 print(modal.year.seq, format = &quot;SPS&quot;)</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
@@ -1748,21 +1748,21 @@ Yearly data
 </tbody>
 </table>
 </div>
-<p>Usually the modal sequence is a hypothetical sequence that is not actually observed in the data. In contrast, <code>seqrep</code> aims at identifying those sequences that represent the data best. Note that this approach requires the computation of a distance matrix. The following commands illustrate the identification of representative sequences using yearly sequences (<code>fam.year.seq</code>). For details on computing sequence distances (<code>seqdist</code>) see Chapter 3.</p>
+<p>Usually the modal sequence is a hypothetical sequence that is not actually observed in the data. In contrast, <code>seqrep</code> aims at identifying those sequences that represent the data best. Note that this approach requires the computation of a distance matrix. The following commands illustrate the identification of representative sequences using yearly sequences (<code>partner.year.seq</code>). For details on computing sequence distances (<code>seqdist</code>) see Chapter 3.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-fam.year.om &lt;- seqdist(fam.year.seq, method=&quot;OM&quot;, sm=&quot;CONSTANT&quot;)
-fam.year.rep &lt;- seqrep(fam.year.seq, diss=fam.year.om, criterion=&quot;density&quot;)</code></pre>
+partner.year.om &lt;- seqdist(partner.year.seq, method=&quot;OM&quot;, sm=&quot;CONSTANT&quot;)
+partner.year.rep &lt;- seqrep(partner.year.seq, diss=partner.year.om, criterion=&quot;density&quot;)</code></pre>
 </div>
 <p>The following command prints the sequences in the more accesible SPS format.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-print(fam.year.seq[attributes(fam.year.rep)$Index,], format = &quot;SPS&quot;)</code></pre>
+print(partner.year.seq[attributes(partner.year.rep)$Index,], format = &quot;SPS&quot;)</code></pre>
 </div>
-<p>Descriptive statistics on the quality of the representative Sequence are stored in <code>attributes(fam.year.rep)$Statistics</code>. These can be easily accessed by typing:</p>
+<p>Descriptive statistics on the quality of the representative Sequence are stored in <code>attributes(partner.year.rep)$Statistics</code>. These can be easily accessed by typing:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-summary(fam.year.rep)</code></pre>
+summary(partner.year.rep)</code></pre>
 </div>
 <p>The table below presents a set of representative sequences (SPS format) and the corresponding coverage statistics:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1854,13 +1854,13 @@ Coverage
 </table>
 </div>
 <h2 id="number-of-transitions-transition-matrix">Number of transitions &amp; transition matrix</h2>
-<p>The person-specific number of transitions between states can be obtained by <code>seqtransn</code>. However, we are usually interested in the average number of transitions. We use <code>wtd.mean</code> and <code>wtd.var</code> from the <code>Hmisc</code> package to compute the weighted mean and standard deviation. The weights are stored in the variable <code>weight40</code> of the data frame <code>family</code> which served as source for generating the sequence object <code>fam.month.seq</code>.</p>
+<p>The person-specific number of transitions between states can be obtained by <code>seqtransn</code>. However, we are usually interested in the average number of transitions. We use <code>wtd.mean</code> and <code>wtd.var</code> from the <code>Hmisc</code> package to compute the weighted mean and standard deviation. The weights are stored in the variable <code>weight40</code> of the data frame <code>family</code> which served as source for generating the sequence object <code>partner.month.seq</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-wtd.mean(seqtransn(fam.month.seq), family$weight40)
-sqrt(wtd.var(seqtransn(fam.month.seq), family$weight40))</code></pre>
+wtd.mean(seqtransn(partner.month.seq), family$weight40)
+sqrt(wtd.var(seqtransn(partner.month.seq), family$weight40))</code></pre>
 </div>
-<p>We did the same computation for the sequence object <code>fam.year.seq</code> which comes with a <em>yearly</em> instead of a <em>monthly granularity</em> (see chapter 2.2).</p>
+<p>We did the same computation for the sequence object <code>partner.year.seq</code> which comes with a <em>yearly</em> instead of a <em>monthly granularity</em> (see chapter 2.2).</p>
 <div class="layout-chunk" data-layout="l-body">
 <table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
@@ -1902,10 +1902,10 @@ Yearly data
 </tbody>
 </table>
 </div>
-<p>Transition rates between states can be computed by using <code>seqtrate</code>. In most applications sequence data with reccurent appearance of states and a high granularity - such as monthly partnership biographies - yield a modest share of transitions between different states. Hence, we illustrate the transitions rates using sequences with yearly partnership information from age 18-40 (<code>fam.year.seq</code>). This reduces sequence length from 264 to 22. It is also possible to calculate transitions rates at specific positions of the sequence by typing <code>time.varying = TRUE</code>. This option is also used for generating the animated illustration at the bottom of this page.</p>
+<p>Transition rates between states can be computed by using <code>seqtrate</code>. In most applications sequence data with reccurent appearance of states and a high granularity - such as monthly partnership biographies - yield a modest share of transitions between different states. Hence, we illustrate the transitions rates using sequences with yearly partnership information from age 18-40 (<code>partner.year.seq</code>). This reduces sequence length from 264 to 22. It is also possible to calculate transitions rates at specific positions of the sequence by typing <code>time.varying = TRUE</code>. This option is also used for generating the animated illustration at the bottom of this page.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-seqtrate(fam.year.seq)</code></pre>
+seqtrate(partner.year.seq)</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
@@ -2012,7 +2012,7 @@ MAR
 <p>Additional insights can be gained by using sequence data stored in the DSS format. A computation based on this format provides transition rates between episodes of distinct states. Accordingly, the diagonal equals zero. Note, that we use monthly sequence data for this excercise in order to keep track of short lasting spells which might be obscured in the yearly data.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-seqtrate(seqdss(fam.month.seq))</code></pre>
+seqtrate(seqdss(partner.month.seq))</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
@@ -2122,7 +2122,7 @@ MAR
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 # Transform transition rates into tibble
-seqtrate(seqdss(fam.month.seq))
+seqtrate(seqdss(partner.month.seq))
 rownames(transmat) &lt;- c(1, 2, 3, 4)
 colnames(transmat) &lt;- c(1, 2, 3, 4)
 seqtrate_df &lt;- as_tibble(melt(transmat))
@@ -2162,7 +2162,7 @@ seqtrate_df %&gt;%
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 # Transform array with time varying transition rates into tibble
-tratesvar &lt;- seqtrate(fam.year.seq, time.varying = TRUE)
+tratesvar &lt;- seqtrate(partner.year.seq, time.varying = TRUE)
 rownames(tratesvar) &lt;- c(1, 2, 3, 4)
 colnames(tratesvar) &lt;- c(1, 2, 3, 4)
 

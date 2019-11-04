@@ -16,9 +16,8 @@ knitr::opts_chunk$set(echo = FALSE)
 | 2.2  Defining sequence              | Defining the alphabet         |
 |                                     | Changing sequence granularity |
 | 2.3	Basic description and visualization | [Basic Description](rChapter2-3-1.html) |
-|                                     | [Choosing colors](rcolors.html) |
-|                                     | Gray color palette            |
-|                                     | Visualizing sequences         |
+|                                     | [Visualization: Grayscale](rChapter2-3-2_grayscale.html)      |
+|                                     | [Visualizing: Colored] (rcolors.html)  |
 |                                     | Basic description             |
 | 2.5 Advanced description and more   | Complexity, turbulence ...    | 
 

@@ -23,35 +23,20 @@ knitr::opts_chunk$set(echo = FALSE)
 
 options("kableExtra.html.bsTable" = T)
 
+# load data required for this subchapter
 load("2-3-1_BasicDescription.RData")
 
-# ******************************************************************************
-# ******************************************************************************
-
-# ===================================================
-# Load and download (if necessary) required packages
-# ===================================================
-
-# use (and install if necessary) pacman package 
-if (!require("pacman")) install.packages("pacman")
-library(pacman)
-
-# load and install (if necessary) required packages for this course
-p_load(TraMineR, TraMineRextras, tidyverse, haven, Hmisc,
-       RColorBrewer, colorspace, knitr, kableExtra, reshape2)
-
-
-# ******************************************************************************
-
+# (down)load required packages using pacman
+source("0-0_LoadInstallPackages.R")
 
 ```
 
 We use a simple alphabet differentiating four partnership states to illustrate `TraMineR`'s capabilities of producing simple descriptive statistics on our sequence data. The sequences cover the partnership biographies from age 18 to 40 (monthly data).
-The sequences are stored in the object `fam.month.seq`.
+The sequences are stored in the object `partner.month.seq`.
 
 
 ```{r echo=FALSE}
-kable(tibble(state = longlab, shortlabel = shortlab), 
+kable(tibble(state = longlab.partner, shortlabel = shortlab.partner), 
       col.names = c("State", "Short Label")) %>%
   kable_styling(bootstrap_options = 
                   c("responsive", "hover", "condensed"),
@@ -68,14 +53,14 @@ The function `seqmeant` computes the mean total time spent in each state of the 
 
 
 ```{r, eval=FALSE, echo=TRUE}
-seqmeant(fam.month.seq, serr = TRUE)
-seqmeant(fam.month.seq, prop = TRUE)
+seqmeant(partner.month.seq, serr = TRUE)
+seqmeant(partner.month.seq, prop = TRUE)
 ```
 
 We also can use `seqmeant` to identify the average number of episodes for each state of the alphabet by applying it to a sequence data object in the **DSS** format.
 
 ```{r, eval=FALSE, echo=TRUE}
-seqmeant(seqdss(fam.month.seq),serr = TRUE)
+seqmeant(seqdss(partner.month.seq),serr = TRUE)
 ```
 
 
@@ -98,7 +83,7 @@ Among other things `seqstatd` computes the distribution of states at each positi
 Usually the tabular presentation of the state distribution requires to extract the distribution for a selection of (meaningful) positions of the sequence. In the example below we display the distribution at age 18, 20, 24, 28, 32, 36, and 40. Note that time is measured in months. Hence, we do not extract the descriptives at positions 1 and 3 but at positions 1 and 24 to obtain the state distribution at age 18 and 20. 
 
 ```{r, eval=FALSE, echo=TRUE}
-seqstatd(fam.month.seq)$Frequencies[,c(1, seq(24, 264, by = 48))]
+seqstatd(partner.month.seq)$Frequencies[,c(1, seq(24, 264, by = 48))]
 ```
 
 ```{r, echo=FALSE}
@@ -115,10 +100,10 @@ kable(statedis2,
 The distribution above  indicates the dominance of the partnership states "Single" and "Married" at the beginning and ending of the sequence. This is also reflected in the sequence of modal states. The following commands extract the modal sequences using sequence data with monthly and yearly granularity (see chapter 2.2).
 
 ```{r, echo=TRUE, eval=FALSE}
-modal.month.seq <- seqdef(as_tibble(seqmodst(fam.month.seq)))
+modal.month.seq <- seqdef(as_tibble(seqmodst(partner.month.seq)))
 print(modal.month,seq, format = "SPS")
 
-modal.year.seq <- seqdef(as_tibble(seqmodst(fam.year.seq)))
+modal.year.seq <- seqdef(as_tibble(seqmodst(partner.year.seq)))
 print(modal.year.seq, format = "SPS")
 
 ```
@@ -130,24 +115,24 @@ kable(modalseqs) %>%
                 full_width = F)
 ```
 
-Usually the modal sequence is a hypothetical sequence that is not actually observed in the data. In contrast, `seqrep` aims at identifying those  sequences that represent the data best. Note that this approach requires the computation of a distance matrix. The following commands illustrate the identification of representative sequences using yearly sequences (`fam.year.seq`). For details on computing sequence distances (`seqdist`) see Chapter 3.
+Usually the modal sequence is a hypothetical sequence that is not actually observed in the data. In contrast, `seqrep` aims at identifying those  sequences that represent the data best. Note that this approach requires the computation of a distance matrix. The following commands illustrate the identification of representative sequences using yearly sequences (`partner.year.seq`). For details on computing sequence distances (`seqdist`) see Chapter 3.
 
 ```{r, echo=TRUE, eval=FALSE}
-fam.year.om <- seqdist(fam.year.seq, method="OM", sm="CONSTANT")
-fam.year.rep <- seqrep(fam.year.seq, diss=fam.year.om, criterion="density")
+partner.year.om <- seqdist(partner.year.seq, method="OM", sm="CONSTANT")
+partner.year.rep <- seqrep(partner.year.seq, diss=partner.year.om, criterion="density")
 ```
 
 The following command prints the sequences in the more accesible SPS format.
 
 ```{r, echo=TRUE, eval=FALSE}
-print(fam.year.seq[attributes(fam.year.rep)$Index,], format = "SPS")
+print(partner.year.seq[attributes(partner.year.rep)$Index,], format = "SPS")
 
 ```
 
-Descriptive statistics on the quality of the representative Sequence are stored in `attributes(fam.year.rep)$Statistics`. These can be easily accessed by typing:
+Descriptive statistics on the quality of the representative Sequence are stored in `attributes(partner.year.rep)$Statistics`. These can be easily accessed by typing:
 
 ```{r, echo=TRUE, eval=FALSE}
-summary(fam.year.rep)
+summary(partner.year.rep)
 
 ```
 
@@ -155,7 +140,7 @@ The table below presents a set of representative sequences (SPS format) and the 
 
 
 ```{r, echo=FALSE}
-kable(fam.year.rep) %>%
+kable(partner.year.rep) %>%
   kable_styling(bootstrap_options = 
                   c("responsive", "hover", "condensed"),
                 full_width = F)
@@ -165,14 +150,14 @@ kable(fam.year.rep) %>%
 
 ## Number of transitions & transition matrix
 
-The person-specific number of transitions between states can be obtained by `seqtransn`. However, we are usually interested in the average number of transitions. We use `wtd.mean` and `wtd.var` from the `Hmisc` package to compute the weighted mean and standard deviation. The weights are stored in the variable `weight40` of the data frame `family` which served as source for generating the sequence object `fam.month.seq`.
+The person-specific number of transitions between states can be obtained by `seqtransn`. However, we are usually interested in the average number of transitions. We use `wtd.mean` and `wtd.var` from the `Hmisc` package to compute the weighted mean and standard deviation. The weights are stored in the variable `weight40` of the data frame `family` which served as source for generating the sequence object `partner.month.seq`.
 
 ```{r, eval=FALSE, echo=TRUE}
-wtd.mean(seqtransn(fam.month.seq), family$weight40)
-sqrt(wtd.var(seqtransn(fam.month.seq), family$weight40))
+wtd.mean(seqtransn(partner.month.seq), family$weight40)
+sqrt(wtd.var(seqtransn(partner.month.seq), family$weight40))
 ```
 
-We did the same computation for the sequence object `fam.year.seq` which comes with a *yearly* instead of a *monthly granularity* (see chapter 2.2).
+We did the same computation for the sequence object `partner.year.seq` which comes with a *yearly* instead of a *monthly granularity* (see chapter 2.2).
 
 ```{r, echo=FALSE}
 kable(transfreq) %>%
@@ -182,11 +167,11 @@ kable(transfreq) %>%
 ```
 
 
-Transition rates between states can be computed by using `seqtrate`. In most applications sequence data with reccurent appearance of states and a high granularity - such as monthly partnership biographies - yield a modest share of transitions between different states. Hence, we illustrate the transitions rates using sequences with yearly partnership information from age 18-40 (`fam.year.seq`). This reduces sequence length from 264 to 22. It is also possible to calculate transitions rates at specific positions of the sequence by typing `time.varying = TRUE`. This option is also used for generating the animated illustration at the bottom of this page.
+Transition rates between states can be computed by using `seqtrate`. In most applications sequence data with reccurent appearance of states and a high granularity - such as monthly partnership biographies - yield a modest share of transitions between different states. Hence, we illustrate the transitions rates using sequences with yearly partnership information from age 18-40 (`partner.year.seq`). This reduces sequence length from 264 to 22. It is also possible to calculate transitions rates at specific positions of the sequence by typing `time.varying = TRUE`. This option is also used for generating the animated illustration at the bottom of this page.
 
 
 ```{r, eval=FALSE, echo=TRUE}
-seqtrate(fam.year.seq)
+seqtrate(partner.year.seq)
 ```
 
 ```{r, echo=FALSE}
@@ -204,7 +189,7 @@ transmat.tbl %>%
 Additional insights can be gained by using sequence data stored in the DSS format. A computation based on this format provides transition rates between episodes of distinct states. Accordingly, the diagonal equals zero. Note, that we use monthly sequence data for this excercise in order to keep track of short lasting spells which might be obscured in the yearly data.
 
 ```{r, eval=FALSE, echo=TRUE}
-seqtrate(seqdss(fam.month.seq))
+seqtrate(seqdss(partner.month.seq))
 ```
 
 ```{r, echo=FALSE}
@@ -230,7 +215,7 @@ This is an illustration of the transition matrix based on the sequence object st
 ```{r, eval=FALSE, echo=TRUE}
 
 # Transform transition rates into tibble
-seqtrate(seqdss(fam.month.seq))
+seqtrate(seqdss(partner.month.seq))
 rownames(transmat) <- c(1, 2, 3, 4)
 colnames(transmat) <- c(1, 2, 3, 4)
 seqtrate_df <- as_tibble(melt(transmat))
@@ -277,7 +262,7 @@ The following code generates an animated illustration of time varying transition
 
 ```{r, eval=FALSE, echo=TRUE}
 # Transform array with time varying transition rates into tibble
-tratesvar <- seqtrate(fam.year.seq, time.varying = TRUE)
+tratesvar <- seqtrate(partner.year.seq, time.varying = TRUE)
 rownames(tratesvar) <- c(1, 2, 3, 4)
 colnames(tratesvar) <- c(1, 2, 3, 4)
 
