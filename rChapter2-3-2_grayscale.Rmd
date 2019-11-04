@@ -85,6 +85,8 @@ barplot(rep(1,9), col = colgrey.partner.child, axes = FALSE)
 According to the definition of our alphabet we need two single states, two LAT states, two cohabitation states, and three marriage states.
 Adding shading lines allows for distinguishing different fertility levels. Shading lines are added by specifying vectors for `density` and `angle`. We use different angles (i.e., 0° and 45°) to separate the two parity states within marriage.
 
+Note that we have to create two overlapping graph objects by typing `par(new=TRUE)`. The first plot creates bars with the desired colors, the second one adds black shading lines
+
 ```{r, eval=FALSE, echo=TRUE}
 barplot(rep(1,9), col = colgrey.partner.child, axes = FALSE)                           
 
@@ -105,7 +107,7 @@ barplot(rep(1,9), col = "black", axes = FALSE,
         angle=c(0,45,0,45,0,45,0,45,0)) 
 ```
 
-## Adjusting the legend
+## Adjusting the legend {#legend-link}
 
 Based on the section above we draw a legend with the following standard code:
 
@@ -122,8 +124,8 @@ legend_large_box("center", legend = longlab.partner.child,
                  angle=c(0,45,0,45,0,45,0,45,0))
 ```
 
-```{r, echo=FALSE, fig.height = 2, fig.width = 8}
-par(mar = c(0, 4, 0, 2) + 0.1)
+```{r, echo=FALSE, fig.height = 2, fig.width = 8, layout="l-body-outset"}
+par(mar = c(0, 1, 0, 1) + 0.1)
 plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
 
 legend("center", legend = longlab.partner.child,
@@ -174,7 +176,7 @@ bordercol.partner.child <- c(rep(c("black","black","White"),3),
                              rep("black", 3))
 ```
 
-Finally, we can draw the tweaked legend box:
+Finally, we can draw the tweaked legend box. Again, we have to create two overlapping plot objects to get both the desired "color" palette and the black shading lines.
 
 ```{r, eval=FALSE, echo=TRUE}
 plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
@@ -191,8 +193,8 @@ legend_large_box("center", legend = longlab.partner.child2,
                  angle=c(0,45,0,0,45,0,0,45,0,0,45,0))
 ```
 
-```{r, echo=FALSE, fig.height = 2, fig.width = 12}
-par(mar = c(0, 4, 0, 2) + 0.1)
+```{r, echo=FALSE, fig.height = 2, fig.width = 12, layout="l-body-outset"}
+par(mar = c(0, 1, 0, 1) + 0.1)
 plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
 legend_large_box("center", legend = longlab.partner.child2,
                  ncol=4, fill=colgrey.partner.child2, 
@@ -208,19 +210,205 @@ legend_large_box("center", legend = longlab.partner.child2,
 ```
 
 
-## Sequence index plot of representative sequences
+## Sequence index plot <br/>of representative sequences
+
+<!-- Sequence index plots (and the more recently suggested relative frequency sequence plots) are the most powerful tool to visualize the longitudinal information stored in sequence data. Individual sequences are rendered as horizontal stacked bars depicting the states over successive positions. Although sequence index plots can be very insightful this kind of visualization can become quite overwhelming and even have the potential to distort the information dut to the issue of overplotting. This is particuarly true if the plot is used to render many sequences and if the sequences comprise many states. Both is true for our example sequence data. Visualizing sequences without using colors makes things even more difficult. USE FOR BOOK -->
+
+In the book we elaborate on the pros and cons of sequence index plots. Based on this discussion we come to the conclusion that standard index plots of all sequences in large data sets rarely make sense. This is even more true if colors are not available for visualization.
+Accordingly, the subsequent example only renders a selection of 10 representative sequences extracted by `seqrep` using sequences with a yearly granularity.
+
+
+```{r, eval=FALSE, echo=TRUE}
+# Identify 10 representative sequences
+partner.child.year.rep <- seqrep(partner.child.year.seq, 
+                                 diss=partner.child.year.om, 
+                                 criterion="dist", nrep = 10)
+
+# Extract sequences to be plotted and save in object
+plot.seq <- partner.child.year.seq[attributes(partner.child.year.rep)$Index,]
+
+# extract same sequences using reduced alphabet (partnership status only)
+  # this will be used for sorting the index plots by the 
+  # first occurence of the partnership status "MAR" (marriage)
+plot.aux <- partner.year.seq[attributes(partner.child.year.rep)$Index,]
+```
+
+Like in the previous examples two overlapping plots and legends have to be created in order to obtain the "color" palette and the shading lines. Note the differences in the specification of colors, `angle`, and `density` between the index plot and the legend. The differences result from the necessity to define extra empty cells in the legend (see [section above](#legend-link))
+
+
+```{r, eval=FALSE, echo=TRUE}
+# Save final plot as png file
+png(file = "iplot_grayYearly.png", 
+    width = 900, height = 650, res = 90)
+
+
+par(mar=c(13, 1, 1, 1))
+seqiplot(plot.seq, 
+         border = TRUE, 
+         with.legend = FALSE, 
+         axes = FALSE,
+         yaxis = FALSE, ylab = NA,
+         sortv = seqfpos(plot.aux, "MAR"),
+         cpal = colgrey.partner.child)
+par(new=TRUE)
+seqiplot(plot.seq,  
+         border = TRUE, 
+         with.legend = FALSE, 
+         axes = FALSE,
+         yaxis = FALSE, ylab = NA,
+         sortv = seqfpos(plot.aux, "MAR"),
+         cpal=rep("black",9),
+         density=c(0,20,0,20,0,20,0,20,20), 
+         angle=c(0,45,0,45,0,45,0,45,0))
+
+axis(1, at=(seq(0,22, by = 2)), labels = seq(18,40, by = 2))
+mtext(text = "Age",
+      side = 1,#side 1 = bottom
+      line = 2)
+
+par(mar=c(0, 1, 0, 1))
+legend_large_box("bottom", legend = longlab.partner.child2,
+                 ncol=4, fill =colgrey.partner.child2, 
+                 border = bordercol.partner.child,
+                 box.cex=c(4,1.5),  y.intersp=2,
+                 inset=c(0,-.4), xpd=TRUE)
+par(new=TRUE)
+legend_large_box("bottom", legend = longlab.partner.child2,
+                 ncol=4, bg = "transparent", 
+                 border = bordercol.partner.child,
+                 box.cex=c(4,1.5),  y.intersp=2,
+                 inset=c(0,-.4), xpd=TRUE,
+                 density=c(0,20,0,0,20,0,0,20,0,0,20,20), 
+                 angle=c(0,45,0,0,45,0,0,45,0,0,45,0))
+
+dev.off()
+```
+
 
 ```{r layout="l-body-outset"}
 knitr::include_graphics("images/iplot_grayYearly.png")
 ```
 
 
-## State distribution plots using yearly & monthly sequence data
+## State distribution plots using <br/>yearly & monthly sequence data
+
+Although they are often less insightful than sequence index plots state distribution plots are widely used and often falsely interpreted (see chapter 2-3-2). One reason for the popularity is that they are quite easy to render. Even with our alphabet of size nine and monthly sequence data of length 264 it is possible to produce accesible plots using monthly data without colors. 
+
+Below we provide the code to produce the plots with yearly and monthly data. We agin have to create overlapping plots and legends.
+
+
+### Yearly sequence data
+
+```{r, eval=FALSE, echo=TRUE}
+png(file = "dplot_grayYearly.png", 
+    width = 900, height = 650, res = 90)
+
+
+par(mar=c(12, 4, 1, 4), las = 1,
+    mgp=c(2,0,-1))
+seqdplot(partner.child.year.seq, 
+         xlab = "Age", ylab = "Relative frequency",
+         with.legend = "FALSE" , axes = FALSE,
+         cpal = colgrey.partner.child)
+par(new=TRUE)
+seqdplot(partner.child.year.seq, 
+         xlab = "Age", ylab = "Relative frequency",
+         with.legend = "FALSE" , axes = FALSE,
+         cpal=rep("#000000",9),
+         density=c(0,20,0,20,0,20,0,20,20), 
+         angle=c(0,45,0,45,0,45,0,45,0))
+par(mgp=c(3,1,0.5))
+axis(1, at=(seq(0,22, by = 2)), labels = seq(18,40, by = 2))
+mtext(text = "Age",
+      side = 1,#side 1 = bottom
+      line = 2.5)
+
+
+par(mar=c(0, 1, 0, 1))
+legend_large_box("bottom", legend = longlab.partner.child2,
+                 ncol=4, fill=colgrey.partner.child2, 
+                 border = bordercol.partner.child,
+                 box.cex=c(4.5,1.5),  y.intersp=2,
+                 inset=c(0,-.4), xpd=TRUE)
+par(new=TRUE)
+legend_large_box("bottom", legend = longlab.partner.child2,
+                 ncol=4, bg = "transparent", 
+                 border = bordercol.partner.child,
+                 box.cex=c(4.5,1.5),  y.intersp=2,
+                 inset=c(0,-.4), xpd=TRUE,
+                 density=c(0,20,0,0,20,0,0,20,0,0,20,20), 
+                 angle=c(0,45,0,0,45,0,0,45,0,0,45,0))
+
+dev.off()
+```
 
 ```{r layout="l-body-outset"}
 knitr::include_graphics("images/dplot_grayYearly.png")
 ```
 
+### Monthly sequence data
+
+```{r, eval=FALSE, echo=TRUE}
+png(file = "dplot_grayMonthly.png", 
+    width = 900, height = 650, res = 90)
+
+
+par(mar=c(12, 4, 1, 4), las = 1, 
+    mgp=c(2,0,-1))
+seqdplot(partner.child.month.seq, 
+         xlab = "Age", ylab = "Relative frequency",
+         with.legend = "FALSE" , axes = FALSE, border = NA,
+         cpal = colgrey.partner.child)
+par(new=TRUE)
+seqdplot(partner.child.month.seq, 
+         xlab = "Age", ylab = "Relative frequency",
+         with.legend = "FALSE" , axes = FALSE, , border = NA,
+         cpal=rep("#000000",9),
+         density=c(0,20,0,20,0,20,0,20,20), 
+         angle=c(0,45,0,45,0,45,0,45,0))
+par(mgp=c(3,1,0.5))
+axis(1, at=(seq(0,264, by = 24)), labels = seq(18,40, by = 2))
+mtext(text = "Age",
+      side = 1,#side 1 = bottom
+      line = 2.5)
+
+par(mar=c(0, 1, 0, 1))
+legend_large_box("bottom", legend = longlab.partner.child2,
+                 ncol=4, fill=colgrey.partner.child2, 
+                 border = bordercol.partner.child,
+                 box.cex=c(4.5,1.5),  y.intersp=2,
+                 inset=c(0,-.4), xpd=TRUE)
+par(new=TRUE)
+legend_large_box("bottom", legend = longlab.partner.child2,
+                 ncol=4, bg = "transparent", 
+                 border = bordercol.partner.child,
+                 box.cex=c(4.5,1.5),  y.intersp=2,
+                 inset=c(0,-.4), xpd=TRUE,
+                 density=c(0,20,0,0,20,0,0,20,0,0,20,20), 
+                 angle=c(0,45,0,0,45,0,0,45,0,0,45,0))
+
+
+dev.off()
+```
+
+
 ```{r layout="l-body-outset"}
 knitr::include_graphics("images/dplot_grayMonthly.png")
 ```
+
+Like the graph based on yearly data this figure might suggest that roughly 10% of the sample are permanent childless singles. Note, however, that state distribution plots just depict cross-sections at each position of the sequence. A simple tabulation of the occurence of states using `seqistatd` & `freq` (table not shown) ...
+
+```{r, eval=FALSE, echo=TRUE}
+
+# Extract state frequency for being Single (without children)
+singlecount <- seqistatd(partner.child.year.seq) %>%
+  as_tibble() %>%
+  select(S)
+
+# use summarytools::freq for weighted frequency table
+freq(singlecount, weights = family$weight40)
+```
+
+...illustrates that only  **`r as.numeric(singlefreq[23,3])`%** of the sample are permanent single.
+
+

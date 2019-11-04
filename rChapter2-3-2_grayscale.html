@@ -1363,9 +1363,9 @@ Stata
 <nav class="d-toc" id="TOC">
 <ul>
 <li><a href="#defining-the-color-palette-shading-lines">Defining the “color” palette &amp; shading lines</a></li>
-<li><a href="#adjusting-the-legend">Adjusting the legend</a></li>
-<li><a href="#sequence-index-plot-of-representative-sequences">Sequence index plot of representative sequences</a></li>
-<li><a href="#state-distribution-plots-using-yearly-monthly-sequence-data">State distribution plots using yearly &amp; monthly sequence data</a></li>
+<li><a href="#legend-link">Adjusting the legend</a></li>
+<li><a href="#sequence-index-plot-of-representative-sequences">Sequence index plot <br/>of representative sequences</a></li>
+<li><a href="#state-distribution-plots-using-yearly-monthly-sequence-data">State distribution plots using <br/>yearly &amp; monthly sequence data</a></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
@@ -1481,6 +1481,7 @@ barplot(rep(1,9), col = colgrey.partner.child, axes = FALSE)                    
 <p><img src="rChapter2-3-2_grayscale_files/figure-html5/unnamed-chunk-5-1.png" width="576" /></p>
 </div>
 <p>According to the definition of our alphabet we need two single states, two LAT states, two cohabitation states, and three marriage states. Adding shading lines allows for distinguishing different fertility levels. Shading lines are added by specifying vectors for <code>density</code> and <code>angle</code>. We use different angles (i.e., 0° and 45°) to separate the two parity states within marriage.</p>
+<p>Note that we have to create two overlapping graph objects by typing <code>par(new=TRUE)</code>. The first plot creates bars with the desired colors, the second one adds black shading lines</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 barplot(rep(1,9), col = colgrey.partner.child, axes = FALSE)                           
@@ -1493,7 +1494,7 @@ barplot(rep(1,9), col = &quot;black&quot;, axes = FALSE,
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="rChapter2-3-2_grayscale_files/figure-html5/unnamed-chunk-7-1.png" width="576" /></p>
 </div>
-<h2 id="adjusting-the-legend">Adjusting the legend</h2>
+<h2 id="legend-link">Adjusting the legend</h2>
 <p>Based on the section above we draw a legend with the following standard code:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1507,7 +1508,7 @@ legend_large_box(&quot;center&quot;, legend = longlab.partner.child,
                  density=c(0,20,0,20,0,20,0,20,20), 
                  angle=c(0,45,0,45,0,45,0,45,0))</code></pre>
 </div>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-body-outset">
 <p><img src="rChapter2-3-2_grayscale_files/figure-html5/unnamed-chunk-9-1.png" width="768" /></p>
 </div>
 <p>Although the legend looks OK at first glance, it has two crucial downsides: (1) The colored boxes (with shading lines) are too small to be distinguished easily; (2) two different partnership states are appearing in the first two columns of the legend. Both issues call for some extra coding because the cannot be solved with the options available standard version of the legend function.</p>
@@ -1540,7 +1541,7 @@ colgrey.partner.child2 &lt;- append(colgrey.partner.child2,&quot;#FFFFFF&quot;,a
 bordercol.partner.child &lt;- c(rep(c(&quot;black&quot;,&quot;black&quot;,&quot;White&quot;),3),
                              rep(&quot;black&quot;, 3))</code></pre>
 </div>
-<p>Finally, we can draw the tweaked legend box:</p>
+<p>Finally, we can draw the tweaked legend box. Again, we have to create two overlapping plot objects to get both the desired “color” palette and the black shading lines.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 plot(NULL ,xaxt=&#39;n&#39;,yaxt=&#39;n&#39;,bty=&#39;n&#39;,ylab=&#39;&#39;,xlab=&#39;&#39;, xlim=0:1, ylim=0:1)
@@ -1556,20 +1557,188 @@ legend_large_box(&quot;center&quot;, legend = longlab.partner.child2,
                  density=c(0,20,0,0,20,0,0,20,0,0,20,20), 
                  angle=c(0,45,0,0,45,0,0,45,0,0,45,0))</code></pre>
 </div>
-<div class="layout-chunk" data-layout="l-body">
+<div class="layout-chunk" data-layout="l-body-outset">
 <p><img src="rChapter2-3-2_grayscale_files/figure-html5/unnamed-chunk-13-1.png" width="1152" /></p>
 </div>
-<h2 id="sequence-index-plot-of-representative-sequences">Sequence index plot of representative sequences</h2>
+<h2 id="sequence-index-plot-of-representative-sequences">Sequence index plot <br/>of representative sequences</h2>
+<!-- Sequence index plots (and the more recently suggested relative frequency sequence plots) are the most powerful tool to visualize the longitudinal information stored in sequence data. Individual sequences are rendered as horizontal stacked bars depicting the states over successive positions. Although sequence index plots can be very insightful this kind of visualization can become quite overwhelming and even have the potential to distort the information dut to the issue of overplotting. This is particuarly true if the plot is used to render many sequences and if the sequences comprise many states. Both is true for our example sequence data. Visualizing sequences without using colors makes things even more difficult. USE FOR BOOK -->
+<p>In the book we elaborate on the pros and cons of sequence index plots. Based on this discussion we come to the conclusion that standard index plots of all sequences in large data sets rarely make sense. This is even more true if colors are not available for visualization. Accordingly, the subsequent example only renders a selection of 10 representative sequences extracted by <code>seqrep</code> using sequences with a yearly granularity.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Identify 10 representative sequences
+partner.child.year.rep &lt;- seqrep(partner.child.year.seq, 
+                                 diss=partner.child.year.om, 
+                                 criterion=&quot;dist&quot;, nrep = 10)
+
+# Extract sequences to be plotted and save in object
+plot.seq &lt;- partner.child.year.seq[attributes(partner.child.year.rep)$Index,]
+
+# extract same sequences using reduced alphabet (partnership status only)
+  # this will be used for sorting the index plots by the 
+  # first occurence of the partnership status &quot;MAR&quot; (marriage)
+plot.aux &lt;- partner.year.seq[attributes(partner.child.year.rep)$Index,]</code></pre>
+</div>
+<p>Like in the previous examples two overlapping plots and legends have to be created in order to obtain the “color” palette and the shading lines. Note the differences in the specification of colors, <code>angle</code>, and <code>density</code> between the index plot and the legend. The differences result from the necessity to define extra empty cells in the legend (see <a href="#legend-link">section above</a>)</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Save final plot as png file
+png(file = &quot;iplot_grayYearly.png&quot;, 
+    width = 900, height = 650, res = 90)
+
+
+par(mar=c(13, 1, 1, 1))
+seqiplot(plot.seq, 
+         border = TRUE, 
+         with.legend = FALSE, 
+         axes = FALSE,
+         yaxis = FALSE, ylab = NA,
+         sortv = seqfpos(plot.aux, &quot;MAR&quot;),
+         cpal = colgrey.partner.child)
+par(new=TRUE)
+seqiplot(plot.seq,  
+         border = TRUE, 
+         with.legend = FALSE, 
+         axes = FALSE,
+         yaxis = FALSE, ylab = NA,
+         sortv = seqfpos(plot.aux, &quot;MAR&quot;),
+         cpal=rep(&quot;black&quot;,9),
+         density=c(0,20,0,20,0,20,0,20,20), 
+         angle=c(0,45,0,45,0,45,0,45,0))
+
+axis(1, at=(seq(0,22, by = 2)), labels = seq(18,40, by = 2))
+mtext(text = &quot;Age&quot;,
+      side = 1,#side 1 = bottom
+      line = 2)
+
+par(mar=c(0, 1, 0, 1))
+legend_large_box(&quot;bottom&quot;, legend = longlab.partner.child2,
+                 ncol=4, fill =colgrey.partner.child2, 
+                 border = bordercol.partner.child,
+                 box.cex=c(4,1.5),  y.intersp=2,
+                 inset=c(0,-.4), xpd=TRUE)
+par(new=TRUE)
+legend_large_box(&quot;bottom&quot;, legend = longlab.partner.child2,
+                 ncol=4, bg = &quot;transparent&quot;, 
+                 border = bordercol.partner.child,
+                 box.cex=c(4,1.5),  y.intersp=2,
+                 inset=c(0,-.4), xpd=TRUE,
+                 density=c(0,20,0,0,20,0,0,20,0,0,20,20), 
+                 angle=c(0,45,0,0,45,0,0,45,0,0,45,0))
+
+dev.off()</code></pre>
+</div>
 <div class="layout-chunk" data-layout="l-body-outset">
 <p><img src="images/iplot_grayYearly.png" width="450" /></p>
 </div>
-<h2 id="state-distribution-plots-using-yearly-monthly-sequence-data">State distribution plots using yearly &amp; monthly sequence data</h2>
+<h2 id="state-distribution-plots-using-yearly-monthly-sequence-data">State distribution plots using <br/>yearly &amp; monthly sequence data</h2>
+<p>Although they are often less insightful than sequence index plots state distribution plots are widely used and often falsely interpreted (see chapter 2-3-2). One reason for the popularity is that they are quite easy to render. Even with our alphabet of size nine and monthly sequence data of length 264 it is possible to produce accesible plots using monthly data without colors.</p>
+<p>Below we provide the code to produce the plots with yearly and monthly data. We agin have to create overlapping plots and legends.</p>
+<h3 id="yearly-sequence-data">Yearly sequence data</h3>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+png(file = &quot;dplot_grayYearly.png&quot;, 
+    width = 900, height = 650, res = 90)
+
+
+par(mar=c(12, 4, 1, 4), las = 1,
+    mgp=c(2,0,-1))
+seqdplot(partner.child.year.seq, 
+         xlab = &quot;Age&quot;, ylab = &quot;Relative frequency&quot;,
+         with.legend = &quot;FALSE&quot; , axes = FALSE,
+         cpal = colgrey.partner.child)
+par(new=TRUE)
+seqdplot(partner.child.year.seq, 
+         xlab = &quot;Age&quot;, ylab = &quot;Relative frequency&quot;,
+         with.legend = &quot;FALSE&quot; , axes = FALSE,
+         cpal=rep(&quot;#000000&quot;,9),
+         density=c(0,20,0,20,0,20,0,20,20), 
+         angle=c(0,45,0,45,0,45,0,45,0))
+par(mgp=c(3,1,0.5))
+axis(1, at=(seq(0,22, by = 2)), labels = seq(18,40, by = 2))
+mtext(text = &quot;Age&quot;,
+      side = 1,#side 1 = bottom
+      line = 2.5)
+
+
+par(mar=c(0, 1, 0, 1))
+legend_large_box(&quot;bottom&quot;, legend = longlab.partner.child2,
+                 ncol=4, fill=colgrey.partner.child2, 
+                 border = bordercol.partner.child,
+                 box.cex=c(4.5,1.5),  y.intersp=2,
+                 inset=c(0,-.4), xpd=TRUE)
+par(new=TRUE)
+legend_large_box(&quot;bottom&quot;, legend = longlab.partner.child2,
+                 ncol=4, bg = &quot;transparent&quot;, 
+                 border = bordercol.partner.child,
+                 box.cex=c(4.5,1.5),  y.intersp=2,
+                 inset=c(0,-.4), xpd=TRUE,
+                 density=c(0,20,0,0,20,0,0,20,0,0,20,20), 
+                 angle=c(0,45,0,0,45,0,0,45,0,0,45,0))
+
+dev.off()</code></pre>
+</div>
 <div class="layout-chunk" data-layout="l-body-outset">
 <p><img src="images/dplot_grayYearly.png" width="450" /></p>
+</div>
+<h3 id="monthly-sequence-data">Monthly sequence data</h3>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+png(file = &quot;dplot_grayMonthly.png&quot;, 
+    width = 900, height = 650, res = 90)
+
+
+par(mar=c(12, 4, 1, 4), las = 1, 
+    mgp=c(2,0,-1))
+seqdplot(partner.child.month.seq, 
+         xlab = &quot;Age&quot;, ylab = &quot;Relative frequency&quot;,
+         with.legend = &quot;FALSE&quot; , axes = FALSE, border = NA,
+         cpal = colgrey.partner.child)
+par(new=TRUE)
+seqdplot(partner.child.month.seq, 
+         xlab = &quot;Age&quot;, ylab = &quot;Relative frequency&quot;,
+         with.legend = &quot;FALSE&quot; , axes = FALSE, , border = NA,
+         cpal=rep(&quot;#000000&quot;,9),
+         density=c(0,20,0,20,0,20,0,20,20), 
+         angle=c(0,45,0,45,0,45,0,45,0))
+par(mgp=c(3,1,0.5))
+axis(1, at=(seq(0,264, by = 24)), labels = seq(18,40, by = 2))
+mtext(text = &quot;Age&quot;,
+      side = 1,#side 1 = bottom
+      line = 2.5)
+
+par(mar=c(0, 1, 0, 1))
+legend_large_box(&quot;bottom&quot;, legend = longlab.partner.child2,
+                 ncol=4, fill=colgrey.partner.child2, 
+                 border = bordercol.partner.child,
+                 box.cex=c(4.5,1.5),  y.intersp=2,
+                 inset=c(0,-.4), xpd=TRUE)
+par(new=TRUE)
+legend_large_box(&quot;bottom&quot;, legend = longlab.partner.child2,
+                 ncol=4, bg = &quot;transparent&quot;, 
+                 border = bordercol.partner.child,
+                 box.cex=c(4.5,1.5),  y.intersp=2,
+                 inset=c(0,-.4), xpd=TRUE,
+                 density=c(0,20,0,0,20,0,0,20,0,0,20,20), 
+                 angle=c(0,45,0,0,45,0,0,45,0,0,45,0))
+
+
+dev.off()</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body-outset">
 <p><img src="images/dplot_grayMonthly.png" width="450" /></p>
 </div>
+<p>Like the graph based on yearly data this figure might suggest that roughly 10% of the sample are permanent childless singles. Note, however, that state distribution plots just depict cross-sections at each position of the sequence. A simple tabulation of the occurence of states using <code>seqistatd</code> &amp; <code>freq</code> (table not shown) …</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Extract state frequency for being Single (without children)
+singlecount &lt;- seqistatd(partner.child.year.seq) %&gt;%
+  as_tibble() %&gt;%
+  select(S)
+
+# use summarytools::freq for weighted frequency table
+freq(singlecount, weights = family$weight40)</code></pre>
+</div>
+<p>…illustrates that only <strong>1.5%</strong> of the sample are permanent single.</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
