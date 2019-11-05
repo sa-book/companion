@@ -1643,12 +1643,12 @@ png(file = &quot;dplot_grayYearly.png&quot;,
 par(mar=c(12, 4, 1, 4), las = 1,
     mgp=c(2,0,-1))
 seqdplot(partner.child.year.seq, 
-         xlab = &quot;Age&quot;, ylab = &quot;Relative frequency&quot;,
+         ylab = &quot;Relative frequency&quot;,
          with.legend = &quot;FALSE&quot; , axes = FALSE,
          cpal = colgrey.partner.child)
 par(new=TRUE)
 seqdplot(partner.child.year.seq, 
-         xlab = &quot;Age&quot;, ylab = &quot;Relative frequency&quot;,
+         ylab = &quot;Relative frequency&quot;,
          with.legend = &quot;FALSE&quot; , axes = FALSE,
          cpal=rep(&quot;#000000&quot;,9),
          density=c(0,20,0,20,0,20,0,20,20), 
@@ -1656,7 +1656,7 @@ seqdplot(partner.child.year.seq,
 par(mgp=c(3,1,0.5))
 axis(1, at=(seq(0,22, by = 2)), labels = seq(18,40, by = 2))
 mtext(text = &quot;Age&quot;,
-      side = 1,#side 1 = bottom
+      side = 1,
       line = 2.5)
 
 
@@ -1690,12 +1690,12 @@ png(file = &quot;dplot_grayMonthly.png&quot;,
 par(mar=c(12, 4, 1, 4), las = 1, 
     mgp=c(2,0,-1))
 seqdplot(partner.child.month.seq, 
-         xlab = &quot;Age&quot;, ylab = &quot;Relative frequency&quot;,
+         ylab = &quot;Relative frequency&quot;,
          with.legend = &quot;FALSE&quot; , axes = FALSE, border = NA,
          cpal = colgrey.partner.child)
 par(new=TRUE)
 seqdplot(partner.child.month.seq, 
-         xlab = &quot;Age&quot;, ylab = &quot;Relative frequency&quot;,
+         ylab = &quot;Relative frequency&quot;,
          with.legend = &quot;FALSE&quot; , axes = FALSE, , border = NA,
          cpal=rep(&quot;#000000&quot;,9),
          density=c(0,20,0,20,0,20,0,20,20), 
@@ -1703,7 +1703,7 @@ seqdplot(partner.child.month.seq,
 par(mgp=c(3,1,0.5))
 axis(1, at=(seq(0,264, by = 24)), labels = seq(18,40, by = 2))
 mtext(text = &quot;Age&quot;,
-      side = 1,#side 1 = bottom
+      side = 1,
       line = 2.5)
 
 par(mar=c(0, 1, 0, 1))
