@@ -411,4 +411,3 @@ freq(singlecount, weights = family$weight40)
 
 ...illustrates that only  **`r as.numeric(singlefreq[23,3])`%** of the sample are permanent single.
 
-
