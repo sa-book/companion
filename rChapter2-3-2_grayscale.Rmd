@@ -146,7 +146,7 @@ Here you can dowload the tweaked version of the legend function: `r icon::fa("do
 
 We include the function by sourcing the file within our R-script by typing:
 
-```{r}
+```{r eval=FALSE, echo =TRUE}
 source("legend_large_box.R")
 ```
 
@@ -294,7 +294,7 @@ knitr::include_graphics("images/iplot_grayYearly.png")
 
 Although they are often less insightful than sequence index plots state distribution plots are widely used and often falsely interpreted (see chapter 2-3-2). One reason for the popularity is that they are quite easy to render. Even with our alphabet of size nine and monthly sequence data of length 264 it is possible to produce accesible plots using monthly data without colors. 
 
-Below we provide the code to produce the plots with yearly and monthly data. We agin have to create overlapping plots and legends.
+Below we provide the code to produce the plots with yearly and monthly data. We again have to create overlapping plots and legends.
 
 
 ### Yearly sequence data

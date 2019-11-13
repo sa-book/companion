@@ -1516,7 +1516,8 @@ legend_large_box(&quot;center&quot;, legend = longlab.partner.child,
 <p>Here you can dowload the tweaked version of the legend function: <i class="fas  fa-download "></i> <a href="legend_large_box.R">legend_large_box.R</a>.</p>
 <p>We include the function by sourcing the file within our R-script by typing:</p>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+source(&quot;legend_large_box.R&quot;)</code></pre>
 </div>
 <p>Next to changing the size of the colored boxes we want to re-arrange the labels of the legend. The new legend should have four columns each representing one partnership state. Each of the first three columns (“Single”, “LAT”, “Cohabitation”) has two entries (“childless”, “with child(ren)”). The last column (“Marriage”) has three entries (“no child”, “one child”, “2 or more children”).</p>
 <p>Typing <code>ncol=4</code> when specifying the legend would not do the trick. It would produce a legend with four columns with three entries in the first three columns and zero entries in the last column.</p>
@@ -1632,7 +1633,7 @@ dev.off()</code></pre>
 </div>
 <h2 id="state-distribution-plots-using-yearly-monthly-sequence-data">State distribution plots using <br/>yearly &amp; monthly sequence data</h2>
 <p>Although they are often less insightful than sequence index plots state distribution plots are widely used and often falsely interpreted (see chapter 2-3-2). One reason for the popularity is that they are quite easy to render. Even with our alphabet of size nine and monthly sequence data of length 264 it is possible to produce accesible plots using monthly data without colors.</p>
-<p>Below we provide the code to produce the plots with yearly and monthly data. We agin have to create overlapping plots and legends.</p>
+<p>Below we provide the code to produce the plots with yearly and monthly data. We again have to create overlapping plots and legends.</p>
 <h3 id="yearly-sequence-data">Yearly sequence data</h3>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>

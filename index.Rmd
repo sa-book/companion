@@ -12,8 +12,8 @@ author:
     url: https://www.wzb.eu/en/persons/emanuela-struffolino
     affiliation: WZB Berlin
     affiliation_url: https://www.wzb.eu
-citation_url: https://sa-book.github.io/companion
-slug: raabstruffolino2019companion
+# citation_url: https://sa-book.github.io/companion
+# slug: raabstruffolino2019companion
 bibliography: biblio.bib
 output:
   distill::distill_article:
@@ -42,6 +42,29 @@ div.red { background-color:#CD0000; border-radius: 5px; padding: 20px;}
 **Note:<br> This site is under construction! We kindly ask you to cite us anyway, if you use the material shared on this page.**
 </div>
 
+
+## Citation {.appendix}
+
+For attribution, please cite this work as:
+
+<!-- <style>
+div.green { background-color:#8DCEA4; border-radius: 3px; padding: 10px;}
+</style>
+<div class = "green">
+**Raab, M. & Struffolino, E. (2019). Sequence Analysis. Companion Website for the little green book. Retrieved from: https://sa-book.github.io/companion**
+</div> -->
+
+<pre class="citation-appendix short">
+Raab, M. & Struffolino, E. (2019). Sequence Analysis. Companion Website for the little green book. Retrieved from: https://sa-book.github.io/companion
+</pre>
+
+<p>BibTeX citation</p>
+<pre class="citation-appendix long">@misc{raabstruffolino2019companion,
+  author = {Raab, Marcel and Struffolino, Emanuela},
+  title = {Sequence Analysis. Companion Website for the little green book},
+  url = {https://sa-book.github.io/companion},
+  year = {2019}
+}</pre>
 
 ## References {.appendix}
 
