@@ -257,7 +257,7 @@ knitr::include_graphics("images/seqtrate_monthly_DSS.png")
 ```
 
 
-The following code generates an animated illustration of time varying transitions rates using the yearly sequenc data.
+The following code generates an animated illustration of time varying transitions rates using the yearly sequence data.
 
 
 ```{r, eval=FALSE, echo=TRUE}
