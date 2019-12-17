@@ -381,11 +381,11 @@ partner.year.sex.rep <- seqrep.grp(partner.year.seq,
                                    nrep=1,
                                    ret = "both")
 
-# Medoid & covarage - men (family$sex = 0 = male)
+# Medoid & coverage - men (family$sex = 0 = male)
 print(partner.year.sex.rep[[1]]$` 0`, format = "SPS")
 summary(partner.year.sex.rep[[1]]$` 0`)
 
-# Medoid & covarage - women (family$sex = 1 = female)
+# Medoid & coverage - women (family$sex = 1 = female)
 print(partner.year.sex.rep[[1]]$` 1`, format = "SPS")
 summary(partner.year.sex.rep[[1]]$` 1`)
 ```
