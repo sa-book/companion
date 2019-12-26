@@ -15,10 +15,10 @@ knitr::opts_chunk$set(echo = FALSE)
 | 2.1  Basic Concepts and Terminology | Data Formats                  |
 | 2.2  Defining sequence              | Defining the alphabet         |
 |                                     | Changing sequence granularity |
-| 2.3	Basic description and visualization | [Basic Description](rChapter2-3-1.html) |
-|                                     | [Visualization: Grayscale Edition](rChapter2-3-2_grayscale.html)      |
-|                                     | [Visualizing: Colored Edition](rcolors.html)  |
-| 2.4 Advanced description and more   | Complexity, turbulence ...    | 
+| 2.3	Description of Sequence Data I: The Basics  | [Basic Description](rChapter2-3.html) |
+| 2.4 Visualization of Sequence Data  | [Visualization: Grayscale Edition](rChapter2-4_grayscale.html)      |
+|                                     | [Visualization: Colored Edition](rChapter2-4_color.html)  |
+| 2.5 Advanced description and more   | Complexity, turbulence ...    | 
 
 
 Chapter 2 introduces the basic concepts and discusses how to define sequence data. The corresponding material provided on this site shows `TraMineR`'s capabilites of processing different data formats. It is further illustrated 
