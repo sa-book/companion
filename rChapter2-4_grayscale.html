@@ -1322,11 +1322,11 @@ R
 <span class="down-arrow">&#x25BE;</span>
 </button>
 <div class="nav-dropdown-content">
-<a href="about.html">Overview</a>
+<a href="UnderConstruction.html">Overview</a>
 <a href="rChapter2.html">Chapter 02</a>
 <a href="rChapter3.html">Chapter 03</a>
-<a href="about.html">Chapter 04</a>
-<a href="about.html">Chapter 05</a>
+<a href="UnderConstruction.html">Chapter 04</a>
+<a href="UnderConstruction.html">Chapter 05</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -1337,10 +1337,10 @@ Stata
 </button>
 <div class="nav-dropdown-content">
 <a href="stata.html">Overview</a>
-<a href="about.html">Chapter 02</a>
-<a href="about.html">Chapter 03</a>
-<a href="about.html">Chapter 04</a>
-<a href="about.html">Chapter 05</a>
+<a href="UnderConstruction.html">Chapter 02</a>
+<a href="UnderConstruction.html">Chapter 03</a>
+<a href="UnderConstruction.html">Chapter 04</a>
+<a href="UnderConstruction.html">Chapter 05</a>
 </div>
 </div>
 <a href="about.html">About the Authors</a>
@@ -1369,7 +1369,7 @@ Stata
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
-<p>Although the full potential of visualizing sequences can only be reached by using colored figures, some restrictions - particularly hight cost of colored printing - might require to use grayscale figures and shaded lines. This page illustrates how to produce <em>acceptable</em> figures without using colors visualizing sequences with an alphabet of 9 states. Based on our experience we consider an alphabet of 12 as the upper limit when the usage of colors is not an option.</p>
+<p>Although the full potential of visualizing sequences can only be reached by using colored figures, some restrictions - particularly hight cost of colored printing - might require using grayscale figures and shaded lines. This page illustrates how to produce <em>acceptable</em> figures without using colors visualizing sequences with an alphabet of 9 states. Based on our own experience we consider an alphabet of size 12 as the upper limit when the usage of colors is not an option.</p>
 <div class="layout-chunk" data-layout="l-body">
 <table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
@@ -1511,7 +1511,7 @@ legend_large_box(&quot;center&quot;, legend = longlab.partner.child,
 <div class="layout-chunk" data-layout="l-body-outset">
 <p><img src="rChapter2-4_grayscale_files/figure-html5/unnamed-chunk-9-1.png" width="768" /></p>
 </div>
-<p>Although the legend looks OK at first glance, it has two crucial downsides: (1) The colored boxes (with shading lines) are too small to be distinguished easily; (2) two different partnership states are appearing in the first two columns of the legend. Both issues call for some extra coding because the cannot be solved with the options available standard version of the legend function.</p>
+<p>Although the legend looks OK at first glance, it has two crucial drawbacks: (1) The grayscale boxes (with shading lines) are too small to be distinguished easily; (2) two different partnership states are appearing in the first two columns of the legend. Both issues call for some extra coding because the cannot be solved with the options available in the standard version of the legend function.</p>
 <p>Addressing the first issue we draw on a tweaked version of the legend suggested by <a href="http://ms.mcmaster.ca/~bolker/">Ben Bolker</a> and <a href="https://www.pauljhurtado.com/">Paul Hurtado</a> in a thread at <a href="https://stackoverflow.com/questions/13644149/increasing-the-size-of-the-coloured-squares-on-histogram-legends-in-r">Stack Overflow</a>.</p>
 <p>Here you can dowload the tweaked version of the legend function: <i class="fas  fa-download "></i> <a href="legend_large_box.R">legend_large_box.R</a>.</p>
 <p>We include the function by sourcing the file within our R-script by typing:</p>
@@ -1520,8 +1520,8 @@ legend_large_box(&quot;center&quot;, legend = longlab.partner.child,
 source(&quot;legend_large_box.R&quot;)</code></pre>
 </div>
 <p>Next to changing the size of the colored boxes we want to re-arrange the labels of the legend. The new legend should have four columns each representing one partnership state. Each of the first three columns (“Single”, “LAT”, “Cohabitation”) has two entries (“childless”, “with child(ren)”). The last column (“Marriage”) has three entries (“no child”, “one child”, “2 or more children”).</p>
-<p>Typing <code>ncol=4</code> when specifying the legend would not do the trick. It would produce a legend with four columns with three entries in the first three columns and zero entries in the last column.</p>
-<p>To obtain the desired result we have to add empty cells to the legend and adjust our color vector accordingly. This is accomplished by the following code:</p>
+<p>Typing <code>ncol=4</code> when specifying the legend would not do the trick. It would produce a four columns legend with three entries in the first three columns and zero entries in the last column.</p>
+<p>To obtain the desired result we have to add empty cells to the legend and adjust our “color” vector accordingly. This is accomplished by the following code:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 # Adding empty cells at the right positions
@@ -1563,7 +1563,7 @@ legend_large_box(&quot;center&quot;, legend = longlab.partner.child2,
 </div>
 <h2 id="sequence-index-plot-of-representative-sequences">Sequence index plot <br/>of representative sequences</h2>
 <!-- Sequence index plots (and the more recently suggested relative frequency sequence plots) are the most powerful tool to visualize the longitudinal information stored in sequence data. Individual sequences are rendered as horizontal stacked bars depicting the states over successive positions. Although sequence index plots can be very insightful this kind of visualization can become quite overwhelming and even have the potential to distort the information dut to the issue of overplotting. This is particuarly true if the plot is used to render many sequences and if the sequences comprise many states. Both is true for our example sequence data. Visualizing sequences without using colors makes things even more difficult. USE FOR BOOK -->
-<p>In the book we elaborate on the pros and cons of sequence index plots. Based on this discussion we come to the conclusion that standard index plots of all sequences in large data sets rarely make sense. This is even more true if colors are not available for visualization. Accordingly, the subsequent example only renders a selection of 10 representative sequences extracted by <code>seqrep</code> using sequences with a yearly granularity.</p>
+<p>In the book we elaborate on the pros and cons of sequence index plots. Based on this discussion we recommend to abstain from standard index plots of all sequences in large data sets. This is even more true if colors are not available for visualization. Accordingly, the subsequent example plot only renders a selection of 10 representative sequences extracted by <code>seqrep</code> using sequences with a yearly granularity.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 # Identify 10 representative sequences
@@ -1629,7 +1629,7 @@ legend_large_box(&quot;bottom&quot;, legend = longlab.partner.child2,
 dev.off()</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body-outset">
-<p><img src="images/iplot_grayYearly.png" width="450" /></p>
+<p><img src="images/rChapter2-4_iplot_grayYearly.png" width="450" /></p>
 </div>
 <h2 id="state-distribution-plots-using-yearly-monthly-sequence-data">State distribution plots using <br/>yearly &amp; monthly sequence data</h2>
 <p>Although they are often less insightful than sequence index plots state distribution plots are widely used and often falsely interpreted (see chapter 2-3-2). One reason for the popularity is that they are quite easy to render. Even with our alphabet of size nine and monthly sequence data of length 264 it is possible to produce accesible plots using monthly data without colors.</p>
@@ -1679,7 +1679,7 @@ legend_large_box(&quot;bottom&quot;, legend = longlab.partner.child2,
 dev.off()</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body-outset">
-<p><img src="images/dplot_grayYearly.png" width="450" /></p>
+<p><img src="images/rChapter2-4_dplot_grayYearly.png" width="450" /></p>
 </div>
 <h3 id="monthly-sequence-data">Monthly sequence data</h3>
 <div class="layout-chunk" data-layout="l-body">
@@ -1726,7 +1726,7 @@ legend_large_box(&quot;bottom&quot;, legend = longlab.partner.child2,
 dev.off()</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body-outset">
-<p><img src="images/dplot_grayMonthly.png" width="450" /></p>
+<p><img src="images/rChapter2-4_dplot_grayMonthly.png" width="450" /></p>
 </div>
 <p>Like the graph based on yearly data this figure might suggest that roughly 10% of the sample are permanent childless singles. Note, however, that state distribution plots just depict cross-sections at each position of the sequence. A simple tabulation of the occurence of states using <code>seqistatd</code> &amp; <code>freq</code> (table not shown) …</p>
 <div class="layout-chunk" data-layout="l-body">

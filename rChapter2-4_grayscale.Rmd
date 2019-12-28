@@ -31,7 +31,7 @@ source("0-0_LoadInstallPackages.R")
 
 ```
 
-Although the full potential of visualizing sequences can only be reached by using colored figures, some restrictions - particularly hight cost of colored printing - might require to use grayscale figures and shaded lines. This page illustrates how to produce *acceptable* figures without using colors visualizing sequences with an alphabet of 9 states. Based on our experience we consider an alphabet of 12 as the upper limit when the usage of colors is not an option.
+Although the full potential of visualizing sequences can only be reached by using colored figures, some restrictions - particularly hight cost of colored printing - might require using grayscale figures and shaded lines. This page illustrates how to produce *acceptable* figures without using colors visualizing sequences with an alphabet of 9 states. Based on our own experience we consider an alphabet of size 12 as the upper limit when the usage of colors is not an option.
 
 ```{r echo=FALSE}
 kable(tibble(state = longlab.partner.child, shortlabel = shortlab.partner.child), 
@@ -138,7 +138,7 @@ legend_large_box("center", legend = longlab.partner.child,
 
 ```
 
-Although the legend looks OK at first glance, it has two crucial downsides: (1) The colored boxes (with shading lines) are too small to be distinguished easily; (2) two different partnership states are appearing in the first two columns of the legend. Both issues call for some extra coding because the cannot be solved with the options available standard version of the legend function. 
+Although the legend looks OK at first glance, it has two crucial drawbacks: (1) The grayscale boxes (with shading lines) are too small to be distinguished easily; (2) two different partnership states are appearing in the first two columns of the legend. Both issues call for some extra coding because the cannot be solved with the options available in the standard version of the legend function. 
 
 Addressing the first issue we draw on a tweaked version of the legend suggested by [Ben Bolker](http://ms.mcmaster.ca/~bolker/) and [Paul Hurtado](https://www.pauljhurtado.com/) in a thread at [Stack Overflow](https://stackoverflow.com/questions/13644149/increasing-the-size-of-the-coloured-squares-on-histogram-legends-in-r).
 
@@ -152,9 +152,9 @@ source("legend_large_box.R")
 
 Next to changing the size of the colored boxes we want to re-arrange the labels of the legend. The new legend should have four columns each representing one partnership state. Each of the first three columns ("Single", "LAT", "Cohabitation") has two entries ("childless", "with child(ren)"). The last column ("Marriage") has three entries ("no child", "one child", "2 or more children").
 
-Typing `ncol=4` when specifying the legend would not do the trick. It would produce a legend with four columns with three entries in the first three columns and zero entries in the last column.
+Typing `ncol=4` when specifying the legend would not do the trick. It would produce a four columns legend with three entries in the first three columns and zero entries in the last column.
 
-To obtain the desired result we have to add empty cells to the legend and adjust our color vector accordingly. This is accomplished by the following code:
+To obtain the desired result we have to add empty cells to the legend and adjust our "color" vector accordingly. This is accomplished by the following code:
 
 ```{r, eval=FALSE, echo=TRUE}
 # Adding empty cells at the right positions
@@ -214,8 +214,8 @@ legend_large_box("center", legend = longlab.partner.child2,
 
 <!-- Sequence index plots (and the more recently suggested relative frequency sequence plots) are the most powerful tool to visualize the longitudinal information stored in sequence data. Individual sequences are rendered as horizontal stacked bars depicting the states over successive positions. Although sequence index plots can be very insightful this kind of visualization can become quite overwhelming and even have the potential to distort the information dut to the issue of overplotting. This is particuarly true if the plot is used to render many sequences and if the sequences comprise many states. Both is true for our example sequence data. Visualizing sequences without using colors makes things even more difficult. USE FOR BOOK -->
 
-In the book we elaborate on the pros and cons of sequence index plots. Based on this discussion we come to the conclusion that standard index plots of all sequences in large data sets rarely make sense. This is even more true if colors are not available for visualization.
-Accordingly, the subsequent example only renders a selection of 10 representative sequences extracted by `seqrep` using sequences with a yearly granularity.
+In the book we elaborate on the pros and cons of sequence index plots. Based on this discussion we recommend to abstain from  standard index plots of all sequences in large data sets. This is even more true if colors are not available for visualization.
+Accordingly, the subsequent example plot only renders a selection of 10 representative sequences extracted by `seqrep` using sequences with a yearly granularity.
 
 
 ```{r, eval=FALSE, echo=TRUE}
@@ -286,7 +286,7 @@ dev.off()
 
 
 ```{r layout="l-body-outset"}
-knitr::include_graphics("images/iplot_grayYearly.png")
+knitr::include_graphics("images/rChapter2-4_iplot_grayYearly.png")
 ```
 
 
@@ -343,7 +343,7 @@ dev.off()
 ```
 
 ```{r layout="l-body-outset"}
-knitr::include_graphics("images/dplot_grayYearly.png")
+knitr::include_graphics("images/rChapter2-4_dplot_grayYearly.png")
 ```
 
 ### Monthly sequence data
@@ -393,7 +393,7 @@ dev.off()
 
 
 ```{r layout="l-body-outset"}
-knitr::include_graphics("images/dplot_grayMonthly.png")
+knitr::include_graphics("images/rChapter2-4_dplot_grayMonthly.png")
 ```
 
 Like the graph based on yearly data this figure might suggest that roughly 10% of the sample are permanent childless singles. Note, however, that state distribution plots just depict cross-sections at each position of the sequence. A simple tabulation of the occurence of states using `seqistatd` & `freq` (table not shown) ...

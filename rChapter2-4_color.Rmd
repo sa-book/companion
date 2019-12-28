@@ -178,7 +178,7 @@ For our final decision we compare the  palettes by inspecting the state distribu
 
 
 <p align="center">
-![](images/dplot_colorpals2.png){width=80%}
+![](images/rChapter2-4_dplot_colorpals2.png){width=80%}
 </p>
 
 ## References {.appendix}

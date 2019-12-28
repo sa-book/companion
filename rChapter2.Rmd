@@ -16,8 +16,9 @@ knitr::opts_chunk$set(echo = FALSE)
 | 2.2  Defining sequence              | Defining the alphabet         |
 |                                     | Changing sequence granularity |
 | 2.3	Description of Sequence Data I: The Basics  | [Basic Description](rChapter2-3.html) |
-| 2.4 Visualization of Sequence Data  | [Visualization: Grayscale Edition](rChapter2-4_grayscale.html)      |
-|                                     | [Visualization: Colored Edition](rChapter2-4_color.html)  |
+| 2.4 Visualization of Sequence Data  | [Color palette: Grayscale Edition](rChapter2-4_grayscale.html)      |
+|                                     | [Color palette: Colored Edition](rChapter2-4_color.html)  |
+|                                     | [Data summarization graphs (chapter 2.4.1)](rChapter2-4-1.html)  |
 | 2.5 Advanced description and more   | Complexity, turbulence ...    | 
 
 

@@ -23,6 +23,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 options("kableExtra.html.bsTable" = T)
 
+
 # load data required for this subchapter
 load("data/2-3_BasicDescription.RData")
 
@@ -57,7 +58,7 @@ seqmeant(partner.month.seq, serr = TRUE)
 seqmeant(partner.month.seq, prop = TRUE)
 ```
 
-We also can use `seqmeant` to identify the average number of episodes for each state of the alphabet by applying it to a sequence data object in the **DSS** format.
+We also can use `seqmeant` to identify the average number of episodes for each state of the alphabet by applying it to a sequence data object in the **DSS** format (**Table 2-3**).
 
 ```{r, eval=FALSE, echo=TRUE}
 seqmeant(seqdss(partner.month.seq),serr = TRUE)
@@ -95,7 +96,7 @@ kable(transfreq) %>%
 ```
 
 
-Transition rates between states can be computed by using `seqtrate`. Again, we display the transitions rates using sequences with monthly and yearly granularity (`partner.month.seq` and `partner.year.seq`). It is also possible to calculate transitions rates at specific positions of the sequence by typing `time.varying = TRUE`. This option is also used for generating the animated illustration below.
+Transition rates between states can be computed by using `seqtrate`. Again, we display the transitions rates using sequences with monthly and yearly granularity (`partner.month.seq` and `partner.year.seq`). It is also possible to calculate transitions rates at specific positions of the sequence by typing `time.varying = TRUE`. This option is also used for generating the animated illustration below (**Table 2-4**).
 
 
 ```{r, eval=FALSE, echo=TRUE}
@@ -114,7 +115,6 @@ transmat.month.tbl %>%
   kable_styling(bootstrap_options = 
                   c("responsive", "hover", "condensed"),
                 full_width = F) 
-
 transmat.year.tbl %>%
   mutate(Origin = cell_spec(Origin, bold = TRUE, color = "black")) %>%
   kable(col.names = c("State at t", "S", "LAT", "COH", "MAR"),
@@ -123,10 +123,12 @@ transmat.year.tbl %>%
   add_header_above(c("Yearly granularity" = 5))  %>%
   kable_styling(bootstrap_options = 
                   c("responsive", "hover", "condensed"),
-                full_width = F) 
+                full_width = F)
+
+
 ```
 
-Additional insights can be gained by using sequence data stored in the DSS format. A computation based on this format provides transition rates between episodes of distinct states. Note, that we only use monthly sequence data for this excercise in order to keep track of short lasting spells which might be obscured in the yearly data.
+Additional insights can be gained by using sequence data stored in the DSS format. A computation based on this format provides transition rates between episodes of distinct states. Note, that we only use monthly sequence data for this excercise in order to keep track of short lasting spells which might be obscured in the yearly data (**Table 2-5**).
 
 ```{r, eval=FALSE, echo=TRUE}
 seqtrate(seqdss(partner.month.seq))
@@ -143,122 +145,11 @@ transmat.dss.tbl %>%
                 full_width = F)
 ```
 
-
-### Additional material: <br/>Graphical illustration of transition rates
-
-Chapter 2.3.1 of the book is restricted to the tabular description of sequence data. TraMineR's plot functions are presented in Chapter 2.3.2
-In addition to this material, we use this page to illustrate how to visualize transition rates using `ggplot2` and `gganimate`.
-
-
-This is an illustration of the transition matrix based on the sequence object stored in the DSS format.
-
-```{r, eval=FALSE, echo=TRUE}
-
-# Transform transition rates into tibble
-seqtrate(seqdss(partner.month.seq))
-rownames(transmat) <- c(1, 2, 3, 4)
-colnames(transmat) <- c(1, 2, 3, 4)
-seqtrate_df <- as_tibble(melt(transmat))
-
-
-# Plot transition rates using ggplot
-seqtrate_df %>%
-  ggplot(aes(x = Var2, y = Var1)) + 
-  geom_point(aes(color = value, size = value), alpha = .9) +
-  scale_color_continuous_sequential(palette = "Green-Yellow", 
-                                    begin = 0.2, end = 0.8) +
-  scale_size(range = c(0, 50)) + 
-  geom_text(data = filter(seqtrate_df, value>.10), 
-            aes(label=round(value, 2)), size = 5) +
-  theme_minimal() +
-  theme(legend.position = "none",
-        axis.text = element_text(color = "black", 
-                                 size = 12, face = "bold"),
-        axis.title = element_text(color = "black", 
-                                  size = 20, face = "bold"),
-        axis.title.y = element_text(margin = margin(0, 20, 0, 0)),
-        axis.title.x = element_text(margin = margin(20, 0, 0, 0))) +
-  scale_x_continuous(name=expression('State at'~italic("t + 1")), 
-                     breaks=c(1,2,3,4), 
-                     labels=c("S", "LAT", "COH", "MAR"), 
-                     limits=c(0.5, 4.5)) +
-  scale_y_continuous(name=expression('State at'~italic("t")),
-                     breaks=c(1,2,3,4), 
-                     labels=c("S", "LAT", "COH", "MAR"), 
-                     limits=c(0.5, 4.5))
-
-```
-
-\  
-
-
-```{r layout="l-body-outset"}
-knitr::include_graphics("images/seqtrate_monthly_DSS.png")
-```
-
-
-The following code generates an animated illustration of time varying transitions rates using the yearly sequence data.
-
-
-```{r, eval=FALSE, echo=TRUE}
-# Transform array with time varying transition rates into tibble
-tratesvar <- seqtrate(partner.year.seq, time.varying = TRUE)
-rownames(tratesvar) <- c(1, 2, 3, 4)
-colnames(tratesvar) <- c(1, 2, 3, 4)
-
-tratesvar <- as_tibble(melt(tratesvar)) %>%
-  mutate(Var3 = as.numeric(Var3) + 17,
-         value = round(value, 2))
-
-
-# Use ggplot and gganimate to generate animated illustration
-p <- tratesvar %>%
-  ggplot(aes(x = Var2, y = Var1)) + 
-  geom_point(aes(color = value, size = value), alpha = .9) +
-  scale_color_continuous_sequential(palette = "Green-Yellow", 
-                                    begin = 0.2, end = 0.8) +
-  scale_size(range = c(0, 50)) + 
-  geom_text(data = filter(tratesvar, value>.10), 
-            aes(label=value), size = 5) +
-  theme_minimal() +
-  theme(legend.position = "none",
-        axis.text = element_text(color = "black",
-                                 size = 12, face = "bold"),
-        axis.title = element_text(color = "black", 
-                                  size = 20, face = "bold"),
-        axis.title.y = element_text(margin = margin(0, 20, 0, 0)),
-        axis.title.x = element_text(margin = margin(20,0, 0, 0)),
-        plot.title = element_text(size = 20, face = "bold")) +
-  scale_x_continuous(name=expression('State at'~italic("t + 1")), 
-                     breaks=c(1,2,3,4), 
-                     labels=c("S", "LAT", "COH", "MAR"), 
-                     limits=c(0.5, 4.5)) +
-  scale_y_continuous(name=expression('State at'~italic("t")), 
-                     breaks=c(1,2,3,4), 
-                     labels=c("S", "LAT", "COH", "MAR"), 
-                     limits=c(0.5, 4.5)) +
-  transition_states(Var3) +
-  ggtitle('Age {closest_state}')
-
-anim <- animate(p, nframes = 21, duration = 10.5)
-```
-
-\  
-
-<p align="center">
-  ![](images/seqtrate_yearly.gif){width=70%}
-</p>
-
-
-
-
-
-
 ## State distribution at different positions <br/>(cross-sectional perspective)
 
 Among other things `seqstatd` computes the distribution of states at each position in the sequence. Usually this information is displayed in a graphical fashion (state distribution plot) rather than as a descriptive table.
 
-Usually the tabular presentation of the state distribution requires to extract the distribution for a selection of (meaningful) positions of the sequence. In the example below we display the distribution at age 18, 20, 24, 28, 32, 36, and 40. Note that time is measured in months. Hence, we do not extract the descriptives at positions 1 and 3 but at positions 1 and 24 to obtain the state distribution at age 18 and 20. 
+Usually the tabular presentation of the state distribution requires to extract the distribution for a selection of (meaningful) positions of the sequence. In the example below we display the distribution at age 18, 20, 24, 28, 32, 36, and 40. Note that time is measured in months. Hence, we do not extract the descriptives at positions 1 and 3 but at positions 1 and 24 to obtain the state distribution at age 18 and 20 (**Table 2-6**). 
 
 ```{r, eval=FALSE, echo=TRUE}
 seqstatd(partner.month.seq)$Frequencies[,c(1, seq(24, 264, by = 48))]
@@ -273,7 +164,7 @@ kable(statedis2,
                 full_width = F)
 ```
 
-The following code extracts the corresponding cross-sectional values of the Shannon entropy for the same time points.
+The following code extracts the corresponding cross-sectional values of the Shannon entropy for the same time points (**Table 2-7**).
 
 ```{r, eval=FALSE, echo=TRUE}
 seqstatd(partner.month.seq)$Entropy[c(1, seq(24, 264, by = 48))]
@@ -358,7 +249,7 @@ summary(partner.year.rep)
 
 ```
 
-The table below presents a set of representative sequences (SPS format) and the corresponding coverage statistics. In addition, it shows how many cases are (more or less) represented by each the extracted sequences:
+The table below presents a set of representative sequences (SPS format) and the corresponding coverage statistics. In addition, it shows how many cases are (more or less) represented by each the extracted sequences (**Table 2-8**):
 
 
 ```{r, echo=FALSE}
