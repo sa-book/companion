@@ -12,11 +12,19 @@ knitr::opts_chunk$set(echo = FALSE)
 
 | TOC                      | Content (click for jumping to examples)  |
 |-------------------------------------|-------------------------------|
-| 3.1  whatever | Data Formats                  |
-| 3.2  whatever              | Defining the alphabet         |
-|                                     | Changing sequence granularity |
-| 3.4	whatever | [test](rtest.html) |
-|                                     | Gray color palette            |
-|                                     | Visualizing sequences         |
-|                                     | Basic description             |
-| 3.5 whatever   | Complexity, turbulence ...    | 
+| 3.1 Outlook |  No code for this Chapter   |
+| 3.2 Dissimilarity measures to compare sequences | [Create example sequences](rChapter3-2.html) |
+| 3.3 Alignment techniques |  [Optimal matching (OM)](rChapter3-3.html) |
+| |  [Assigning costs to the alignment operations](rChapter3-3.html) |
+| |  [Alignment-based extensions of OM](rChapter3-3.html) |
+| 3.4 Nonalignment techniques |  Alternative metrics to align sequences |
+| 3.5 Comparing dissilarity matrices | Mantel correlation for sequences |
+| 3.6 Comparing sequences of different lenght | No code for this Chapter |
+| 3.7	Beyond the standard full-sample pairwise sequence comparison | Alternative options to compare sequences |
+| 3.8	Multidimensional sequence analysis | Expansion of the alphabet |
+|  | Cross-tabulation of groups identified from different dissimilarity matrices |
+|  | Combine domain-specific dissimilarities |
+|  | Multichannel sequence analysis |
+
+
+This chapter introduces techniques to compare whole sequences. Aftern having reviewed the available options, we offer a tool to compare across the dissimilarity matrices that result from the use of different dissimilarity measures. Finally, we apply what we have learned so far on computing dissimilarity between one-dimensional sequences (e.g., family biographies or individual voting behavior) to the case of multichannel sequence analysis, which allows researchers to calculate dissimilarities for multiple sets of sequences simultaneously (e.g., for employment and family trajectories or for the electoral behavior of spouses). In this section of the Companion Webpage, you will find the relevant code to obtain the results presented in the book and to reproduce the figures in colors.  

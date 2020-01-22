@@ -1,0 +1,122 @@
+---
+title: "3.3 Alignment techniques"
+description: |
+  Calculate the pairwise dissimilarity matrix using different aligment techniques
+# author:
+#   - name: "Marcel Raab"
+#     url: http://marcelraab.de
+#     affiliation: University of Mannheim
+#     affiliation_url: https://www.uni-mannheim.de
+#   - name: "Emanuela Struffolino"
+#     url: https://www.wzb.eu/en/persons/emanuela-struffolino
+#     affiliation: WZB Berlin
+#     affiliation_url: https://www.wzb.eu
+# date: "`r Sys.Date()`"
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+options("kableExtra.html.bsTable" = T)
+
+
+# load data required for this subchapter
+load("data/3-0_ChapterSetup.RData")
+
+# (down)load required packages using pacman
+source("source/LoadInstallPackages.R")
+
+```
+
+# Optimal matching (OM)
+
+Consider the three following sequences composed by states A, B, and C:
+
+```{r, echo=FALSE}
+ch3.ex1 <- c("A-B-B-C-C-C", "A-B-B-B-B-B", "B-C-C-C-B-B")
+ch3.ex1.seq <- seqdef(ch3.ex1)
+```
+
+```{r, eval=TRUE, echo=FALSE}
+ch3.ex1.seq 
+```
+
+In this case sequences are short and few in number, so that we immediately recognize that they are not the identical In case of longer and more complex sequences, one might want to know if two sequences are the identical but doing that visually might not be feasible. The following code allows you to do that as it returns [TRUE] if the sequences are the same and [FALSE] if they are not. In this case we compare sequence 1 and 2 above:
+
+```{r, eval=TRUE, echo=TRUE}
+seqcomp(ch3.ex1.seq[1,],ch3.ex1.seq[2,])
+```
+
+However, the two sequences might have some similarity although they are not exaclty the same. To obtain the number of matching positions between the two sequences, we can use the code: 
+
+```{r, eval=TRUE, echo=TRUE}
+seqmpos(ch3.ex1.seq[1,],ch3.ex1.seq[2,])
+```
+
+We now know that sequence 1 and sequence 2 shares 3 matching positions.
+
+Alternatively, we can compute the length of the longest common subsequence (elements composed of tokens - states and combinations of subsequent states - that occur in the same order along the sequence) of two sequences:
+
+```{r, eval=TRUE, echo=TRUE}
+seqLLCS(ch3.ex1.seq[1,],ch3.ex1.seq[2,])
+```
+
+We now know that the longest common subsequence between sequence 1 and sequence 2 is 3-elements long.
+
+Aligning them pairwise to make them the same. Optimal Matching (OM) does so by changing the order of the states or the length of a spell. In classical OM applications, alignment can be achieved by conducting two basic operations: insertion/deletion of a state (indel) and substitution of a state with another one. Different combinations of operations are possible to "match" the sequences pairwise. Each operation is assigned a “cost”: the sum of the costs of all operations will be regarded as the degree of dissimilarity between the two sequences. The matching is "optimal" as the algorithm finds the "cheapest" solution to align the sequences given a set of costs for the indel and substitution operations. 
+
+In the simplest example possible, both indel and substitution operations can be assigned the same cost of 1 (Levenshtein I). 
+We first generate a substitution costs matrix to be used in the next steps:
+
+```{r, eval=TRUE, echo=TRUE}
+costs1 <- matrix(
+  c(0,1,1,
+    1,0,1,
+    1,1,0
+    ),
+  nrow = 3, ncol = 3, byrow = TRUE)
+```
+
+We can display it:
+
+```{r, eval=TRUE, echo=FALSE}
+costs1
+```
+
+We then use the following code to obtain a summary of the optimal number and costs of operations the OM identifies as the cheapest to align the two sequences. `indel` and `sm) require the indel cost and the substitution cost matrix respectively to be specified. In what follows, we align all three sequences pairwise and print the output of the `seqalign` command:
+
+```{r, eval=TRUE, echo=TRUE}
+sa.ch3.1.1 <- seqalign(ch3.ex1.seq, 1:2, indel=1, sm=costs1)
+print(sa.ch3.1.1)
+
+sa.ch3.1.2 <- seqalign(ch3.ex1.seq, c(1,3), indel=1, sm=costs1)
+print(sa.ch3.1.2)
+
+sa.ch3.1.3 <- seqalign(ch3.ex1.seq, 2:3, indel=1, sm=costs1)
+print(sa.ch3.1.3)
+```
+
+In summary, the pairwise dissimilarity matrix between the three example sequences using indel and substitution costs equal to 1 is:
+
+```{r, eval=TRUE, echo=FALSE}
+dist1<-seqdist(ch3.ex1.seq, method="OM", indel=1, sm=costs1)
+dist1
+```
+
+# Assigning costs to the alignment operations 
+
+# Alignment-based extensions of OM
+
+## Theory-based costs
+
+## Costs based on state attributes
+
+## Data driven-costs
+
+## Dynamic Hamming distance
+
+## Time-warp edit distance

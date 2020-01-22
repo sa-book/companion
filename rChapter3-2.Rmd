@@ -1,0 +1,61 @@
+---
+title: "3.3 Alignment techniques"
+description: |
+  Calculate the pairwise dissimilarity matrix using different aligment techniques
+# author:
+#   - name: "Marcel Raab"
+#     url: http://marcelraab.de
+#     affiliation: University of Mannheim
+#     affiliation_url: https://www.uni-mannheim.de
+#   - name: "Emanuela Struffolino"
+#     url: https://www.wzb.eu/en/persons/emanuela-struffolino
+#     affiliation: WZB Berlin
+#     affiliation_url: https://www.wzb.eu
+# date: "`r Sys.Date()`"
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 2
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+options("kableExtra.html.bsTable" = T)
+
+
+# load data required for this subchapter
+load("data/3-0_ChapterSetup.RData")
+
+# (down)load required packages using pacman
+source("source/LoadInstallPackages.R")
+
+```
+
+# Create example sequences
+
+We first create three vectors 6-element-long (of equal lenght). Each element is coded with a letter: A, B, or C.  
+
+```{r, eval=TRUE, echo=TRUE}
+ch3.ex1 <- c("A-B-B-C-C-C", "A-B-B-B-B-B", "B-C-C-C-B-B")
+```
+
+We then display the three vectors:
+
+```{r, eval=TRUE, echo=FALSE}
+ch3.ex1 
+```
+
+We create sequence objects from the three vectors:
+
+```{r, eval=TRUE, echo=TRUE}
+ch3.ex1.seq <- seqdef(ch3.ex1)
+```
+
+The three resulting sequences are then displayed:
+
+```{r, eval=TRUE, echo=TRUE}
+ch3.ex1.seq
+```
+
