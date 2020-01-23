@@ -1,0 +1,23 @@
+---
+title: "3.4 Nonalignment techniques"
+description: |
+  Alternative metrics to align sequences
+# author:
+#   - name: "Marcel Raab"
+#     url: http://marcelraab.de
+#     affiliation: University of Mannheim
+#     affiliation_url: https://www.uni-mannheim.de
+#   - name: "Emanuela Struffolino"
+#     url: https://www.wzb.eu/en/persons/emanuela-struffolino
+#     affiliation: WZB Berlin
+#     affiliation_url: https://www.wzb.eu
+# date: "`r Sys.Date()`"
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 2
+---
+
+
+The book covers the following metrics based on common attributes (that is, nonalignment techniques): longest common subsequence (LCS), number of matching subsequences (NMS), and the subsequence vectorial representation-based metric (SVRspell). The `TraMineR` documentation of the `seqdist` command offers detailed explanation of how to implement these dissimilarity measures.   
+

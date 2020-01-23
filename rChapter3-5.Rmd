@@ -1,0 +1,177 @@
+---
+title: "3.5 Comparing dissilarity matrices"
+description: |
+  Mantel correlation for sequences
+# author:
+#   - name: "Marcel Raab"
+#     url: http://marcelraab.de
+#     affiliation: University of Mannheim
+#     affiliation_url: https://www.uni-mannheim.de
+#   - name: "Emanuela Struffolino"
+#     url: https://www.wzb.eu/en/persons/emanuela-struffolino
+#     affiliation: WZB Berlin
+#     affiliation_url: https://www.wzb.eu
+# date: "`r Sys.Date()`"
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 2
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+options("kableExtra.html.bsTable" = T)
+
+
+# load data required for this subchapter
+load("data/3-0_ChapterSetup.RData")
+
+# (down)load required packages using pacman
+source("0-0_LoadInstallPackages.R")
+# load and install (if necessary) required packages for this course
+pacman::p_load(TraMineR, TraMineRextras, WeightedCluster, cluster,
+               SDMTools, rio, survival, RColorBrewer, colorspace, vcd)
+library(MCMCpack)
+library(corrplot)
+
+```
+
+After having computed several dissimilarity matrices, we consider if and to what extent they are correlated. Specifically, we compare across dissimilarity matrices computed with the following techniques:
+
+* Optimal Matching with indel=1 and substitution=2 - *om.s2.i1*
+* Optimal Matching with indel=4 and substitution=1 - *om.s1.i4*
+* Optimal Matching with indel=1 and substitution=features - *om.feat*
+* Optimal Matching with indel=1 and substitution=theoretical - *om.theo*
+* Optimal Matching with indel=1 and substitution=transition rates - *trate*
+* Longest common subsequence - *lcs*
+* Hamming distance - *ham*
+* Dynamic Hamming distance - *dhd*
+
+```{r, eval=TRUE, echo=FALSE}
+
+####### om.s2.i1
+
+costs.sm2 <- matrix(
+  c(0,2,2,2,2,2,2,2,2,
+    2,0,2,2,2,2,2,2,2,
+    2,2,0,2,2,2,2,2,2,
+    2,2,2,0,2,2,2,2,2,
+    2,2,2,2,0,2,2,2,2,
+    2,2,2,2,2,0,2,2,2,
+    2,2,2,2,2,2,0,2,2,
+    2,2,2,2,2,2,2,0,2,
+    2,2,2,2,2,2,2,2,0
+  ),
+  nrow = 9, ncol = 9, byrow = TRUE)
+
+######## om.s1.i4
+
+costs.sm1 <- matrix(
+  c(0,1,1,1,1,1,1,1,1,
+    1,0,1,1,1,1,1,1,1,
+    1,1,0,1,1,1,1,1,1,
+    1,1,1,0,1,1,1,1,1,
+    1,1,1,1,0,1,1,1,1,
+    1,1,1,1,1,0,1,1,1,
+    1,1,1,1,1,1,0,1,1,
+    1,1,1,1,1,1,1,0,1,
+    1,1,1,1,1,1,1,1,0
+  ),
+  nrow = 9, ncol = 9, byrow = TRUE)
+
+######## features
+
+partner <- c("single", "single", "couple", "couple", "couple", "couple", "couple","couple","couple")
+child <- c(0,1,0,1,0,1,0,1,2)
+alphabetprop <- data.frame(partner = partner, child = child)
+rownames(alphabetprop) <- alphabet(partner.child.year.seq.now)
+features <- seqcost(partner.child.year.seq.now, method="FEATURES",
+                    state.features = alphabetprop)
+
+######## theoretical
+
+theo <- matrix(
+  c(0,1,2,2,2,2,2,2,2,
+    1,0,2,2,2,2,2,2,2,
+    2,2,0,1,2,2,2,2,2,
+    2,2,1,0,2,2,2,2,2,
+    2,2,2,2,0,1,2,2,2,
+    2,2,2,2,1,0,2,2,2,
+    2,2,2,2,2,2,0,1,1,
+    2,2,2,2,2,2,1,0,1,
+    2,2,2,2,2,2,1,1,0),
+  nrow = 9, ncol = 9, byrow = TRUE,
+  dimnames = list(shortlab.partner.child, shortlab.partner.child))
+
+### Calculate selected dissimilarity matrices
+
+om.s2.i1<-seqdist(partner.child.year.seq.now, method = "OM", indel = 1,sm = costs.sm2)
+om.s1.i4<-o<-seqdist(partner.child.year.seq.now, method = "OM", indel = 2,sm = costs.sm1)
+om.feat<-seqdist(partner.child.year.seq.now, method = "OM", indel = 1,sm = features$sm)
+om.theo<-seqdist(partner.child.year.seq.now, method = "OM", indel = 1,sm = theo)
+trate<-seqdist(partner.child.year.seq.now, method = "OM", indel=1, sm= "TRATE")
+lcs<-seqdist(partner.child.year.seq.now, method = "LCS")
+ham<-seqdist(partner.child.year.seq.now, method = "HAM")
+dhd<-seqdist(partner.child.year.seq.now, method = "DHD")
+```
+
+We first combine all matrices in a data frame:
+
+```{r, eval=TRUE, echo=TRUE}
+diss.partner.child <- data.frame(
+                      OMi1s2 = vech(om.s2.i1),
+                      OMi2s1 = vech(om.s1.i4),
+                      feat = vech(om.feat),
+                      theo = vech(om.theo),
+                      trate = vech(trate),
+                      lcs = vech(lcs),
+                      ham = vech(ham),
+                      dhd = vech(dhd)
+                      )
+```
+
+The dataframe is then plugged in the `cor` function:
+
+```{r, eval=TRUE, echo=TRUE}
+corr.partner.child <- cor(diss.partner.child)
+```
+
+and we obtain: 
+
+```{r, eval=TRUE, echo=FALSE}
+corr.partner.child <- cor(diss.partner.child)
+```
+
+Several options are available to visualize the correlation matrix. See the documentation of the `corrplot` package. We display two options here. In the first case, the strenght of the correlation is signified by  the share of pie colored and by the shade of color.
+
+```{r, eval=FALSE, echo=TRUE}
+corrplot(corr.partner.child, 
+         method =("pie"), 
+         type = "upper", 
+         tl.col = "black", 
+         tl.srt = 40, 
+         col=brewer.pal(n = 8, name = "RdBu"))
+```
+
+<p align="center">
+![](images\rChapter3-5-2_diss_corr_partner_child_col_1.png)
+</p>
+
+In the second example, the function `corrplot.mixed` allows for displaying the top and bottom triangles of the matrix. In the top triangle, the size and shade of the circles signify the strenght of the correlation, while the actual numbers are in the bottom triangle.
+
+```{r, eval=FALSE, echo=TRUE}
+corrplot.mixed(corr.partner.child, 
+         tl.col = "black", 
+         tl.srt = 40,
+         number.cex = 0.8)
+```
+
+<p align="center">
+![](images\rChapter3-5-2_diss_corr_partner_child_col_2.png)
+</p>
+
+Normalizing the dissimilarity matrix can be useful for binding the maximum and minimum values for dissimilarity values when comparing across different dissimilarity measures. Several options for normalization are available. The `TraMineR` documentation offers detailed explanation of how to nortmalize dissimilarity matrices depending on the dissimilarity measure used. 
+
+

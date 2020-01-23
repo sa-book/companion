@@ -28,7 +28,7 @@ options("kableExtra.html.bsTable" = T)
 load("data/3-0_ChapterSetup.RData")
 
 # (down)load required packages using pacman
-source("source/LoadInstallPackages.R")
+source("0-0_LoadInstallPackages.R")
 
 ```
 
@@ -87,7 +87,7 @@ We can display it:
 costs1
 ```
 
-We then use the following code to obtain a summary of the optimal number and costs of operations the OM identifies as the cheapest to align the two sequences. `indel` and `sm) require the indel cost and the substitution cost matrix respectively to be specified. In what follows, we align all three sequences pairwise and print the output of the `seqalign` command:
+We then use the following code to obtain a summary of the optimal number and costs of operations the OM identifies as the cheapest to align the two sequences. `indel` and `sm`) require the indel cost and the substitution cost matrix respectively to be specified. In what follows, we align all three sequences pairwise and print the output of the `seqalign` command:
 
 ```{r, eval=TRUE, echo=TRUE}
 sa.ch3.1.1 <- seqalign(ch3.ex1.seq, 1:2, indel=1, sm=costs1)
@@ -107,16 +107,161 @@ dist1<-seqdist(ch3.ex1.seq, method="OM", indel=1, sm=costs1)
 dist1
 ```
 
+You can refer to the book for alternative options of 
+
 # Assigning costs to the alignment operations 
+
+We use pairfam data on family formation processes to compute the pairwise dissimilarity matrix using OM. Here we set costs at `indel=1` and substitution at `sm="CONSTANT"` that correspond to 2. For illustrative purposes, in this Chapter we use the full state space (partner & birth bio) but no weights (unless specified). Objects created not using weights are named with `.now` at the end.
+
+
+```{r, eval=FALSE, echo=TRUE}
+partner.child.month.seq.now <- seqdef(seqvars.partner.child, 
+                                  states = shortlab.partner.child,
+                                  labels = longlab.partner.child, alphabet = c(1:9),  
+                                  cpal = colspace.partner.child,
+                                  id = family$id,
+                                  xtstep = 24)
+
+partner.child.om <- seqdist(partner.month.seq.now, method="OM", indel=1, sm="CONSTANT")
+```
+Let us scrutinize the first three sequences in the sample visually:
+
+```{r, eval=FALSE, echo=TRUE}
+
+```
+
+
+<p align="center">
+![](images/rChapter3-3-0_ex_seq_colors.png){width=110%}
+</p>
+
 
 # Alignment-based extensions of OM
 
 ## Theory-based costs
 
+Strong theoretical arguments can support in setting up the substitution costs matrix. This strategy forces the researcher to make explicit why the substitution between the two states is considered to be more or less "expensive".
+The theoretical submistition costs matrix can be computed as follows:
+
+```{r, eval=TRUE, echo=TRUE}
+theo <- matrix(
+  c(0,1,2,2,2,2,2,2,2,
+    1,0,2,2,2,2,2,2,2,
+    2,2,0,1,2,2,2,2,2,
+    2,2,1,0,2,2,2,2,2,
+    2,2,2,2,0,1,2,2,2,
+    2,2,2,2,1,0,2,2,2,
+    2,2,2,2,2,2,0,1,1,
+    2,2,2,2,2,2,1,0,1,
+    2,2,2,2,2,2,1,1,0),
+  nrow = 9, ncol = 9, byrow = TRUE,
+  dimnames = list(shortlab.partner.child, shortlab.partner.child))
+```
+
+```{r, eval=TRUE, echo=FALSE}
+theo
+```
+
+The matrix `theo` can be then plugged into the `seqdist` command as argument of the `sm` option. 
+
+```{r, eval=TRUE, echo=TRUE}
+om.theo<-seqdist(partner.child.year.seq.now, method = "OM", indel = 1,sm = theo)
+```
+
+The resulting pairwise dissimilarity matrix (limited to the three sequences displayed above) can be visualize as follows: 
+
+```{r, eval=TRUE, echo=TRUE}
+om.theo[1:3, 1:3]
+```
+
 ## Costs based on state attributes
 
-## Data driven-costs
+This strategy forces the researcher to make explicit the criteria according to which states are consider more or less close to one another. In the case of family formation trajectories, we consider the presence/absence of a partner and the number of children to be diriment.
 
-## Dynamic Hamming distance
+```{r, eval=TRUE, echo=FALSE}
+partner <- c("single", "single", "couple", "couple", "couple", "couple", "couple","couple","couple")
+child <- c(0,1,0,1,0,1,0,1,2)
 
-## Time-warp edit distance
+```
+
+```{r, echo=FALSE}
+table3.22<-data.frame(shortlab.partner.child, partner, child)
+kable((table3.22), 
+      col.names = c("State", "Partherniship", "Number of children")) %>%
+  kable_styling(bootstrap_options = 
+                  c("responsive", "hover", "condensed"),
+                full_width = F)
+```
+
+We generate two vectors with the properties (partnership and number of children) for each possible state of the alphabeth: the first element of the vector `partner` correspond to the first state in the alphabeth, the second element of the vector `partner` correspond to the second state in the alphabeth and so on. 
+
+```{r, eval=TRUE, echo=TRUE}
+partner <- c("single", "single", "couple", "couple", "couple", "couple", "couple","couple","couple")
+child <- c(0,1,0,1,0,1,0,1,2)
+```
+
+We then need to create a data frame with the two vectors and label the rows of the newly created data frame. 
+
+```{r, eval=TRUE, echo=TRUE}
+alphabetprop <- data.frame(partner = partner, child = child)
+rownames(alphabetprop) <- alphabet(partner.child.year.seq.now)
+```
+
+We then generate a distance matrix using the `seqcost` function by specifying the argument `"FEATURES"` in the option `method` (that applies the Gower distance between state features by default) and the argument `alphabetprop` (that is, the data frame created above) in the option `state.features`:
+
+```{r, eval=TRUE, echo=TRUE}
+features <- seqcost(partner.child.year.seq.now, method="FEATURES",
+                    state.features = alphabetprop)
+```
+
+The resulting substitution costs matrix is:
+```{r, eval=TRUE, echo=FALSE}
+features
+```
+
+We can finally use the substitution cost matrix prop and features for calculating the pairwise dissimilariy matrix:
+
+```{r, eval=TRUE, echo=TRUE}
+om.feat<-seqdist(partner.child.year.seq.now, 
+                 method = "OM", 
+                 indel = 1, 
+                 sm = features$sm)
+```
+
+The resulting pairwise dissimilarity matrices (limited to the three sequences displayed above) are:
+
+```{r, eval=TRUE, echo=TRUE}
+om.feat[1:3, 1:3]
+```
+
+If we want to emphasize the importance of one feature in the calculation of the pairwise dissimilarity, the argument `feature.weights` has to be speficied with a vector of feature weights with length equal to the number of columns of `state.features`. In the following example, a higher weight is given to the number of children: 
+
+```{r, eval=TRUE, echo=TRUE}
+features.children <- seqcost(partner.child.year.seq.now, method="FEATURES",
+                    state.features = alphabetprop, 
+                    feature.weights = c(1,2))
+```
+
+The substitution costs matrix reflects that being in a partnership or not is less important compare to differences in number fo children in considering how dissilar sequences are:
+
+```{r, eval=TRUE, echo=FALSE}
+print(features.children, digits=2)
+```
+
+This affect, of course, the resulting pairwise dissimilarity matrices (limited to the three sequences displayed above) too:
+
+```{r, eval=TRUE, echo=FALSE}
+om.feat.children<-seqdist(partner.child.year.seq.now, 
+                 method = "OM", 
+                 indel = 1, 
+                 sm = features.children$sm)
+```
+
+```{r, eval=TRUE, echo=FALSE}
+print(om.feat.children[1:3, 1:3], digits=2)
+```
+
+## How to explore additional alignment-based extensions of OM
+
+The book covers the following alternatives for alignment-based OM: data-driven costs, dynamic Hamming distance, time-warp edit distance. The `TraMineR` documentation offers detailed explanation of how to implement these dissimilarity measures in the standard code presented here.  
+

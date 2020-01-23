@@ -1258,6 +1258,8 @@
   </script>
   
   <!--/radix_placeholder_distill-->
+  <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="site_libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
   <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
@@ -1364,9 +1366,7 @@ Stata
 <li><a href="#alignment-based-extensions-of-om">Alignment-based extensions of OM</a><ul>
 <li><a href="#theory-based-costs">Theory-based costs</a></li>
 <li><a href="#costs-based-on-state-attributes">Costs based on state attributes</a></li>
-<li><a href="#data-driven-costs">Data driven-costs</a></li>
-<li><a href="#dynamic-hamming-distance">Dynamic Hamming distance</a></li>
-<li><a href="#time-warp-edit-distance">Time-warp edit distance</a></li>
+<li><a href="#how-to-explore-additional-alignment-based-extensions-of-om">How to explore additional alignment-based extensions of OM</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -1425,7 +1425,7 @@ costs1 &lt;- matrix(
 [2,]    1    0    1
 [3,]    1    1    0</code></pre>
 </div>
-<p>We then use the following code to obtain a summary of the optimal number and costs of operations the OM identifies as the cheapest to align the two sequences. <code>indel</code> and <code>sm) require the indel cost and the substitution cost matrix respectively to be specified. In what follows, we align all three sequences pairwise and print the output of the</code>seqalign` command:</p>
+<p>We then use the following code to obtain a summary of the optimal number and costs of operations the OM identifies as the cheapest to align the two sequences. <code>indel</code> and <code>sm</code>) require the indel cost and the substitution cost matrix respectively to be specified. In what follows, we align all three sequences pairwise and print the output of the <code>seqalign</code> command:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 sa.ch3.1.1 &lt;- seqalign(ch3.ex1.seq, 1:2, indel=1, sm=costs1)
@@ -1469,13 +1469,288 @@ OM distance between sequences: 4 </code></pre>
 [2,]    3    0    4
 [3,]    4    4    0</code></pre>
 </div>
+<p>You can refer to the book for alternative options of</p>
 <h1 id="assigning-costs-to-the-alignment-operations">Assigning costs to the alignment operations</h1>
+<p>We use pairfam data on family formation processes to compute the pairwise dissimilarity matrix using OM. Here we set costs at <code>indel=1</code> and substitution at <code>sm="CONSTANT"</code> that correspond to 2. For illustrative purposes, in this Chapter we use the full state space (partner &amp; birth bio) but no weights (unless specified). Objects created not using weights are named with <code>.now</code> at the end.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+partner.child.month.seq.now &lt;- seqdef(seqvars.partner.child, 
+                                  states = shortlab.partner.child,
+                                  labels = longlab.partner.child, alphabet = c(1:9),  
+                                  cpal = colspace.partner.child,
+                                  id = family$id,
+                                  xtstep = 24)
+
+partner.child.om &lt;- seqdist(partner.month.seq.now, method=&quot;OM&quot;, indel=1, sm=&quot;CONSTANT&quot;)</code></pre>
+</div>
+<p>Let us scrutinize the first three sequences in the sample visually:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p align="center">
+<img src="images/rChapter3-3-0_ex_seq_colors.png" style="width:110.0%" />
+</p>
 <h1 id="alignment-based-extensions-of-om">Alignment-based extensions of OM</h1>
 <h2 id="theory-based-costs">Theory-based costs</h2>
+<p>Strong theoretical arguments can support in setting up the substitution costs matrix. This strategy forces the researcher to make explicit why the substitution between the two states is considered to be more or less “expensive”. The theoretical submistition costs matrix can be computed as follows:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+theo &lt;- matrix(
+  c(0,1,2,2,2,2,2,2,2,
+    1,0,2,2,2,2,2,2,2,
+    2,2,0,1,2,2,2,2,2,
+    2,2,1,0,2,2,2,2,2,
+    2,2,2,2,0,1,2,2,2,
+    2,2,2,2,1,0,2,2,2,
+    2,2,2,2,2,2,0,1,1,
+    2,2,2,2,2,2,1,0,1,
+    2,2,2,2,2,2,1,1,0),
+  nrow = 9, ncol = 9, byrow = TRUE,
+  dimnames = list(shortlab.partner.child, shortlab.partner.child))</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+       S Sc LAT LATc COH COHc MAR MARc1 MARc2+
+S      0  1   2    2   2    2   2     2      2
+Sc     1  0   2    2   2    2   2     2      2
+LAT    2  2   0    1   2    2   2     2      2
+LATc   2  2   1    0   2    2   2     2      2
+COH    2  2   2    2   0    1   2     2      2
+COHc   2  2   2    2   1    0   2     2      2
+MAR    2  2   2    2   2    2   0     1      1
+MARc1  2  2   2    2   2    2   1     0      1
+MARc2+ 2  2   2    2   2    2   1     1      0</code></pre>
+</div>
+<p>The matrix <code>theo</code> can be then plugged into the <code>seqdist</code> command as argument of the <code>sm</code> option.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+om.theo&lt;-seqdist(partner.child.year.seq.now, method = &quot;OM&quot;, indel = 1,sm = theo)</code></pre>
+</div>
+<p>The resulting pairwise dissimilarity matrix (limited to the three sequences displayed above) can be visualize as follows:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+om.theo[1:3, 1:3]</code></pre>
+<pre><code>
+     [,1] [,2] [,3]
+[1,]    0   37   40
+[2,]   37    0   18
+[3,]   40   18    0</code></pre>
+</div>
 <h2 id="costs-based-on-state-attributes">Costs based on state attributes</h2>
-<h2 id="data-driven-costs">Data driven-costs</h2>
-<h2 id="dynamic-hamming-distance">Dynamic Hamming distance</h2>
-<h2 id="time-warp-edit-distance">Time-warp edit distance</h2>
+<p>This strategy forces the researcher to make explicit the criteria according to which states are consider more or less close to one another. In the case of family formation trajectories, we consider the presence/absence of a partner and the number of children to be diriment.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+State
+</th>
+<th style="text-align:left;">
+Partherniship
+</th>
+<th style="text-align:right;">
+Number of children
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+S
+</td>
+<td style="text-align:left;">
+single
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sc
+</td>
+<td style="text-align:left;">
+single
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LAT
+</td>
+<td style="text-align:left;">
+couple
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LATc
+</td>
+<td style="text-align:left;">
+couple
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+COH
+</td>
+<td style="text-align:left;">
+couple
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+COHc
+</td>
+<td style="text-align:left;">
+couple
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MAR
+</td>
+<td style="text-align:left;">
+couple
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MARc1
+</td>
+<td style="text-align:left;">
+couple
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MARc2+
+</td>
+<td style="text-align:left;">
+couple
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>We generate two vectors with the properties (partnership and number of children) for each possible state of the alphabeth: the first element of the vector <code>partner</code> correspond to the first state in the alphabeth, the second element of the vector <code>partner</code> correspond to the second state in the alphabeth and so on.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+partner &lt;- c(&quot;single&quot;, &quot;single&quot;, &quot;couple&quot;, &quot;couple&quot;, &quot;couple&quot;, &quot;couple&quot;, &quot;couple&quot;,&quot;couple&quot;,&quot;couple&quot;)
+child &lt;- c(0,1,0,1,0,1,0,1,2)</code></pre>
+</div>
+<p>We then need to create a data frame with the two vectors and label the rows of the newly created data frame.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+alphabetprop &lt;- data.frame(partner = partner, child = child)
+rownames(alphabetprop) &lt;- alphabet(partner.child.year.seq.now)</code></pre>
+</div>
+<p>We then generate a distance matrix using the <code>seqcost</code> function by specifying the argument <code>"FEATURES"</code> in the option <code>method</code> (that applies the Gower distance between state features by default) and the argument <code>alphabetprop</code> (that is, the data frame created above) in the option <code>state.features</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+features &lt;- seqcost(partner.child.year.seq.now, method=&quot;FEATURES&quot;,
+                    state.features = alphabetprop)</code></pre>
+</div>
+The resulting substitution costs matrix is:
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+$indel
+[1] 0.5
+
+$sm
+          S-&gt; Sc-&gt; LAT-&gt; LATc-&gt; COH-&gt; COHc-&gt; MAR-&gt; MARc1-&gt; MARc2+-&gt;
+S-&gt;      0.00 0.25  0.50   0.75  0.50   0.75  0.50    0.75     1.00
+Sc-&gt;     0.25 0.00  0.75   0.50  0.75   0.50  0.75    0.50     0.75
+LAT-&gt;    0.50 0.75  0.00   0.25  0.00   0.25  0.00    0.25     0.50
+LATc-&gt;   0.75 0.50  0.25   0.00  0.25   0.00  0.25    0.00     0.25
+COH-&gt;    0.50 0.75  0.00   0.25  0.00   0.25  0.00    0.25     0.50
+COHc-&gt;   0.75 0.50  0.25   0.00  0.25   0.00  0.25    0.00     0.25
+MAR-&gt;    0.50 0.75  0.00   0.25  0.00   0.25  0.00    0.25     0.50
+MARc1-&gt;  0.75 0.50  0.25   0.00  0.25   0.00  0.25    0.00     0.25
+MARc2+-&gt; 1.00 0.75  0.50   0.25  0.50   0.25  0.50    0.25     0.00</code></pre>
+</div>
+<p>We can finally use the substitution cost matrix prop and features for calculating the pairwise dissimilariy matrix:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+om.feat&lt;-seqdist(partner.child.year.seq.now, 
+                 method = &quot;OM&quot;, 
+                 indel = 1, 
+                 sm = features$sm)</code></pre>
+</div>
+<p>The resulting pairwise dissimilarity matrices (limited to the three sequences displayed above) are:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+om.feat[1:3, 1:3]</code></pre>
+<pre><code>
+      [,1]  [,2] [,3]
+[1,]  0.00 11.75 7.25
+[2,] 11.75  0.00 4.50
+[3,]  7.25  4.50 0.00</code></pre>
+</div>
+<p>If we want to emphasize the importance of one feature in the calculation of the pairwise dissimilarity, the argument <code>feature.weights</code> has to be speficied with a vector of feature weights with length equal to the number of columns of <code>state.features</code>. In the following example, a higher weight is given to the number of children:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+features.children &lt;- seqcost(partner.child.year.seq.now, method=&quot;FEATURES&quot;,
+                    state.features = alphabetprop, 
+                    feature.weights = c(1,2))</code></pre>
+</div>
+<p>The substitution costs matrix reflects that being in a partnership or not is less important compare to differences in number fo children in considering how dissilar sequences are:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+$indel
+[1] 0.5
+
+$sm
+          S-&gt; Sc-&gt; LAT-&gt; LATc-&gt; COH-&gt; COHc-&gt; MAR-&gt; MARc1-&gt; MARc2+-&gt;
+S-&gt;      0.00 0.33  0.33   0.67  0.33   0.67  0.33    0.67     1.00
+Sc-&gt;     0.33 0.00  0.67   0.33  0.67   0.33  0.67    0.33     0.67
+LAT-&gt;    0.33 0.67  0.00   0.33  0.00   0.33  0.00    0.33     0.67
+LATc-&gt;   0.67 0.33  0.33   0.00  0.33   0.00  0.33    0.00     0.33
+COH-&gt;    0.33 0.67  0.00   0.33  0.00   0.33  0.00    0.33     0.67
+COHc-&gt;   0.67 0.33  0.33   0.00  0.33   0.00  0.33    0.00     0.33
+MAR-&gt;    0.33 0.67  0.00   0.33  0.00   0.33  0.00    0.33     0.67
+MARc1-&gt;  0.67 0.33  0.33   0.00  0.33   0.00  0.33    0.00     0.33
+MARc2+-&gt; 1.00 0.67  0.67   0.33  0.67   0.33  0.67    0.33     0.00</code></pre>
+</div>
+<p>This affect, of course, the resulting pairwise dissimilarity matrices (limited to the three sequences displayed above) too:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+     [,1] [,2] [,3]
+[1,]    0 10.3  6.0
+[2,]   10  0.0  4.3
+[3,]    6  4.3  0.0</code></pre>
+</div>
+<h2 id="how-to-explore-additional-alignment-based-extensions-of-om">How to explore additional alignment-based extensions of OM</h2>
+<p>The book covers the following alternatives for alignment-based OM: data-driven costs, dynamic Hamming distance, time-warp edit distance. The <code>TraMineR</code> documentation offers detailed explanation of how to implement these dissimilarity measures in the standard code presented here.</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

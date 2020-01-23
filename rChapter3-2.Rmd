@@ -29,7 +29,7 @@ options("kableExtra.html.bsTable" = T)
 load("data/3-0_ChapterSetup.RData")
 
 # (down)load required packages using pacman
-source("source/LoadInstallPackages.R")
+source("0-0_LoadInstallPackages.R")
 
 ```
 
