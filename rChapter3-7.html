@@ -19,30 +19,30 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-  <title>Sequence Analysis - Companion Site: 3.4 Nonalignment techniques</title>
+  <title>Sequence Analysis - Companion Site: 3.7	Beyond the standard full-sample pairwise sequence comparison</title>
   
-  <meta property="description" itemprop="description" content="Alternative metrics to align sequences"/>
+  <meta property="description" itemprop="description" content="Alternative options to compare sequences"/>
   
   <link rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/"/>
   
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Sequence Analysis - Companion Site: 3.4 Nonalignment techniques"/>
+  <meta property="og:title" content="Sequence Analysis - Companion Site: 3.7	Beyond the standard full-sample pairwise sequence comparison"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="Alternative metrics to align sequences"/>
+  <meta property="og:description" content="Alternative options to compare sequences"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="Sequence Analysis - Companion Site"/>
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Sequence Analysis - Companion Site: 3.4 Nonalignment techniques"/>
-  <meta property="twitter:description" content="Alternative metrics to align sequences"/>
+  <meta property="twitter:title" content="Sequence Analysis - Companion Site: 3.7	Beyond the standard full-sample pairwise sequence comparison"/>
+  <meta property="twitter:description" content="Alternative options to compare sequences"/>
   
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output"]}},"value":[{"type":"character","attributes":{},"value":["3.4 Nonalignment techniques"]},{"type":"character","attributes":{},"value":["Alternative metrics to align sequences\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[2]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output"]}},"value":[{"type":"character","attributes":{},"value":["3.7\tBeyond the standard full-sample pairwise sequence comparison"]},{"type":"character","attributes":{},"value":["Alternative options to compare sequences\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[2]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -1258,6 +1258,8 @@
   </script>
   
   <!--/radix_placeholder_distill-->
+  <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="site_libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
   <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
@@ -1300,7 +1302,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"3.4 Nonalignment techniques","description":"Alternative metrics to align sequences","authors":[]}
+{"title":"3.7\tBeyond the standard full-sample pairwise sequence comparison","description":"Alternative options to compare sequences","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1350,13 +1352,311 @@ Stata
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>3.4 Nonalignment techniques</h1>
-<p><p>Alternative metrics to align sequences</p></p>
+<h1>3.7 Beyond the standard full-sample pairwise sequence comparison</h1>
+<p><p>Alternative options to compare sequences</p></p>
 </div>
 
 
 <div class="d-article">
-<p>The book covers the following metrics based on common attributes (that is, nonalignment techniques): longest common subsequence (LCS), number of matching subsequences (NMS), and the subsequence vectorial representation-based metric (SVRspell). The <code>TraMineR</code> documentation of the <code>seqdist</code> command offers detailed explanation of how to implement these dissimilarity measures.</p>
+<h3 class="d-toc-header">Table of Contents</h3>
+<nav class="d-toc" id="TOC">
+<ul>
+<li><a href="#dissimilarity-from-a-theoretical-ideal-typical-sequence">Dissimilarity from a theoretical (ideal-typical) sequence</a></li>
+<li><a href="#dissimilarity-from-the-most-frequent-sequence">Dissimilarity from the most frequent sequence</a></li>
+<li><a href="#dissimilarity-from-the-medoid">Dissimilarity from the medoid</a></li>
+</ul>
+</nav>
+<hr class="d-toc-separator"/>
+<h1 id="dissimilarity-from-a-theoretical-ideal-typical-sequence">Dissimilarity from a theoretical (ideal-typical) sequence</h1>
+<p>Depending on theoretical expectations of what a specific process should look like, we might want to consider different possible empirical realizations. To this purpose, we can imputing a reference sequence that reflects theoretical expectations about the appearance of specific states and their timing.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+theo.sps&lt;-as.matrix(&quot;(S,5)-(MAR,2)-(MARc1,3)-(MARc2+,12)&quot;)</code></pre>
+</div>
+<p>The object, however, is in SPS format:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+     [,1]                                 
+[1,] &quot;(S,5)-(MAR,2)-(MARc1,3)-(MARc2+,12)&quot;</code></pre>
+</div>
+<p>We need to transfor it in STS format:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+theo.sts &lt;- seqformat(theo.sps, from = &quot;SPS&quot;, to = &quot;STS&quot;)</code></pre>
+</div>
+<p>and therefore obtain:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+    [1] [2] [3] [4] [5] [6]   [7]   [8]     [9]     [10]    [11]    
+[1] &quot;S&quot; &quot;S&quot; &quot;S&quot; &quot;S&quot; &quot;S&quot; &quot;MAR&quot; &quot;MAR&quot; &quot;MARc1&quot; &quot;MARc1&quot; &quot;MARc1&quot; &quot;MARc2+&quot;
+    [12]     [13]     [14]     [15]     [16]     [17]     [18]    
+[1] &quot;MARc2+&quot; &quot;MARc2+&quot; &quot;MARc2+&quot; &quot;MARc2+&quot; &quot;MARc2+&quot; &quot;MARc2+&quot; &quot;MARc2+&quot;
+    [19]     [20]     [21]     [22]    
+[1] &quot;MARc2+&quot; &quot;MARc2+&quot; &quot;MARc2+&quot; &quot;MARc2+&quot;</code></pre>
+</div>
+<p>This string is not a sequence object yet, so that we define it as a sequence with the usual procedure:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+theo.seq&lt;-seqdef(theo.sts, 
+                 states = shortlab.partner.child,
+                 alphabet = shortlab.partner.child,
+                 xtstep = 1)</code></pre>
+</div>
+<p align="center">
+<img src="images/rChapter3-7-3_theoseq_colors.png" style="width:110.0%" />
+</p>
+<p>Finally, we can compute the dissimilarity matrix that this time includes the dissimilarity between the reference sequence <code>theo.seq</code> and all sequences in the dataset. The option <code>refseq</code> can be specified by indicating the name of the sequence used as a reference (as in the following example): the <code>TraMineR</code> documentation of the <code>seqdist</code> functin presents alternative specifications that might be useful depending on the research question.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+dist.theo&lt;-seqdist(partner.child.year.seq.now, method = &quot;OM&quot;, indel = 1, sm = &quot;CONSTANT&quot;, refseq = theo.seq)</code></pre>
+</div>
+<p>Let us consider for illustrative purposes the dissimilarity between the theoretical sequence and the (usual) three example sequences:</p>
+<p align="center">
+<img src="images/rChapter3-3-0_ex_seq_colors.png" style="width:110.0%" />
+</p>
+<p>The dissimilarity between these three sequences and the theoretical sequence is, respectively:</p>
+<div class="layout-chunk" data-layout="l-body">
+<table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+Sequence
+</th>
+<th style="text-align:right;">
+Dissimilarity<br>to reference seq.
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+42
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+24
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+36
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Sequence 2 is most similar to the ideal-typical one, displaying similar sequencing of the same states but with different timing. In contrast, sequence 3 is the most different because the individual “visited” a smaller number of states compared to the reference sequence. Sequence 1 is highly dissimilar to the reference sequence, but this is the case because this individual has more states visited in common with the ideal-typical one compared to sequence 3.</p>
+<h1 id="dissimilarity-from-the-most-frequent-sequence">Dissimilarity from the most frequent sequence</h1>
+<p>If we want to compare all sequences in the sample to the empirically most frequent one, we can identify it using the <code>seqtab</code> function, where the argument <code>idxs</code> allows for specifying the number of most frequent sequences to be estracted. Here, we consider only the first most frequent, and therefore we speficy it as follows:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+mostfreq.seq&lt;-seqtab(partner.child.year.seq.now, 
+                     idxs = 1,
+                     weighted = FALSE, 
+                     format = &quot;SPS&quot;)</code></pre>
+</div>
+<p>and obtain:</p>
+<div class="layout-chunk" data-layout="l-body">
+<table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Sequence
+</th>
+<th style="text-align:left;">
+Frequency
+</th>
+<th style="text-align:left;">
+Percentage
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+S/22
+</td>
+<td style="text-align:left;">
+14
+</td>
+<td style="text-align:left;">
+0.75
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>that visually translate as follows:</p>
+<p align="center">
+<img src="images/rChapter3-7-5_mostfreseq_colors.png" style="width:110.0%" />
+</p>
+<p>The percentage on the y-axis refers to the share of sequences identical to the one plotted. We can then compute the dissimilarity matrix specifying the <code>refseq</code> using <code>mostfreq.seq</code> as reference sequence</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>The dissimilarity between the three real sequences considered above and the most frequent sequence is, respectively:</p>
+<div class="layout-chunk" data-layout="l-body">
+<table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+Sequence
+</th>
+<th style="text-align:right;">
+Dissimilarity<br>to reference seq.
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+44
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+32
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+42
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="dissimilarity-from-the-medoid">Dissimilarity from the medoid</h1>
+<p>If we want to compare all sequences in the sample to the medoid, we first have to compute a standard pairwise dissimilarity matrix. For illustrative purposes, we set <code>indel = 1</code> and substitution costs <code>sm = CONSTANT</code> to generate the paiwise dissimilarity matrix <code>om.s2.i1</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+om.s2.i1&lt;-seqdist(partner.child.year.seq.now, method = &quot;OM&quot;, indel = 1, sm = &quot;CONSTANT&quot;)</code></pre>
+</div>
+<p>We then identify the medois using the the <code>disscenter</code> function, where the argument <code>medoids.index</code> allows for specifying the option <code>first</code> to obtain the index of the first encountered most central sequence:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+medoid.seq &lt;- disscenter(om.s2.i1, medoids.index = &quot;first&quot;)</code></pre>
+</div>
+<p>The medoid sequence is, in this case:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+print(partner.child.year.seq.now[medoid.seq, ], format = &quot;SPS&quot;)</code></pre>
+<pre><code>
+    Sequence                                                        
+[1] (S,2)-(LAT,1)-(S,3)-(LAT,3)-(COH,2)-(MAR,2)-(MARc1,4)-(MARc2+,5)</code></pre>
+</div>
+<p>that visually corresponds to:</p>
+<p align="center">
+<img src="images/rChapter3-7-6_medoid_colors.png" style="width:110.0%" />
+</p>
+<p>This plot can be obtained by specifying <code>partner.child.year.seq.now[medoid.seq,]</code> in the <code>seqiplot</code> function:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+png(file = &quot;rChapter3-7-6_medoid_colors.png&quot;, 
+    width = 1500, height = 500, res = 120)
+
+layout.fig1 &lt;- layout(matrix(seq(1:2), 1, 2, byrow = TRUE),
+                      widths = c(.7, .3))
+layout.show(layout.fig1)
+
+par(mar = c(8.2, 4, 9, 0) + 0.1, las = 1, 
+    mgp=c(2,1,-.5))
+seqiplot(partner.child.year.seq.now[medoid.seq,], ylab = &quot;&quot;,
+         with.legend = &quot;FALSE&quot;, border = TRUE, axes = FALSE,
+         cpal = colspace2, main = &quot;&quot;)
+par(mgp=c(3,1,0.25))
+axis(1, at=(seq(0,22, 2)), labels = seq(18,40, by = 2))
+mtext(text = &quot;Age&quot;, cex = .8,
+      side = 1,#side 1 = bottom
+      line = 2.5)
+
+par(mar = c(5, 0, 4, 0) + 0.1)
+seqlegend(partner.child.year.seq.now, 
+          cpal = colspace2, cex = .95, position = &quot;right&quot;)
+
+dev.off()</code></pre>
+</div>
+<p>We can now compute the dissimilarity matrix specifying the <code>refseq</code> using <code>medoid.seq[1]</code> as reference sequence</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+dist.medoid&lt;-seqdist(partner.child.year.seq.now, method = &quot;OM&quot;, indel = 1, sm = &quot;CONSTANT&quot;, 
+                     refseq = medoid.seq[1])</code></pre>
+</div>
+<p>The dissimilarity between the three real sequences considered above and the medoid is, respectively:</p>
+<div class="layout-chunk" data-layout="l-body">
+<table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+Sequence
+</th>
+<th style="text-align:right;">
+Dissimilarity<br>to reference seq.
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+40
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+16
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+30
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>If one wants to extract different medoids for different groups (for example by gender), it is possible to specify the <code>group</code> option accordingly:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+medoid.sex.seq &lt;- disscenter(om.s2.i1, group=family$sex, medoids.index = &quot;first&quot;)</code></pre>
+</div>
+<p>The object <code>medoid.sex.seq</code> contains now two sequences, that is one medoid for the group of men (1) and one for the group of women (2) in the sample:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+    Sequence                                          
+[1] (S,7)-(LAT,4)-(COH,3)-(MAR,2)-(MARc1,2)-(MARc2+,4)
+[2] (S,3)-(LAT,3)-(COH,5)-(MAR,1)-(MARc1,3)-(MARc2+,7)</code></pre>
+</div>
+<p align="center">
+<img src="images/rChapter3-7-6_medoid_colors_2.png" style="width:110.0%" />
+</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

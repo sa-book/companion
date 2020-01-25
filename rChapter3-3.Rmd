@@ -215,6 +215,7 @@ features <- seqcost(partner.child.year.seq.now, method="FEATURES",
 ```
 
 The resulting substitution costs matrix is:
+
 ```{r, eval=TRUE, echo=FALSE}
 features
 ```
@@ -263,5 +264,5 @@ print(om.feat.children[1:3, 1:3], digits=2)
 
 ## How to explore additional alignment-based extensions of OM
 
-The book covers the following alternatives for alignment-based OM: data-driven costs, dynamic Hamming distance, time-warp edit distance. The `TraMineR` documentation offers detailed explanation of how to implement these dissimilarity measures in the standard code presented here.  
+The book covers the following alternatives for alignment-based OM: data-driven costs (transition rates between states), dynamic Hamming distance, time-warp edit distance. The `TraMineR` documentation offers detailed explanation of how to implement these dissimilarity measures in the standard code presented here. Specifically, you might want to look at the documentation of following functions: `seqtrate`, `seqdist`, `seqcost`,  `seqsubm`.
 

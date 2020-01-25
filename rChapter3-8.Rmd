@@ -1,0 +1,41 @@
+---
+title: "3.8	Multidimensional sequence analysis"
+description: |
+  Account for multiple dimensions of temporal processes
+# author:
+#   - name: "Marcel Raab"
+#     url: http://marcelraab.de
+#     affiliation: University of Mannheim
+#     affiliation_url: https://www.uni-mannheim.de
+#   - name: "Emanuela Struffolino"
+#     url: https://www.wzb.eu/en/persons/emanuela-struffolino
+#     affiliation: WZB Berlin
+#     affiliation_url: https://www.wzb.eu
+# date: "`r Sys.Date()`"
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+options("kableExtra.html.bsTable" = T)
+
+
+# load data required for this subchapter
+load("data/3-0_ChapterSetup.RData")
+
+# (down)load required packages using pacman
+source("0-0_LoadInstallPackages.R")
+
+```
+
+# Expansion of the alphabet 
+
+# Cross-tabulation of groups identified from different dissimilarity matrices 
+
+# Combine domain-specific dissimilarities
+
+# Multichannel sequence analysis 
