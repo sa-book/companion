@@ -1,0 +1,1745 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Sequence Analysis - Companion Site: Data representation graphs</title>
+  
+  <meta property="description" itemprop="description" content="The figures from chapter 2.4.2"/>
+  
+  <link rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/"/>
+  
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Sequence Analysis - Companion Site: Data representation graphs"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="The figures from chapter 2.4.2"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:site_name" content="Sequence Analysis - Companion Site"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Sequence Analysis - Companion Site: Data representation graphs"/>
+  <meta property="twitter:description" content="The figures from chapter 2.4.2"/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output"]}},"value":[{"type":"character","attributes":{},"value":["Data representation graphs"]},{"type":"character","attributes":{},"value":["The figures from chapter 2.4.2\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[2]}]}]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  <!--radix_placeholder_navigation_in_header-->
+  
+  <script type="application/javascript">
+  
+    window.headroom_prevent_pin = false;
+  
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+  
+      // initialize headroom for banner
+      var header = $('header').get(0);
+      var headerHeight = header.offsetHeight;
+      var headroom = new Headroom(header, {
+        onPin : function() {
+          if (window.headroom_prevent_pin) {
+            window.headroom_prevent_pin = false;
+            headroom.unpin();
+          }
+        }
+      });
+      headroom.init();
+      if(window.location.hash)
+        headroom.unpin();
+      $(header).addClass('headroom--transition');
+  
+      // offset scroll location for banner on hash change
+      // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+      window.addEventListener("hashchange", function(event) {
+        window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+      });
+  
+      // responsive menu
+      $('.distill-site-header').each(function(i, val) {
+        var topnav = $(this);
+        var toggle = topnav.find('.nav-toggle');
+        toggle.on('click', function() {
+          topnav.toggleClass('responsive');
+        });
+      });
+  
+      // nav dropdowns
+      $('.nav-dropbtn').click(function(e) {
+        $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+        $(this).parent().siblings('.nav-dropdown')
+           .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+      });
+      $("body").click(function(e){
+        $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+      });
+      $(".nav-dropdown").click(function(e){
+        e.stopPropagation();
+      });
+    });
+  </script>
+  
+  <style type="text/css">
+  
+  /* Theme (user-documented overrideables for nav appearance) */
+  
+  .distill-site-nav {
+    color: rgba(255, 255, 255, 0.8);
+    background-color: #455a64;
+    font-size: 15px;
+    font-weight: 300;
+  }
+  
+  .distill-site-nav a {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  .distill-site-nav a:hover {
+    color: white;
+  }
+  
+  @media print {
+    .distill-site-nav {
+      display: none;
+    }
+  }
+  
+  .distill-site-header {
+  
+  }
+  
+  .distill-site-footer {
+  
+  }
+  
+  
+  /* Site Header */
+  
+  .distill-site-header {
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 3;
+  }
+  
+  .distill-site-header .nav-left {
+    display: inline-block;
+    margin-left: 8px;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-header .nav-left {
+      margin-left: 0;
+    }
+  }
+  
+  
+  .distill-site-header .nav-right {
+    float: right;
+    margin-right: 8px;
+  }
+  
+  .distill-site-header a,
+  .distill-site-header .title {
+    display: inline-block;
+    text-align: center;
+    padding: 14px 10px 14px 10px;
+  }
+  
+  .distill-site-header .title {
+    font-size: 18px;
+  }
+  
+  .distill-site-header .logo {
+    padding: 0;
+  }
+  
+  .distill-site-header .logo img {
+    display: none;
+    max-height: 20px;
+    width: auto;
+    margin-bottom: -4px;
+  }
+  
+  .distill-site-header .nav-image img {
+    max-height: 18px;
+    width: auto;
+    display: inline-block;
+    margin-bottom: -3px;
+  }
+  
+  
+  
+  @media screen and (min-width: 1000px) {
+    .distill-site-header .logo img {
+      display: inline-block;
+    }
+    .distill-site-header .nav-left {
+      margin-left: 20px;
+    }
+    .distill-site-header .nav-right {
+      margin-right: 20px;
+    }
+    .distill-site-header .title {
+      padding-left: 12px;
+    }
+  }
+  
+  
+  .distill-site-header .nav-toggle {
+    display: none;
+  }
+  
+  .nav-dropdown {
+    display: inline-block;
+    position: relative;
+  }
+  
+  .nav-dropdown .nav-dropbtn {
+    border: none;
+    outline: none;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 16px 10px;
+    background-color: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+    margin-top: 1px;
+    z-index: 2;
+  }
+  
+  .nav-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 200px;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 4px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+    z-index: 1;
+    margin-top: 2px;
+    white-space: nowrap;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+  
+  .nav-dropdown-content hr {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-dropdown-active {
+    display: block;
+  }
+  
+  .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+    color: black;
+    padding: 6px 24px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+  
+  .nav-dropdown-content .nav-dropdown-header {
+    display: block;
+    padding: 5px 24px;
+    padding-bottom: 0;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #999999;
+    white-space: nowrap;
+  }
+  
+  .nav-dropdown:hover .nav-dropbtn {
+    color: white;
+  }
+  
+  .nav-dropdown-content a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  .nav-right .nav-dropdown-content {
+    margin-left: -45%;
+    right: 0;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+    .distill-site-header a.nav-toggle {
+      float: right;
+      display: block;
+    }
+    .distill-site-header .title {
+      margin-left: 0;
+    }
+    .distill-site-header .nav-right {
+      margin-right: 0;
+    }
+    .distill-site-header {
+      overflow: hidden;
+    }
+    .nav-right .nav-dropdown-content {
+      margin-left: 0;
+    }
+  }
+  
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-header.responsive {position: relative;}
+    .distill-site-header.responsive a.nav-toggle {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    .distill-site-header.responsive a,
+    .distill-site-header.responsive .nav-dropdown {
+      display: block;
+      text-align: left;
+    }
+    .distill-site-header.responsive .nav-left,
+    .distill-site-header.responsive .nav-right {
+      width: 100%;
+    }
+    .distill-site-header.responsive .nav-dropdown {float: none;}
+    .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+    .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+      display: block;
+      width: 100%;
+      text-align: left;
+    }
+  }
+  
+  /* Site Footer */
+  
+  .distill-site-footer {
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    z-index: 3;
+    margin-top: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+  }
+  
+  /* Headroom */
+  
+  d-title {
+    padding-top: 6rem;
+  }
+  
+  @media print {
+    d-title {
+      padding-top: 4rem;
+    }
+  }
+  
+  .headroom {
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  
+  .headroom--transition {
+    transition: all .4s ease-in-out;
+  }
+  
+  .headroom--unpinned {
+    top: -100px;
+  }
+  
+  .headroom--pinned {
+    top: 0;
+  }
+  
+  </style>
+  
+  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+  <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="site_libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+  <link href="site_libs/font-awesome-5.0.12/css/fontawesome-all.min.css" rel="stylesheet" />
+  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-88715028-2"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-88715028-2');
+  </script>
+  <style type="text/css">
+  .distill-site-nav {
+    color: rgba(255, 255, 255, 0.8);
+    background-color: #8DCEA4;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  
+  .img-circle {
+    width:100px;
+    border-radius: 50%;
+  }
+  
+  
+  ul li {
+      margin-bottom: 1px;
+  }
+  
+  </style>
+  <!--/radix_placeholder_site_in_header-->
+
+  <link rel="stylesheet" href="styles.css" type="text/css"/>
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Data representation graphs","description":"The figures from chapter 2.4.2","authors":[]}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="index.html" class="title">Sequence Analysis - Companion Site</a>
+</div>
+<div class="nav-right">
+<a href="index.html">Home</a>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+R
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="UnderConstruction.html">Overview</a>
+<a href="rChapter2.html">Chapter 02</a>
+<a href="rChapter3.html">Chapter 03</a>
+<a href="UnderConstruction.html">Chapter 04</a>
+<a href="UnderConstruction.html">Chapter 05</a>
+</div>
+</div>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Stata
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="stata.html">Overview</a>
+<a href="UnderConstruction.html">Chapter 02</a>
+<a href="UnderConstruction.html">Chapter 03</a>
+<a href="UnderConstruction.html">Chapter 04</a>
+<a href="UnderConstruction.html">Chapter 05</a>
+</div>
+</div>
+<a href="about.html">About the Authors</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Data representation graphs</h1>
+<p>The figures from chapter 2.4.2</p>
+</div>
+
+
+<div class="d-article">
+<h3 class="d-toc-header">Table of Contents</h3>
+<nav class="d-toc" id="TOC">
+<ul>
+<li><a href="#different-sets-of-sequences-same-state-distribution">Different sets of sequences, <br/>same state distribution</a></li>
+<li><a href="#the-relative-frequency-index-plot">The relative frequency index plot</a></li>
+<li><a href="#bonus-material-additional-relative-frequency-sequence-plots">Bonus material: <br/>Additional relative frequency sequence plots</a></li>
+</ul>
+</nav>
+<hr class="d-toc-separator"/>
+<p>The figures in the book are printed in grayscale. Here we present both the colored and the grayscale versions of the figures.</p>
+<p>The first plots presented in chapter 2.4.1 are based on a reduced alphabet distinguishing four different partnership states. For the last examples we use a extended state space that combines information on partnership status and fertility. The corresponding tabular presentation can be found <a href="rChapter2-3.html">here</a>.</p>
+<h2 id="different-sets-of-sequences-same-state-distribution">Different sets of sequences, <br/>same state distribution</h2>
+<p>Using two small example dataset each containing ten constructed partnership biographies, Figure 2-5 illustrates that the aggregation of different sets of sequences can yield identical aggregated state distributions.</p>
+<p>The two example datasets are defined as:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# ===============================================
+# Generating two example datasets; k = 5; n = 10
+# ===============================================
+
+ex1 &lt;- tibble(state1 = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+              state2 = c(1, 1, 1, 1, 2, 2, 1, 1, 3, 3),
+              state3 = c(1, 1, 3, 3, 3, 3, 2, 2, 4, 4),
+              state4 = c(1, 1, 3, 3, 4, 4, 4, 4, 1, 1),
+              state5 = c(1, 1, 4, 4, 4, 4, 2, 2, 3, 1))
+
+
+ex2 &lt;- tibble(state1 = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+              state2 = c(1, 1, 1, 1, 2, 2, 1, 1, 3, 3),
+              state3 = c(1, 1, 4, 4, 2, 2, 3, 3, 3, 3),
+              state4 = c(4, 4, 4, 4, 1, 1, 1, 1, 3, 3),
+              state5 = c(4, 4, 4, 4, 2, 2, 1, 1, 1, 3))</code></pre>
+</div>
+<p>In a next step the datasets are defined as sequence objects:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Define long and short labels
+shortlab.partner &lt;- c(&quot;S&quot;, &quot;LAT&quot;, &quot;COH&quot;, &quot;MAR&quot;)
+longlab.partner &lt;-  c(&quot;Single&quot;, &quot;LAT&quot;, &quot;Cohabiting&quot;, &quot;Married&quot;)
+
+# Definition of color palettes using the colorspace package
+  # colors
+  colspace.partner &lt;- sequential_hcl(4, palette = &quot;Heat&quot;, rev = TRUE)
+
+  # grays
+  grays &lt;- sequential_hcl(4, palette = &quot;Light gray&quot;, rev = TRUE)
+  
+
+# Define sequence objects
+
+partner.ex1.seq  &lt;- seqdef(ex1, states = shortlab.partner,
+                           labels = longlab.partner, alphabet = c(1:4),
+                           cpal = colspace.partner) 
+
+partner.ex2.seq  &lt;- seqdef(ex2, states = shortlab.partner,
+                           labels = longlab.partner, alphabet = c(1:4),
+                           cpal = colspace.partner)</code></pre>
+</div>
+<p>This gives us the following two sets of sequences, which are plotted as state distribution and index plots in the next step. Both sets can be described by the same distribution plot, although they produce different index plots.</p>
+<p> </p>
+<div class="layout-chunk" data-layout="l-body">
+<table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Example sequences - set 1
+</th>
+<th style="text-align:left;">
+Example sequences - set 2
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(S,5)
+</td>
+<td style="text-align:left;">
+(S,3)-(MAR,2)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,5)
+</td>
+<td style="text-align:left;">
+(S,3)-(MAR,2)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,2)-(COH,2)-(MAR,1)
+</td>
+<td style="text-align:left;">
+(S,2)-(MAR,3)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,2)-(COH,2)-(MAR,1)
+</td>
+<td style="text-align:left;">
+(S,2)-(MAR,3)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,1)-(LAT,1)-(COH,1)-(MAR,2)
+</td>
+<td style="text-align:left;">
+(S,1)-(LAT,2)-(S,1)-(LAT,1)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,1)-(LAT,1)-(COH,1)-(MAR,2)
+</td>
+<td style="text-align:left;">
+(S,1)-(LAT,2)-(S,1)-(LAT,1)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,2)-(LAT,1)-(MAR,1)-(LAT,1)
+</td>
+<td style="text-align:left;">
+(S,2)-(COH,1)-(S,2)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,2)-(LAT,1)-(MAR,1)-(LAT,1)
+</td>
+<td style="text-align:left;">
+(S,2)-(COH,1)-(S,2)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,1)-(COH,1)-(MAR,1)-(S,1)-(COH,1)
+</td>
+<td style="text-align:left;">
+(S,1)-(COH,3)-(S,1)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,1)-(COH,1)-(MAR,1)-(S,2)
+</td>
+<td style="text-align:left;">
+(S,1)-(COH,4)
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p> </p>
+<p>Note that the color palette specified in <code>seqdef</code> will be used as the default when the respective sequence object is plotted with one of the <code>seqplot</code> functions. This behavior can be changed by adding the <code>cpal</code> argument to <code>seqplot.</code> Thus, the gray version of the figure shown below is produced by adding <code>cpal = grays</code> or re-defining the sequence objects whith the respective palette.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+png(file = &quot;figures/rChapter2-4-2_Fig2-5_dplot_iplots_color.png&quot;,
+    width = 1000, height = 800, res = 130)
+
+layout.fig1 &lt;- layout(matrix(c(1,2,3,4,4,4), 2, 3, byrow = TRUE),
+                      heights = c(.75,.25), widths = c(.35, .325, .325))
+layout.show(layout.fig1)
+
+
+par(mar = c(1, 3, 3, 2), las = 1)
+seqdplot(partner.ex1.seq, ylab = &quot;Relative frequency&quot;, 
+         with.legend = &quot;FALSE&quot;, border = NA,  axes = FALSE) 
+title(main = &quot;State Distribution Plot&quot;, cex.main = 2, line = 1.35)
+axis(1, at=c(.5:4.5), labels = c(1:5))
+
+par(mar = c(0, 2, 2, 2), mgp = c(3, 1, -.97))
+seqiplot(partner.ex1.seq, sortv = seqfpos(partner.ex1.seq,&quot;MAR&quot;),
+         with.legend = &quot;FALSE&quot;, yaxis = FALSE, axes = FALSE,
+         main = &quot;Sequence Index Plot I&quot;, cex.main = 2)
+axis(1, at=c(.5:4.5), labels = c(1:5))
+seqiplot(partner.ex2.seq, sortv = seqfpos(partner.ex2.seq,&quot;MAR&quot;),
+         with.legend = &quot;FALSE&quot;, yaxis = FALSE, axes = FALSE,
+         main = &quot;Sequence Index Plot II&quot;, cex.main = 2)
+axis(1, at=c(.5:4.5), labels = c(1:5))
+
+par(mar = c(0, 2, 0, 2))
+seqlegend(partner.ex1.seq, cex = 1.5, position = &quot;center&quot;, ncol = 4)
+
+
+dev.off()</code></pre>
+</div>
+<p> </p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="images/rChapter2-4-2_Fig2-5_dplot_iplots_color.png" width="500" /><img src="images/rChapter2-4-2_Fig2-5_dplot_iplots_gray.png" width="500" /></p>
+</div>
+<h2 id="the-relative-frequency-index-plot">The relative frequency index plot</h2>
+<p>This section illustrates how to render relative frequency index plot using the standard <code>seqIplot</code> function instead of <code>TraMineRextras' seqplot.rf</code>. Although <code>seqIplot</code> produces an appealing result, the function lacks flexibility. First, it does not allow for supressing the box-and-whiskerplot which is depicting the dissimilarities to the medoids. Second, it is not suited for producing grayscale figures that use shading lines to differentiate between states.</p>
+<p>Accordingly, we generated a tweaked version of <code>seqplot.rf</code> which does not render the graph but stores the information required to generate the desired visualization “manually”. This information is saved in a list object and the different elements of this list will be used to render the plot.</p>
+<p>Here you can dowload the tweaked version of <code>seqplot.rf</code>: <i class="fas  fa-download "></i> <a href="%22source/relfreqseq-obj.R%22">relfreqseq-obj.R</a>.</p>
+<p>Generating a relative frequency index plot requires sorting of the sequences to be sorted</p>
+<p>according to a substantively meaningful principle. By default <code>seqplot.rf</code> (and <code>relfreqseq-obj.R</code>) sorts the sequences according to their score on the first factor derived by applying multidimensional scaling on a matrix of pairwise dissimilarities between sequences. This distance matrix has to be calculated prior to the call of the <code>seqplot.rf</code> function. The following command is generating such a matrix using Optimal Matching with the default cost specification (indel = 1, substitution = 2) on our family fomration sequence data (yearly granularity). For further details on dissimilarity measures see material on <a href="rChapter3.html">Chapter3</a>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+partner.child.year.om &lt;- seqdist(partner.child.year.seq, method=&quot;OM&quot;, sm= &quot;CONSTANT&quot;)</code></pre>
+</div>
+<p>Once the dissimilarity matrix is generated, the information required for the plots can be extracted and save as a list object by the new <code>relfreqseq-obj</code> function.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+source(&quot;relfreqseq-obj.R&quot;)
+k37.mds &lt;- relfreqseq.obj(partner.child.year.seq,
+                          diss=partner.child.year.om, 
+                          k=37)</code></pre>
+</div>
+<p>Based on this object we finally can produce Figure 2-6. Note that we do not use <code>legend_large_box</code> instead of the the regular legend function to obtain a more appealing result. We also rearrange the states shown in the legend by adding empty entries to the initial label object. See companion page <a href="rChapter2-4_grayscale.html#legend-link">Color palette: Grayscale Edition</a> for further details on the tweaked legend.</p>
+<p>Below we show the code for the grayscale version (<code>cpal = colgrey.partner.child</code>) of the figure which requires overlapping index plots and legends (<code>par(new=TRUE)</code>) to combine a grayscale palette with shaded lines. For the identical colored figure these two elements of the figure have to be rendered only once.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+png(file = &quot;Fig2-6_relfreqIplot_mds_gray.png&quot;,
+    width = 1000, height = 750, res = 100)
+
+layout.fig &lt;- layout(matrix(c(1,2,3,3), 2, 2, byrow = TRUE),
+                      heights = c(.75,.25))
+layout.show(layout.fig)
+
+par(mar=c(3, 2, 3, 2))
+seqIplot(k37.mds[[1]], 
+         with.legend=FALSE,
+         axes = FALSE,
+         yaxis = FALSE, ylab = NA,
+         main=&quot;Medoid sequences (k = 37)&quot;, cex.main = 2,  
+         sortv=k37.mds[[2]],
+         cpal = colgrey.partner.child)
+par(new=TRUE)
+seqIplot(k37.mds[[1]], 
+         with.legend=FALSE,
+         axes = FALSE,
+         yaxis = FALSE, ylab = NA,
+         main=&quot;Medoid sequences (k = 37)&quot;, cex.main = 2,  
+         sortv=k37.mds[[2]],
+         cpal=rep(&quot;#000000&quot;,9),
+         density=c(0,20,0,20,0,20,0,20,20), 
+         angle=c(0,45,0,45,0,45,0,45,0))
+par(mgp=c(3,1,-0.5)) # adjust parameters for x-axis
+axis(1, at=(seq(0,22, by = 2)), labels = seq(18,40, by = 2))
+mtext(text = &quot;Age&quot;,
+      side = 1,#side 1 = bottom
+      line = 2)
+
+par(mar=c(3, 2, 3, 2),
+    mgp=c(3,1,-0.5)) # adjust parameters for x-axis
+boxplot(k37.mds[[3]]~k37.mds[[2]], 
+        horizontal=TRUE, 
+        width=k37.mds[[4]], 
+        frame=FALSE, 
+        main=&quot;Dissimilarities to medoid&quot;, cex.main = 2, 
+        at=k37.mds[[6]],
+        yaxt=&#39;n&#39;, ylab = NA, xlab = NA)
+mtext(text = &quot;Distance&quot;,
+      side = 1,#side 1 = bottom
+      line = 2)
+
+par(mar=c(1, 1, 4, 1))
+plot(NULL ,xaxt=&#39;n&#39;,yaxt=&#39;n&#39;,bty=&#39;n&#39;,ylab=&#39;&#39;,xlab=&#39;&#39;, xlim=0:1, ylim=0:1)
+
+legend_large_box(&quot;center&quot;, legend = longlab.partner.child2,
+                 ncol=4, fill=colgrey.partner.child2, 
+                 border = bordercol.partner.child,
+                 box.cex=c(4.5,1.5),  y.intersp=2,
+                 inset=c(0,-.4), xpd=TRUE)
+par(new=TRUE)
+legend_large_box(&quot;center&quot;, legend = longlab.partner.child2,
+                 ncol=4, bg = &quot;transparent&quot;, 
+                 border = bordercol.partner.child,
+                 box.cex=c(4.5,1.5),  y.intersp=2,
+                 inset=c(0,-.4), xpd=TRUE,
+                 density=c(0,20,0,0,20,0,0,20,0,0,20,20), 
+                 angle=c(0,45,0,0,45,0,0,45,0,0,45,0))
+
+title(main = paste(&quot;Representation quality: R2 =&quot;, 
+                   round(as.numeric(k37.mds[&quot;R2&quot;]),2),
+                   &quot;and F =&quot;, round(as.numeric(k37.mds[&quot;Fstat&quot;]),2)), 
+      line = 2, font.main = 1)
+
+dev.off()</code></pre>
+</div>
+<p> </p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="images/rChapter2-4-3_Fig2-6_relfreqIplot_mds_gray.png" width="500" /><img src="images/rChapter2-4-3_Fig2-6_relfreqIplot_mds_color.png" width="500" /></p>
+</div>
+<h2 id="bonus-material-additional-relative-frequency-sequence-plots">Bonus material: <br/>Additional relative frequency sequence plots</h2>
+<p>The quality and the appearance of relative frequency sequence plots heavily depend on the underlying analytical choices. Below we illustrate how the plot looks like with a different sorting criterion, i.e. the time spent in marriage. The marital states are the last threes states of the alphabet (<code>alphabet(partner.child.year.seq)[7:9]</code>), the respective state frequencies are extracted by TraMineR’s <code>seqistatd</code> function, and summed up using <code>rowSums</code>. The plot is generated in excactly the same way as above. We only have to replace <code>k37.mds</code> with <code>k37.mardur</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+k37.mardur &lt;- relfreqseq.obj(partner.child.year.seq,
+                             diss=partner.child.year.om,
+                             sortv = rowSums(seqistatd(partner.child.year.seq)[,7:9]),
+                             k=37)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="images/rChapter2-4-3_Fig2-6-bonus_relfreqIplot_mardur_color.png" width="500" /></p>
+</div>
+<p>The dissimilarities to medoid plot and the lower R2 show that this sorting criterion performs worse than the previous one. In the next figure we re-plot only the two medoid sequences of the two solution to ease the comparison. In terms of code this means, that the box-whisker-plot from the previous code snippet (<code>boxplot(k37.mds[[3]]~k37.mds[[2]] ...</code>) has to replaced by another <code>seqIplot</code>. In addition, we slightly adjust the two index plots’ titles to print the repsective R2s.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+png(file = &quot;Fig2-6-bonus_relfreqIplot_mds_vs_mardur_color.png&quot;,
+    width = 1000, height = 750, res = 100)
+
+layout.fig1 &lt;- layout(matrix(c(1,2,3,3), 2, 2, byrow = TRUE),
+                      heights = c(.75,.25))
+layout.show(layout.fig1)
+
+
+par(mar=c(3, 2, 3, 2))
+seqIplot(k37.mds[[1]], 
+         with.legend=FALSE,
+         axes = FALSE,
+         yaxis = FALSE, ylab = NA,
+         main= paste(&quot;Medoids sorted by MDS factor; R2 =&quot;, 
+                     round(as.numeric(k37.mds[&quot;R2&quot;]),2)),
+         cex.main = 1.4,  
+         sortv=k37.mds[[2]])
+
+par(mgp=c(3,1,-0.5)) # adjust parameters for x-axis
+axis(1, at=(seq(0,22, by = 2)), labels = seq(18,40, by = 2))
+mtext(text = &quot;Age&quot;,
+      side = 1,#side 1 = bottom
+      line = 2)
+
+par(mar=c(3, 2, 3, 2))
+seqIplot(k37.mardur[[1]], 
+         with.legend=FALSE,
+         axes = FALSE,
+         yaxis = FALSE, ylab = NA,
+         main= paste(&quot;Medoids sorted by marriage duration; R2 =&quot;, 
+                     round(as.numeric(k37.mardur[&quot;R2&quot;]),2)),
+         cex.main = 1.4,
+         sortv=k37.mardur[[2]])
+
+par(mgp=c(3,1,-0.5)) # adjust parameters for x-axis
+axis(1, at=(seq(0,22, by = 2)), labels = seq(18,40, by = 2))
+mtext(text = &quot;Age&quot;,
+      side = 1,#side 1 = bottom
+      line = 2)
+
+par(mar=c(1, 1, 1, 1))
+plot(NULL ,xaxt=&#39;n&#39;,yaxt=&#39;n&#39;,bty=&#39;n&#39;,ylab=&#39;&#39;,xlab=&#39;&#39;, xlim=0:1, ylim=0:1)
+
+legend_large_box(&quot;center&quot;, legend = longlab.partner.child2,
+                 ncol=4, fill=colspace.partner.child2, 
+                 border = bordercol.partner.child,
+                 box.cex=c(4.5,1.5),  y.intersp=2,
+                 inset=c(0,-.4), xpd=TRUE)
+
+dev.off()</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="images/rChapter2-4-3_Fig2-6-bonus_relfreqIplot_mds_vs_mardur_color.png" width="500" /></p>
+</div>
+<p>While there is a notable share of resemblance between the two plots, they also show some marked differences. The medoids in the right panel are much more dominated by the state “Married 2+ children”. Note that both graphs still represent the same data. The sorting criterion just led to a different selection of medoids and consequently to different visual representations of the same data.</p>
+<p>Ultimately, relative frequency sequence plots are a data reduction strategy whose results depend on the input parameters. Luckily, the R2 values and F test allow to evaluate and to compare the quality of different solutions. It is also worthwile to inspect how the state distributions at different positions of the sequence compare to those shown in the state distribution plot (which presents in summary of the entire data set as opposed to a selection of representative sequences). Based on these criteria we prefer the sorting based on multidimensional scaling for generating relative frequency sequence plots with our example data.</p>
+<p>In general, we recommend to test different specifications in terms of the sorting criterion, the dissimilarity measure, and the number of chosen frequency groups. In our example, for instance, we used a rather low number of frequency groups in order to ensure readibilty of the grayscale figures. The results, however, were robust to changes in the number of frequency groups.</p>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+<h3 id="updates-and-corrections">Corrections</h3>
+<p>If you see mistakes or want to suggest changes, please <a href="https://github.com/sa-book/companion/issues/new">create an issue</a> on the source repository.</p>
+<h3 id="reuse">Reuse</h3>
+<p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>. Source code is available at <a href="https://github.com/sa-book/companion">https://github.com/sa-book/companion</a>, unless otherwise noted. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
