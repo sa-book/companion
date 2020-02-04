@@ -15,11 +15,11 @@ description: |
 output:
   distill::distill_article:
     toc: true
-    toc_depth: 2
+    toc_depth: 3
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(eval=TRUE, echo=TRUE)
 
 options("kableExtra.html.bsTable" = T)
 
@@ -28,15 +28,21 @@ options("kableExtra.html.bsTable" = T)
 load("data/2-3_BasicDescription.RData")
 
 # (down)load required packages using pacman
-source("0-0_LoadInstallPackages.R")
+source("source/LoadInstallPackages.R")
+
+# sequence quality index
+source("source/seqsuccess.R")
 
 ```
 
-## Sequencing – counting transitions and subsequences
+
+##	Unidimensional Measures
+
+### Sequencing – counting transitions and subsequences
 
 The chapter starts with two tiny sequences that were constructed to illustrate differences between counting the number of transitions and the number of subsequences. The sequence data are constructed with the following code:
 
-```{r, eval=TRUE, echo=TRUE}
+```{r}
 seqX <- c("S","LAT","COH","MAR")
 seqY <- c("S","LAT","COH","S")
 
@@ -45,7 +51,7 @@ ex1.seq <- seqdef(rbind(seqX,seqY), alphabet = seqX)
 
 The number of transitions can be obtained with the `seqtransn` function, the number of **distinct** subsequences is computed with `seqsubsn`. Both functions are part of the `TraMineR` package..
 
-```{r, eval=TRUE, echo=TRUE}
+```{r}
 # Number of transitions
 seqtransn(ex1.seq)
 
@@ -53,10 +59,10 @@ seqtransn(ex1.seq)
 seqsubsn(ex1.seq)
 ```
 
-In Table 2-9 we show all distinct subsequences extracted from *Sequence x* (`seqx`). The subsequences can be extracted by using the `combn` function. The functions extracts only subsequences of given length each time it is executed. In the following loop we specify `rev(seq_along(seqX))` to extract subsequences of length 4 to 1. The extracted subsequences are stored as data.frames in the resulting list `subseqs`. In the next step, we put all these subsequences into one data frame using `bind_rows(subseqs)`. Then we remove all duplicates using `distinct` and add an empty row for the empty subsequence $\lambda$. The resulting dataset can be nicely printed in the console with `print(seqdef(subseqs), format = "SPS")`. 
+In **Table 2-9** we show all distinct subsequences extracted from *Sequence x* (`seqx`). The subsequences can be extracted by using the `combn` function. The functions extracts only subsequences of given length each time it is executed. In the following loop we specify `rev(seq_along(seqX))` to extract subsequences of length 4 to 1. The extracted subsequences are stored as data.frames in the resulting list `subseqs`. In the next step, we put all these subsequences into one data frame using `bind_rows(subseqs)`. Then we remove all duplicates using `distinct` and add an empty row for the empty subsequence $\lambda$. The resulting dataset can be nicely printed in the console with `print(seqdef(subseqs), format = "SPS")`. 
 
 
-```{r, eval=TRUE, echo=TRUE}
+```{r}
 # Extract & display all possible subsequences of Sequence x
 subseqs <- vector(mode = "list", length = length(seqX))
 
@@ -76,12 +82,242 @@ subseqs[1,1] <- "-"
 seqdss(seqdef(subseqs))
 ```
 
+Normalizing the two sequencing indicators eases the comparison between sequences. The number of transitions can be normalized by adding the argument `norm = TRUE` when executing `seqtransn`. The normalization of the number of subsequences is done manually. Following ELzinga`s recommendation we use the $\log_2\phi$ instead of total number of subsequences ($\phi$) as our starting point. This number is related to it's theroetical maximum $\log_2\phi_{max}$.
+The maximum number of subsequences can be extracted from a hypothetical sequence that repeats the states of the alphabet up to the length of thelongest sequence in the currently examined data. In our example this sequence is constructed by:
 
-<!--
-seqtransn(ex1.seq, norm = TRUE) # normalized
-seqsubsn.max <- rep(alphabet(ex1.seq), length.out = max(seqlength(ex1.seq)))
+```{r}
+seqsubsn.max <- rep(alphabet(ex1.seq), 
+                    length.out = max(seqlength(ex1.seq)))
+
+seqsubsn.max
+```
+
+The resulting sequence is identical with sequence x. Accordingly, the normalized value for this sequence should equal 1. The following two commands produce the normalized scores for our two sequence. The first command defines the object extracted in the previous step as a sequence object (`seqdef(t(seqsubsn.max))`) and extracts the number of subsequences with `seqsubsn`. The second command computes the normalized values for our two example sequences according to $\frac{log_2 \phi - 1}{\log_2\phi_{max} - 1}$.
+
+
+```{r}
+# normalized number of transitions
+seqtransn(ex1.seq, norm = TRUE)
+
+# normalized number of subsequences (log2)
 seqsubsn.max <- seqsubsn(seqdef(t(seqsubsn.max)))
-(log2(seqsubsn(ex1.seq))-1)/(log2(rep(seqsubsn.max,nrow(ex1.seq)))-1) # normalized
--->
+round((log2(seqsubsn(ex1.seq))-1)/
+      (log2(rep(seqsubsn.max,nrow(ex1.seq)))-1),2)
+```
 
-To be continued...
+### Duration – longitudinal Shannon entropy
+
+The example sequences from the book can be created with the following code:
+
+```{r}
+seqX2 <- rep(c("S","LAT","COH","MAR"),2)
+seqY2 <- rep(c("S","LAT","COH","MAR"),c(2,2,2,2))
+
+
+ex2.seq <- seqdef(rbind(seqX2,seqY2), 
+                  alphabet = c("S","LAT","COH","MAR"))
+```
+
+The normalized longitudinal entropies are computed with:
+
+```{r}
+seqient(ex2.seq)
+```
+
+Both sequences have an entropy values of 1, the maximum. They differ, however, in terms of sequencing:
+
+```{r}
+# normalized number of transitions
+seqtransn(ex2.seq, norm = TRUE)
+
+# normalized number of subsequences (log2)
+seqsubsn.max <- rep(alphabet(ex2.seq),
+                    length.out = max(seqlength(ex2.seq)))
+
+seqsubsn.max <- seqsubsn(seqdef(t(seqsubsn.max)))
+
+round((log2(seqsubsn(ex2.seq))-1)/
+      (log2(rep(seqsubsn.max,nrow(ex2.seq)))-1),2)
+```
+
+
+##	Composite Indices
+
+For this section we generate an example dataset comprising 12 sequences of length 20:
+
+```{r}
+data <- matrix(c(rep("S", 20),
+                 rep("MAR", 20),
+                 c(rep("MAR", 5)), rep("COH", 5), rep("LAT", 5), rep("S", 5),
+                 c(rep("S", 5), rep("LAT", 5), rep("COH", 5), rep("MAR", 5)),
+                 c(rep("S", 3), rep("LAT", 1), rep("COH", 6), rep("MAR", 10)),
+                 c(rep("S", 4), rep("LAT", 4), rep("COH", 6), rep("MAR", 6)),
+                 c(rep("MAR", 6), rep("S", 4), rep("LAT", 4), rep("COH", 6)),
+                 c(rep("S", 10), rep("MAR", 10)),
+                 c(rep("S", 2), rep("LAT", 5), rep("S", 3), rep("COH", 5), rep("MAR", 5)),
+                 c(rep("S", 2), rep("LAT", 5), rep("COH", 5), rep("MAR", 5), rep("S", 3)),
+                 c(rep("S", 2), rep("MAR", 10), rep("COH", 8)),
+                 c(rep("S", 2), rep("MAR", 2), rep("COH", 8), rep("MAR", 8))), nrow = 12, byrow = TRUE)
+
+
+example.seq <- seqdef(data, alphabet = c("S","LAT","COH","MAR"))
+example.sps <- print(example.seq, format = "SPS")
+```
+
+**Table 2-10** in the book presents several unidimensional and composite measures for these sequences. With the exception of the quality index proposed by [Manzoni and Mooi-Reci (2018)](https://doi.org/10.1007/978-3-319-95420-2_15) all of these indices can be easily computed using the respective `TraMineR` functions. The precarity index suggested by [Ritschard et al. (2018)](https://doi.org/10.1007/978-3-319-95420-2_16) requires to specify a qualitative hierarchy of states. For demonstration purposes we take a traditionalist's perspective and impose the folowing hierarchy of partnership states $\text{MAR} > \text{COH} > \text{LAT} > \text{S}$, i.e. the elements of the alphabet in reversed order. Accordingly, we specify the `state.order`
+argument as `rev(alphabet(example.seq))`.
+
+```{r}
+
+# Number of transitions
+transitions.norm <- round(seqtransn(example.seq, norm = TRUE),2)
+
+# Within sequence entropies
+entropy <- seqient(example.seq)
+
+# Turbulence
+turbulence <- seqST(example.seq, norm = TRUE)
+
+# Complexity
+complexity <- seqici(example.seq)
+
+#Precarity index
+precarity <- seqprecarity(example.seq,
+                          state.order = rev(alphabet(example.seq)))
+
+```
+
+We wrote a little function to implement the sequence quality index
+
+$$
+\frac{\sum_{i=1}^{k}{p^{w}_{i}}}{\sum_{i=1}^{k}{i^{w }_{i}}}, \quad \text{with} \quad p_i =
+  \begin{cases}
+    i  &  \text{if } x_i=S \\
+    0  &  \text{otherwise}
+  \end{cases}
+$$
+
+where $i$ indicates the position within the sequence, $x_i=S$ denotes a successful state at position $i$, and $w$ is a weighting factor simultaneously affecting the impact size of failures, but also the strength and pace of recovery due to subsequent successes.
+
+Our function `seqsuccess` allows to obtain the quality index for multiple weighting factors simultaneously.
+
+You can download the function here: **`r icon::fa("download")` [seqsuccess.R]("source/seqsuccess.R")**.
+You can use it in R once you added it to your current environment by typing:
+
+```{r, eval=FALSE}
+source("seqsuccess.R")
+```
+
+
+In the example code below we specify - from a traditionalist's point of view - marriage as the state of success using three different weights. We also generate an object containing the quality index for the default weight of one exclusively, which later will be used for creating **Table 2-10**.
+
+```{r}
+seqsuccess(example.seq,
+           success = "MAR",
+           weight = c(.5,1,2))
+
+quality <- seqsuccess(example.seq, 
+                      success = "MAR")
+```
+
+If only a single weight is specified, it is also possible to caluclate a time-varying version of the quality index (`time.varying = TRUE`) for each sequence position $i$, which can be used as a variable in panel regressions (see [Manzoni and Mooi-Reci (2018)](https://doi.org/10.1007/978-3-319-95420-2_15) for an application). Futhermore, multiple states of the alphabet can be jointly defined as success either by providing their numeric values or labels. In the example below, we specify marriage and cohabitation as success. 
+
+```{r, eval=FALSE}
+seqsuccess(example.seq,
+          success = c("COH", "MAR"), # also possible: c(3,4)
+          time.varying = TRUE)
+```
+
+
+```{r, echo=FALSE}
+success.tvar <- seqsuccess(example.seq,
+                           success = c("COH", "MAR"),
+                           time.varying = TRUE)
+
+success.tvar <- as.data.frame(success.tvar)
+colnames(success.tvar) <- paste0("i=", 1:20) 
+
+paged_table(success.tvar, list(rows.print = 12))
+```
+
+Reshaping the data to long format and some data cleaning allow to visualize how the sequences develop over time. In the example below this is done for a selection of four sequences.
+
+```{r, layout="l-body-outset"}
+# Preparing the data for ggplot (-> long format)
+fig.data <- success.tvar %>%
+  mutate(id = row_number(),
+         Sequence = example.sps) %>%
+  pivot_longer(cols =-c("id", "Sequence"), 
+               names_to = "Position",
+               values_to = "Sequence Quality") %>%
+  mutate(Position = as.numeric(substring(Position, first = 3)))
+
+# Plot the development of the sequence quality index
+fig.data %>%
+  filter(id %in% c(5,7,9,10)) %>%
+  ggplot(aes(x = Position, 
+             y = `Sequence Quality`, 
+             color = Sequence)) +
+  geom_line(size=1) +
+  theme_minimal()
+```
+
+Once we have stored the quality index and the other indices in one object, we can display them as a comprehenisve table (**Table 2-10** in the book).
+
+```{r, layout="l-body-outset"}
+# Save indices as data frame
+tab2.10 <- data.frame(example.sps,
+                  Transitions = as.vector(transitions.norm),
+                  entropy,
+                  turbulence,
+                  Complexity = as.vector(complexity),
+                  Precarity = as.vector(precarity),
+                  Quality = as.vector(quality))
+
+# Generate table
+kable(tab2.10, digits = 2) %>%
+  kable_styling(bootstrap_options = c("responsive", "hover", "condensed"),
+                full_width = F)
+```
+
+We also illustrate how the indices could be used in regression analysis. Note that the aim of this exercise is not to build a good statistical model but to showcase how to work with the index scores obtained in SA.
+
+In the following code we generate a dataset containing the respondent'S gender (`sex`), level of education (`highschool`), and migration background (`migstatus`) using the pairfam example data rather than constructed sequences. The data are stored in `family` and the sequences combining partnership states and fertility have been saved in the sequence object `partner.child.year.seq`. 
+
+```{r}
+regdata <- family %>%
+  select(sex, highschool, migstatus) %>%
+  mutate(Complexity = as.numeric(seqici(partner.child.year.seq)),
+         Turbulence = as.numeric(seqST(partner.child.year.seq, norm = TRUE))) %>%
+  filter(migstatus != -7) %>% # Exclude missings
+  mutate(migstatus = as_factor(migstatus)) 
+  
+# Regression analysis with Turbulence and Complexity as DV
+lm.turbulence <- lm(Turbulence ~ sex + highschool + migstatus, data = regdata)
+lm.complexity <- lm(Complexity ~ sex + highschool + migstatus, data = regdata)
+
+tab_model(lm.turbulence,lm.complexity, file="output.html")
+
+```
+
+Finally, the chapter mentions the correlation betwen turbulence and complexity for the small example data as well as for the pairfam sample. The two correlations can be obtained by
+
+```{r}
+# Correlation in the toy dataset with 12 sequences
+cor(complexity,turbulence)
+
+# Computing the indices for the pairfam data
+complexity2 <- seqici(partner.year.seq)
+turbulence2 <- seqST(partner.year.seq, norm = TRUE)
+
+# Print the correlation
+cor(complexity2,turbulence2)
+```
+
+## References {.appendix}
+
+Manzoni, A., & Mooi-Reci, I. (2018). *Measuring Sequence Quality*. In G. Ritschard & M. Studer (Eds.), Sequence Analysis and Related Approaches (pp. 261–278). doi: 10.1007/978-3-319-95420-2_15
+
+Ritschard, G., Bussi, M., & O’Reilly, J. (2018). *An Index of Precarity for Measuring Early Employment Insecurity*. In G. Ritschard & M. Studer (Eds.), Sequence Analysis and Related Approaches (pp. 279–295). doi: 10.1007/978-3-319-95420-2_16
+
+

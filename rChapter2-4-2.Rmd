@@ -162,7 +162,7 @@ This section illustrates how to render relative frequency index plot using the s
 
 Accordingly, we generated a tweaked version of `seqplot.rf` which does not render the graph but stores the information required to generate the desired visualization "manually". This information is saved in a list object and the different elements of this list will be used to render the plot.
 
-Here you can dowload the tweaked version of `seqplot.rf`: `r icon::fa("download")` [relfreqseq-obj.R]("source/relfreqseq-obj.R").
+Here you can download the tweaked version of `seqplot.rf`: `r icon::fa("download")` [relfreqseq-obj.R]("source/relfreqseq-obj.R").
 
 Generating a relative frequency index plot requires sorting of the sequences to be sorted 
 

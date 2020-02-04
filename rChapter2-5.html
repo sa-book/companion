@@ -42,7 +42,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output"]}},"value":[{"type":"character","attributes":{},"value":["2.5 Advanced Description"]},{"type":"character","attributes":{},"value":["Assessing sequence complexity and quality\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[2]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output"]}},"value":[{"type":"character","attributes":{},"value":["2.5 Advanced Description"]},{"type":"character","attributes":{},"value":["Assessing sequence complexity and quality\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -1258,6 +1258,11 @@
   </script>
   
   <!--/radix_placeholder_distill-->
+  <link href="site_libs/font-awesome-5.0.12/css/fontawesome-all.min.css" rel="stylesheet" />
+  <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+  <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+  <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="site_libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
   <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
@@ -1359,11 +1364,17 @@ Stata
 <h3 class="d-toc-header">Table of Contents</h3>
 <nav class="d-toc" id="TOC">
 <ul>
+<li><a href="#unidimensional-measures">Unidimensional Measures</a><ul>
 <li><a href="#sequencing-counting-transitions-and-subsequences">Sequencing – counting transitions and subsequences</a></li>
+<li><a href="#duration-longitudinal-shannon-entropy">Duration – longitudinal Shannon entropy</a></li>
+</ul></li>
+<li><a href="#composite-indices">Composite Indices</a></li>
+<li><a href="#references">References</a></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
-<h2 id="sequencing-counting-transitions-and-subsequences">Sequencing – counting transitions and subsequences</h2>
+<h2 id="unidimensional-measures">Unidimensional Measures</h2>
+<h3 id="sequencing-counting-transitions-and-subsequences">Sequencing – counting transitions and subsequences</h3>
 <p>The chapter starts with two tiny sequences that were constructed to illustrate differences between counting the number of transitions and the number of subsequences. The sequence data are constructed with the following code:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1389,7 +1400,7 @@ seqsubsn(ex1.seq)</code></pre>
 seqX      16
 seqY      15</code></pre>
 </div>
-<p>In Table 2-9 we show all distinct subsequences extracted from <em>Sequence x</em> (<code>seqx</code>). The subsequences can be extracted by using the <code>combn</code> function. The functions extracts only subsequences of given length each time it is executed. In the following loop we specify <code>rev(seq_along(seqX))</code> to extract subsequences of length 4 to 1. The extracted subsequences are stored as data.frames in the resulting list <code>subseqs</code>. In the next step, we put all these subsequences into one data frame using <code>bind_rows(subseqs)</code>. Then we remove all duplicates using <code>distinct</code> and add an empty row for the empty subsequence <span class="math inline">\(\lambda\)</span>. The resulting dataset can be nicely printed in the console with <code>print(seqdef(subseqs), format = "SPS")</code>.</p>
+<p>In <strong>Table 2-9</strong> we show all distinct subsequences extracted from <em>Sequence x</em> (<code>seqx</code>). The subsequences can be extracted by using the <code>combn</code> function. The functions extracts only subsequences of given length each time it is executed. In the following loop we specify <code>rev(seq_along(seqX))</code> to extract subsequences of length 4 to 1. The extracted subsequences are stored as data.frames in the resulting list <code>subseqs</code>. In the next step, we put all these subsequences into one data frame using <code>bind_rows(subseqs)</code>. Then we remove all duplicates using <code>distinct</code> and add an empty row for the empty subsequence <span class="math inline">\(\lambda\)</span>. The resulting dataset can be nicely printed in the console with <code>print(seqdef(subseqs), format = "SPS")</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 # Extract &amp; display all possible subsequences of Sequence x
@@ -1428,13 +1439,780 @@ seqdss(seqdef(subseqs))</code></pre>
 15 LAT-COH-MAR  
 16 S-LAT-COH-MAR</code></pre>
 </div>
-<!--
-seqtransn(ex1.seq, norm = TRUE) # normalized
-seqsubsn.max <- rep(alphabet(ex1.seq), length.out = max(seqlength(ex1.seq)))
-seqsubsn.max <- seqsubsn(seqdef(t(seqsubsn.max)))
-(log2(seqsubsn(ex1.seq))-1)/(log2(rep(seqsubsn.max,nrow(ex1.seq)))-1) # normalized
--->
-<p>To be continued…</p>
+<p>Normalizing the two sequencing indicators eases the comparison between sequences. The number of transitions can be normalized by adding the argument <code>norm = TRUE</code> when executing <code>seqtransn</code>. The normalization of the number of subsequences is done manually. Following ELzinga`s recommendation we use the <span class="math inline">\(\log_2\phi\)</span> instead of total number of subsequences (<span class="math inline">\(\phi\)</span>) as our starting point. This number is related to it’s theroetical maximum <span class="math inline">\(\log_2\phi_{max}\)</span>. The maximum number of subsequences can be extracted from a hypothetical sequence that repeats the states of the alphabet up to the length of thelongest sequence in the currently examined data. In our example this sequence is constructed by:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+seqsubsn.max &lt;- rep(alphabet(ex1.seq), 
+                    length.out = max(seqlength(ex1.seq)))
+
+seqsubsn.max</code></pre>
+<pre><code>
+[1] &quot;S&quot;   &quot;LAT&quot; &quot;COH&quot; &quot;MAR&quot;</code></pre>
+</div>
+<p>The resulting sequence is identical with sequence x. Accordingly, the normalized value for this sequence should equal 1. The following two commands produce the normalized scores for our two sequence. The first command defines the object extracted in the previous step as a sequence object (<code>seqdef(t(seqsubsn.max))</code>) and extracts the number of subsequences with <code>seqsubsn</code>. The second command computes the normalized values for our two example sequences according to <span class="math inline">\(\frac{log_2 \phi - 1}{\log_2\phi_{max} - 1}\)</span>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# normalized number of transitions
+seqtransn(ex1.seq, norm = TRUE)</code></pre>
+<pre><code>
+     Trans.
+seqX      1
+seqY      1</code></pre>
+<pre class="r"><code>
+# normalized number of subsequences (log2)
+seqsubsn.max &lt;- seqsubsn(seqdef(t(seqsubsn.max)))
+round((log2(seqsubsn(ex1.seq))-1)/
+      (log2(rep(seqsubsn.max,nrow(ex1.seq)))-1),2)</code></pre>
+<pre><code>
+     Subseq.
+seqX    1.00
+seqY    0.97</code></pre>
+</div>
+<h3 id="duration-longitudinal-shannon-entropy">Duration – longitudinal Shannon entropy</h3>
+<p>The example sequences from the book can be created with the following code:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+seqX2 &lt;- rep(c(&quot;S&quot;,&quot;LAT&quot;,&quot;COH&quot;,&quot;MAR&quot;),2)
+seqY2 &lt;- rep(c(&quot;S&quot;,&quot;LAT&quot;,&quot;COH&quot;,&quot;MAR&quot;),c(2,2,2,2))
+
+
+ex2.seq &lt;- seqdef(rbind(seqX2,seqY2), 
+                  alphabet = c(&quot;S&quot;,&quot;LAT&quot;,&quot;COH&quot;,&quot;MAR&quot;))</code></pre>
+</div>
+<p>The normalized longitudinal entropies are computed with:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+seqient(ex2.seq)</code></pre>
+<pre><code>
+      Entropy
+seqX2       1
+seqY2       1</code></pre>
+</div>
+<p>Both sequences have an entropy values of 1, the maximum. They differ, however, in terms of sequencing:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# normalized number of transitions
+seqtransn(ex2.seq, norm = TRUE)</code></pre>
+<pre><code>
+         Trans.
+seqX2 1.0000000
+seqY2 0.4285714</code></pre>
+<pre class="r"><code>
+# normalized number of subsequences (log2)
+seqsubsn.max &lt;- rep(alphabet(ex2.seq),
+                    length.out = max(seqlength(ex2.seq)))
+
+seqsubsn.max &lt;- seqsubsn(seqdef(t(seqsubsn.max)))
+
+round((log2(seqsubsn(ex2.seq))-1)/
+      (log2(rep(seqsubsn.max,nrow(ex2.seq)))-1),2)</code></pre>
+<pre><code>
+      Subseq.
+seqX2    1.00
+seqY2    0.44</code></pre>
+</div>
+<h2 id="composite-indices">Composite Indices</h2>
+<p>For this section we generate an example dataset comprising 12 sequences of length 20:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+data &lt;- matrix(c(rep(&quot;S&quot;, 20),
+                 rep(&quot;MAR&quot;, 20),
+                 c(rep(&quot;MAR&quot;, 5)), rep(&quot;COH&quot;, 5), rep(&quot;LAT&quot;, 5), rep(&quot;S&quot;, 5),
+                 c(rep(&quot;S&quot;, 5), rep(&quot;LAT&quot;, 5), rep(&quot;COH&quot;, 5), rep(&quot;MAR&quot;, 5)),
+                 c(rep(&quot;S&quot;, 3), rep(&quot;LAT&quot;, 1), rep(&quot;COH&quot;, 6), rep(&quot;MAR&quot;, 10)),
+                 c(rep(&quot;S&quot;, 4), rep(&quot;LAT&quot;, 4), rep(&quot;COH&quot;, 6), rep(&quot;MAR&quot;, 6)),
+                 c(rep(&quot;MAR&quot;, 6), rep(&quot;S&quot;, 4), rep(&quot;LAT&quot;, 4), rep(&quot;COH&quot;, 6)),
+                 c(rep(&quot;S&quot;, 10), rep(&quot;MAR&quot;, 10)),
+                 c(rep(&quot;S&quot;, 2), rep(&quot;LAT&quot;, 5), rep(&quot;S&quot;, 3), rep(&quot;COH&quot;, 5), rep(&quot;MAR&quot;, 5)),
+                 c(rep(&quot;S&quot;, 2), rep(&quot;LAT&quot;, 5), rep(&quot;COH&quot;, 5), rep(&quot;MAR&quot;, 5), rep(&quot;S&quot;, 3)),
+                 c(rep(&quot;S&quot;, 2), rep(&quot;MAR&quot;, 10), rep(&quot;COH&quot;, 8)),
+                 c(rep(&quot;S&quot;, 2), rep(&quot;MAR&quot;, 2), rep(&quot;COH&quot;, 8), rep(&quot;MAR&quot;, 8))), nrow = 12, byrow = TRUE)
+
+
+example.seq &lt;- seqdef(data, alphabet = c(&quot;S&quot;,&quot;LAT&quot;,&quot;COH&quot;,&quot;MAR&quot;))
+example.sps &lt;- print(example.seq, format = &quot;SPS&quot;)</code></pre>
+<pre><code>
+     Sequence                           
+[1]  (S,20)                             
+[2]  (MAR,20)                           
+[3]  (MAR,5)-(COH,5)-(LAT,5)-(S,5)      
+[4]  (S,5)-(LAT,5)-(COH,5)-(MAR,5)      
+[5]  (S,3)-(LAT,1)-(COH,6)-(MAR,10)     
+[6]  (S,4)-(LAT,4)-(COH,6)-(MAR,6)      
+[7]  (MAR,6)-(S,4)-(LAT,4)-(COH,6)      
+[8]  (S,10)-(MAR,10)                    
+[9]  (S,2)-(LAT,5)-(S,3)-(COH,5)-(MAR,5)
+[10] (S,2)-(LAT,5)-(COH,5)-(MAR,5)-(S,3)
+[11] (S,2)-(MAR,10)-(COH,8)             
+[12] (S,2)-(MAR,2)-(COH,8)-(MAR,8)      </code></pre>
+</div>
+<p><strong>Table 2-10</strong> in the book presents several unidimensional and composite measures for these sequences. With the exception of the quality index proposed by <a href="https://doi.org/10.1007/978-3-319-95420-2_15">Manzoni and Mooi-Reci (2018)</a> all of these indices can be easily computed using the respective <code>TraMineR</code> functions. The precarity index suggested by <a href="https://doi.org/10.1007/978-3-319-95420-2_16">Ritschard et al. (2018)</a> requires to specify a qualitative hierarchy of states. For demonstration purposes we take a traditionalist’s perspective and impose the folowing hierarchy of partnership states <span class="math inline">\(\text{MAR} &gt; \text{COH} &gt; \text{LAT} &gt; \text{S}\)</span>, i.e. the elements of the alphabet in reversed order. Accordingly, we specify the <code>state.order</code> argument as <code>rev(alphabet(example.seq))</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Number of transitions
+transitions.norm &lt;- round(seqtransn(example.seq, norm = TRUE),2)
+
+# Within sequence entropies
+entropy &lt;- seqient(example.seq)
+
+# Turbulence
+turbulence &lt;- seqST(example.seq, norm = TRUE)
+
+# Complexity
+complexity &lt;- seqici(example.seq)
+
+#Precarity index
+precarity &lt;- seqprecarity(example.seq,
+                          state.order = rev(alphabet(example.seq)))</code></pre>
+</div>
+<p>We wrote a little function to implement the sequence quality index</p>
+<p><span class="math display">\[
+\frac{\sum_{i=1}^{k}{p^{w}_{i}}}{\sum_{i=1}^{k}{i^{w }_{i}}}, \quad \text{with} \quad p_i =
+  \begin{cases}
+    i  &amp;  \text{if } x_i=S \\
+    0  &amp;  \text{otherwise}
+  \end{cases}
+\]</span></p>
+<p>where <span class="math inline">\(i\)</span> indicates the position within the sequence, <span class="math inline">\(x_i=S\)</span> denotes a successful state at position <span class="math inline">\(i\)</span>, and <span class="math inline">\(w\)</span> is a weighting factor simultaneously affecting the impact size of failures, but also the strength and pace of recovery due to subsequent successes.</p>
+<p>Our function <code>seqsuccess</code> allows to obtain the quality index for multiple weighting factors simultaneously.</p>
+<p>You can download the function here: <strong><i class="fas  fa-download "></i> <a href="%22source/seqsuccess.R%22">seqsuccess.R</a></strong>. You can use it in R once you added it to your current environment by typing:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+source(&quot;seqsuccess.R&quot;)</code></pre>
+</div>
+<p>In the example code below we specify - from a traditionalist’s point of view - marriage as the state of success using three different weights. We also generate an object containing the quality index for the default weight of one exclusively, which later will be used for creating <strong>Table 2-10</strong>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+seqsuccess(example.seq,
+           success = &quot;MAR&quot;,
+           weight = c(.5,1,2))</code></pre>
+<pre><code>
+      w=0.5  w=1  w=2
+ [1,]  0.00 0.00 0.00
+ [2,]  1.00 1.00 1.00
+ [3,]  0.14 0.07 0.02
+ [4,]  0.34 0.43 0.57
+ [5,]  0.64 0.74 0.87
+ [6,]  0.41 0.50 0.65
+ [7,]  0.18 0.10 0.03
+ [8,]  0.64 0.74 0.87
+ [9,]  0.34 0.43 0.57
+[10,]  0.31 0.36 0.40
+[11,]  0.44 0.36 0.22
+[12,]  0.59 0.66 0.78</code></pre>
+<pre class="r"><code>
+quality &lt;- seqsuccess(example.seq, 
+                      success = &quot;MAR&quot;)</code></pre>
+</div>
+<p>If only a single weight is specified, it is also possible to caluclate a time-varying version of the quality index (<code>time.varying = TRUE</code>) for each sequence position <span class="math inline">\(i\)</span>, which can be used as a variable in panel regressions (see <a href="https://doi.org/10.1007/978-3-319-95420-2_15">Manzoni and Mooi-Reci (2018)</a> for an application). Futhermore, multiple states of the alphabet can be jointly defined as success either by providing their numeric values or labels. In the example below, we specify marriage and cohabitation as success.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+seqsuccess(example.seq,
+          success = c(&quot;COH&quot;, &quot;MAR&quot;), # also possible: c(3,4)
+          time.varying = TRUE)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["i=1"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["i=2"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["i=3"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["i=4"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["i=5"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["i=6"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["i=7"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["i=8"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["i=9"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["i=10"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["i=11"],"name":[11],"type":["dbl"],"align":["right"]},{"label":["i=12"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["i=13"],"name":[13],"type":["dbl"],"align":["right"]},{"label":["i=14"],"name":[14],"type":["dbl"],"align":["right"]},{"label":["i=15"],"name":[15],"type":["dbl"],"align":["right"]},{"label":["i=16"],"name":[16],"type":["dbl"],"align":["right"]},{"label":["i=17"],"name":[17],"type":["dbl"],"align":["right"]},{"label":["i=18"],"name":[18],"type":["dbl"],"align":["right"]},{"label":["i=19"],"name":[19],"type":["dbl"],"align":["right"]},{"label":["i=20"],"name":[20],"type":["dbl"],"align":["right"]}],"data":[{"1":"0","2":"0","3":"0.0","4":"0.0","5":"0.00","6":"0.00","7":"0.00","8":"0.00","9":"0.00","10":"0.00","11":"0.00","12":"0.00","13":"0.00","14":"0.00","15":"0.00","16":"0.00","17":"0.00","18":"0.00","19":"0.00","20":"0.00"},{"1":"1","2":"1","3":"1.0","4":"1.0","5":"1.00","6":"1.00","7":"1.00","8":"1.00","9":"1.00","10":"1.00","11":"1.00","12":"1.00","13":"1.00","14":"1.00","15":"1.00","16":"1.00","17":"1.00","18":"1.00","19":"1.00","20":"1.00"},{"1":"1","2":"1","3":"1.0","4":"1.0","5":"1.00","6":"1.00","7":"1.00","8":"1.00","9":"1.00","10":"1.00","11":"0.83","12":"0.71","13":"0.60","14":"0.52","15":"0.46","16":"0.40","17":"0.36","18":"0.32","19":"0.29","20":"0.26"},{"1":"0","2":"0","3":"0.0","4":"0.0","5":"0.00","6":"0.00","7":"0.00","8":"0.00","9":"0.00","10":"0.00","11":"0.17","12":"0.29","13":"0.40","14":"0.48","15":"0.54","16":"0.60","17":"0.64","18":"0.68","19":"0.71","20":"0.74"},{"1":"0","2":"0","3":"0.0","4":"0.0","5":"0.33","6":"0.52","7":"0.64","8":"0.72","9":"0.78","10":"0.82","11":"0.85","12":"0.87","13":"0.89","14":"0.90","15":"0.92","16":"0.93","17":"0.93","18":"0.94","19":"0.95","20":"0.95"},{"1":"0","2":"0","3":"0.0","4":"0.0","5":"0.00","6":"0.00","7":"0.00","8":"0.00","9":"0.20","10":"0.35","11":"0.45","12":"0.54","13":"0.60","14":"0.66","15":"0.70","16":"0.74","17":"0.76","18":"0.79","19":"0.81","20":"0.83"},{"1":"1","2":"1","3":"1.0","4":"1.0","5":"1.00","6":"1.00","7":"0.75","8":"0.58","9":"0.47","10":"0.38","11":"0.32","12":"0.27","13":"0.23","14":"0.20","15":"0.30","16":"0.38","17":"0.45","18":"0.51","19":"0.56","20":"0.60"},{"1":"0","2":"0","3":"0.0","4":"0.0","5":"0.00","6":"0.00","7":"0.00","8":"0.00","9":"0.00","10":"0.00","11":"0.17","12":"0.29","13":"0.40","14":"0.48","15":"0.54","16":"0.60","17":"0.64","18":"0.68","19":"0.71","20":"0.74"},{"1":"0","2":"0","3":"0.0","4":"0.0","5":"0.00","6":"0.00","7":"0.00","8":"0.00","9":"0.00","10":"0.00","11":"0.17","12":"0.29","13":"0.40","14":"0.48","15":"0.54","16":"0.60","17":"0.64","18":"0.68","19":"0.71","20":"0.74"},{"1":"0","2":"0","3":"0.0","4":"0.0","5":"0.00","6":"0.00","7":"0.00","8":"0.22","9":"0.38","10":"0.49","11":"0.58","12":"0.64","13":"0.69","14":"0.73","15":"0.77","16":"0.79","17":"0.82","18":"0.73","19":"0.66","20":"0.60"},{"1":"0","2":"0","3":"0.5","4":"0.7","5":"0.80","6":"0.86","7":"0.89","8":"0.92","9":"0.93","10":"0.95","11":"0.95","12":"0.96","13":"0.97","14":"0.97","15":"0.98","16":"0.98","17":"0.98","18":"0.98","19":"0.98","20":"0.99"},{"1":"0","2":"0","3":"0.5","4":"0.7","5":"0.80","6":"0.86","7":"0.89","8":"0.92","9":"0.93","10":"0.95","11":"0.95","12":"0.96","13":"0.97","14":"0.97","15":"0.98","16":"0.98","17":"0.98","18":"0.98","19":"0.98","20":"0.99"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[12],"max":[12]},"pages":{}}}
+  </script>
+</div>
+</div>
+<p>Reshaping the data to long format and some data cleaning allow to visualize how the sequences develop over time. In the example below this is done for a selection of four sequences.</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<pre class="r"><code>
+# Preparing the data for ggplot (-&gt; long format)
+fig.data &lt;- success.tvar %&gt;%
+  mutate(id = row_number(),
+         Sequence = example.sps) %&gt;%
+  pivot_longer(cols =-c(&quot;id&quot;, &quot;Sequence&quot;), 
+               names_to = &quot;Position&quot;,
+               values_to = &quot;Sequence Quality&quot;) %&gt;%
+  mutate(Position = as.numeric(substring(Position, first = 3)))
+
+# Plot the development of the sequence quality index
+fig.data %&gt;%
+  filter(id %in% c(5,7,9,10)) %&gt;%
+  ggplot(aes(x = Position, 
+             y = `Sequence Quality`, 
+             color = Sequence)) +
+  geom_line(size=1) +
+  theme_minimal()</code></pre>
+<p><img src="rChapter2-5_files/figure-html5/unnamed-chunk-15-1.png" width="624" /></p>
+</div>
+<p>Once we have stored the quality index and the other indices in one object, we can display them as a comprehenisve table (<strong>Table 2-10</strong> in the book).</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+
+<pre class="r"><code>
+# Save indices as data frame
+tab2.10 &lt;- data.frame(example.sps,
+                  Transitions = as.vector(transitions.norm),
+                  entropy,
+                  turbulence,
+                  Complexity = as.vector(complexity),
+                  Precarity = as.vector(precarity),
+                  Quality = as.vector(quality))
+
+# Generate table
+kable(tab2.10, digits = 2) %&gt;%
+  kable_styling(bootstrap_options = c(&quot;responsive&quot;, &quot;hover&quot;, &quot;condensed&quot;),
+                full_width = F)</code></pre>
+<table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Sequence
+</th>
+<th style="text-align:right;">
+Transitions
+</th>
+<th style="text-align:right;">
+Entropy
+</th>
+<th style="text-align:right;">
+Turbulence
+</th>
+<th style="text-align:right;">
+Complexity
+</th>
+<th style="text-align:right;">
+Precarity
+</th>
+<th style="text-align:right;">
+Quality
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+[1]
+</td>
+<td style="text-align:left;">
+(S,20)
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.20
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+[2]
+</td>
+<td style="text-align:left;">
+(MAR,20)
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+[3]
+</td>
+<td style="text-align:left;">
+(MAR,5)-(COH,5)-(LAT,5)-(S,5)
+</td>
+<td style="text-align:right;">
+0.16
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.47
+</td>
+<td style="text-align:right;">
+0.40
+</td>
+<td style="text-align:right;">
+0.73
+</td>
+<td style="text-align:right;">
+0.07
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+[4]
+</td>
+<td style="text-align:left;">
+(S,5)-(LAT,5)-(COH,5)-(MAR,5)
+</td>
+<td style="text-align:right;">
+0.16
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.47
+</td>
+<td style="text-align:right;">
+0.40
+</td>
+<td style="text-align:right;">
+0.20
+</td>
+<td style="text-align:right;">
+0.43
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+[5]
+</td>
+<td style="text-align:left;">
+(S,3)-(LAT,1)-(COH,6)-(MAR,10)
+</td>
+<td style="text-align:right;">
+0.16
+</td>
+<td style="text-align:right;">
+0.82
+</td>
+<td style="text-align:right;">
+0.27
+</td>
+<td style="text-align:right;">
+0.36
+</td>
+<td style="text-align:right;">
+0.20
+</td>
+<td style="text-align:right;">
+0.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+[6]
+</td>
+<td style="text-align:left;">
+(S,4)-(LAT,4)-(COH,6)-(MAR,6)
+</td>
+<td style="text-align:right;">
+0.16
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:right;">
+0.42
+</td>
+<td style="text-align:right;">
+0.39
+</td>
+<td style="text-align:right;">
+0.20
+</td>
+<td style="text-align:right;">
+0.50
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+[7]
+</td>
+<td style="text-align:left;">
+(MAR,6)-(S,4)-(LAT,4)-(COH,6)
+</td>
+<td style="text-align:right;">
+0.16
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:right;">
+0.42
+</td>
+<td style="text-align:right;">
+0.39
+</td>
+<td style="text-align:right;">
+0.29
+</td>
+<td style="text-align:right;">
+0.10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+[8]
+</td>
+<td style="text-align:left;">
+(S,10)-(MAR,10)
+</td>
+<td style="text-align:right;">
+0.05
+</td>
+<td style="text-align:right;">
+0.50
+</td>
+<td style="text-align:right;">
+0.40
+</td>
+<td style="text-align:right;">
+0.16
+</td>
+<td style="text-align:right;">
+0.20
+</td>
+<td style="text-align:right;">
+0.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+[9]
+</td>
+<td style="text-align:left;">
+(S,2)-(LAT,5)-(S,3)-(COH,5)-(MAR,5)
+</td>
+<td style="text-align:right;">
+0.21
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.42
+</td>
+<td style="text-align:right;">
+0.46
+</td>
+<td style="text-align:right;">
+0.42
+</td>
+<td style="text-align:right;">
+0.43
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+[10]
+</td>
+<td style="text-align:left;">
+(S,2)-(LAT,5)-(COH,5)-(MAR,5)-(S,3)
+</td>
+<td style="text-align:right;">
+0.21
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.43
+</td>
+<td style="text-align:right;">
+0.46
+</td>
+<td style="text-align:right;">
+0.50
+</td>
+<td style="text-align:right;">
+0.36
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+[11]
+</td>
+<td style="text-align:left;">
+(S,2)-(MAR,10)-(COH,8)
+</td>
+<td style="text-align:right;">
+0.11
+</td>
+<td style="text-align:right;">
+0.68
+</td>
+<td style="text-align:right;">
+0.24
+</td>
+<td style="text-align:right;">
+0.27
+</td>
+<td style="text-align:right;">
+0.35
+</td>
+<td style="text-align:right;">
+0.36
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+[12]
+</td>
+<td style="text-align:left;">
+(S,2)-(MAR,2)-(COH,8)-(MAR,8)
+</td>
+<td style="text-align:right;">
+0.16
+</td>
+<td style="text-align:right;">
+0.68
+</td>
+<td style="text-align:right;">
+0.28
+</td>
+<td style="text-align:right;">
+0.33
+</td>
+<td style="text-align:right;">
+0.35
+</td>
+<td style="text-align:right;">
+0.66
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>We also illustrate how the indices could be used in regression analysis. Note that the aim of this exercise is not to build a good statistical model but to showcase how to work with the index scores obtained in SA.</p>
+<p>In the following code we generate a dataset containing the respondent’S gender (<code>sex</code>), level of education (<code>highschool</code>), and migration background (<code>migstatus</code>) using the pairfam example data rather than constructed sequences. The data are stored in <code>family</code> and the sequences combining partnership states and fertility have been saved in the sequence object <code>partner.child.year.seq</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+regdata &lt;- family %&gt;%
+  select(sex, highschool, migstatus) %&gt;%
+  mutate(Complexity = as.numeric(seqici(partner.child.year.seq)),
+         Turbulence = as.numeric(seqST(partner.child.year.seq, norm = TRUE))) %&gt;%
+  filter(migstatus != -7) %&gt;% # Exclude missings
+  mutate(migstatus = as_factor(migstatus)) 
+  
+# Regression analysis with Turbulence and Complexity as DV
+lm.turbulence &lt;- lm(Turbulence ~ sex + highschool + migstatus, data = regdata)
+lm.complexity &lt;- lm(Complexity ~ sex + highschool + migstatus, data = regdata)
+
+tab_model(lm.turbulence,lm.complexity, file=&quot;output.html&quot;)</code></pre>
+<table style="border-collapse:collapse; border:none;">
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
+ 
+</th>
+<th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+Turbulence
+</th>
+<th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+Complexity
+</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
+Predictors
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+Estimates
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+CI
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+p
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+Estimates
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+CI
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col7">
+p
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+(Intercept)
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.29
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.28 – 0.30
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.32
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.31 – 0.33
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+<strong>&lt;0.001
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+RECODE of sex_gen<br>(Generated sex anchor)
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.01
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.02 – -0.01
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>0.001</strong>
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.01
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.02 – 0.00
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+0.110
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+highschool
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.04
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.03 – 0.05
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.04
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.03 – 0.05
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+<strong>&lt;0.001
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+migstatus: 2 1st<br>generation
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.04
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.06 – -0.03
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.04
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.05 – -0.02
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+<strong>&lt;0.001
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+migstatus: 3 2nd<br>generation
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.01
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.01 – 0.02
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.364
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.01
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.01 – 0.03
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+0.215
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
+Observations
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">
+1809
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">
+1809
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+R<sup>2</sup> / R<sup>2</sup> adjusted
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+0.062 / 0.060
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+0.046 / 0.044
+</td>
+</tr>
+</table>
+</div>
+<p>Finally, the chapter mentions the correlation betwen turbulence and complexity for the small example data as well as for the pairfam sample. The two correlations can be obtained by</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Correlation in the toy dataset with 12 sequences
+cor(complexity,turbulence)</code></pre>
+<pre><code>
+  Turbulence
+C  0.8661277</code></pre>
+<pre class="r"><code>
+# Computing the indices for the pairfam data
+complexity2 &lt;- seqici(partner.year.seq)
+turbulence2 &lt;- seqST(partner.year.seq, norm = TRUE)
+
+# Print the correlation
+cor(complexity2,turbulence2)</code></pre>
+<pre><code>
+  Turbulence
+C   0.894251</code></pre>
+</div>
+<h2 id="references" class="appendix">References</h2>
+<p>Manzoni, A., &amp; Mooi-Reci, I. (2018). <em>Measuring Sequence Quality</em>. In G. Ritschard &amp; M. Studer (Eds.), Sequence Analysis and Related Approaches (pp. 261–278). doi: 10.1007/978-3-319-95420-2_15</p>
+<p>Ritschard, G., Bussi, M., &amp; O’Reilly, J. (2018). <em>An Index of Precarity for Measuring Early Employment Insecurity</em>. In G. Ritschard &amp; M. Studer (Eds.), Sequence Analysis and Related Approaches (pp. 279–295). doi: 10.1007/978-3-319-95420-2_16</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
