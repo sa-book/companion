@@ -1,0 +1,87 @@
+---
+title: "2.5 Advanced Description"
+description: |
+  Assessing sequence complexity and quality
+# author:
+#   - name: "Marcel Raab"
+#     url: http://marcelraab.de
+#     affiliation: University of Mannheim
+#     affiliation_url: https://www.uni-mannheim.de
+#   - name: "Emanuela Struffolino"
+#     url: https://www.wzb.eu/en/persons/emanuela-struffolino
+#     affiliation: WZB Berlin
+#     affiliation_url: https://www.wzb.eu
+# date: "`r Sys.Date()`"
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+options("kableExtra.html.bsTable" = T)
+
+
+# load data required for this subchapter
+load("data/2-3_BasicDescription.RData")
+
+# (down)load required packages using pacman
+source("0-0_LoadInstallPackages.R")
+
+```
+
+## Sequencing – counting transitions and subsequences
+
+The chapter starts with two tiny sequences that were constructed to illustrate differences between counting the number of transitions and the number of subsequences. The sequence data are constructed with the following code:
+
+```{r, eval=TRUE, echo=TRUE}
+seqX <- c("S","LAT","COH","MAR")
+seqY <- c("S","LAT","COH","S")
+
+ex1.seq <- seqdef(rbind(seqX,seqY), alphabet = seqX)
+```
+
+The number of transitions can be obtained with the `seqtransn` function, the number of **distinct** subsequences is computed with `seqsubsn`. Both functions are part of the `TraMineR` package..
+
+```{r, eval=TRUE, echo=TRUE}
+# Number of transitions
+seqtransn(ex1.seq)
+
+# Number of subsequences
+seqsubsn(ex1.seq)
+```
+
+In Table 2-9 we show all distinct subsequences extracted from *Sequence x* (`seqx`). The subsequences can be extracted by using the `combn` function. The functions extracts only subsequences of given length each time it is executed. In the following loop we specify `rev(seq_along(seqX))` to extract subsequences of length 4 to 1. The extracted subsequences are stored as data.frames in the resulting list `subseqs`. In the next step, we put all these subsequences into one data frame using `bind_rows(subseqs)`. Then we remove all duplicates using `distinct` and add an empty row for the empty subsequence $\lambda$. The resulting dataset can be nicely printed in the console with `print(seqdef(subseqs), format = "SPS")`. 
+
+
+```{r, eval=TRUE, echo=TRUE}
+# Extract & display all possible subsequences of Sequence x
+subseqs <- vector(mode = "list", length = length(seqX))
+
+for (i in rev(seq_along(seqX))) {
+  subseqs[[i]] <- as.data.frame(t(combn(seqX, i)))
+}
+
+# Store all distinct subsequences in one dataset
+subseqs <- bind_rows(subseqs)
+subseqs <- distinct(subseqs)
+
+#Add and fill empty row
+subseqs <- add_row(subseqs, .before = 1)
+subseqs[1,1] <- "-"
+
+#Print subsequences
+seqdss(seqdef(subseqs))
+```
+
+
+<!--
+seqtransn(ex1.seq, norm = TRUE) # normalized
+seqsubsn.max <- rep(alphabet(ex1.seq), length.out = max(seqlength(ex1.seq)))
+seqsubsn.max <- seqsubsn(seqdef(t(seqsubsn.max)))
+(log2(seqsubsn(ex1.seq))-1)/(log2(rep(seqsubsn.max,nrow(ex1.seq)))-1) # normalized
+-->
+
+To be continued...

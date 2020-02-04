@@ -19,30 +19,30 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-  <title>Sequence Analysis - Companion Site: Visualizing sequences</title>
+  <title>Sequence Analysis - Companion Site: 2.5 Advanced Description</title>
   
-  <meta property="description" itemprop="description" content="... using (predefined) color palettes for setting colors."/>
+  <meta property="description" itemprop="description" content="Assessing sequence complexity and quality"/>
   
   <link rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/"/>
   
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Sequence Analysis - Companion Site: Visualizing sequences"/>
+  <meta property="og:title" content="Sequence Analysis - Companion Site: 2.5 Advanced Description"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="... using (predefined) color palettes for setting colors."/>
+  <meta property="og:description" content="Assessing sequence complexity and quality"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="Sequence Analysis - Companion Site"/>
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Sequence Analysis - Companion Site: Visualizing sequences"/>
-  <meta property="twitter:description" content="... using (predefined) color palettes for setting colors."/>
+  <meta property="twitter:title" content="Sequence Analysis - Companion Site: 2.5 Advanced Description"/>
+  <meta property="twitter:description" content="Assessing sequence complexity and quality"/>
   
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output"]}},"value":[{"type":"character","attributes":{},"value":["Visualizing sequences"]},{"type":"character","attributes":{},"value":["... using (predefined) color palettes for setting colors.\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[2]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output"]}},"value":[{"type":"character","attributes":{},"value":["2.5 Advanced Description"]},{"type":"character","attributes":{},"value":["Assessing sequence complexity and quality\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[2]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -1258,8 +1258,6 @@
   </script>
   
   <!--/radix_placeholder_distill-->
-  <link href="site_libs/font-awesome-5.0.12/css/fontawesome-all.min.css" rel="stylesheet" />
-  <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
   <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
@@ -1302,7 +1300,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Visualizing sequences","description":"... using (predefined) color palettes for setting colors.","authors":[]}
+{"title":"2.5 Advanced Description","description":"Assessing sequence complexity and quality","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1352,8 +1350,8 @@ Stata
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Visualizing sequences</h1>
-<p>… using (predefined) color palettes for setting colors.</p>
+<h1>2.5 Advanced Description</h1>
+<p>Assessing sequence complexity and quality</p>
 </div>
 
 
@@ -1361,199 +1359,82 @@ Stata
 <h3 class="d-toc-header">Table of Contents</h3>
 <nav class="d-toc" id="TOC">
 <ul>
-<li><a href="#defining-the-sequence-color-palette">Defining the sequence color palette</a></li>
-<li><a href="#choosing-colors-with-rcolorbrewer">Choosing colors with <code>RColorBrewer</code></a></li>
-<li><a href="#choosing-colors-with-colorspace">Choosing colors with <code>colorspace</code></a></li>
-<li><a href="#comparison-of-the-two-different-color-palettes">Comparison of the two different color palettes</a></li>
-<li><a href="#references">References</a></li>
+<li><a href="#sequencing-counting-transitions-and-subsequences">Sequencing – counting transitions and subsequences</a></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
-<p>The community of <i class="fab  fa-r-project " style="color:#384CB7;"></i> developers provides you with plenty of tools for finding suitable colors for sequence visualization. We illustrate how to use <code>RColorBrewer</code> (which is also used by <code>TraMiner::seqdef</code>) and <code>colorspace</code>to choose colors. If you are using R Studio you also might want to consider the very helpful package <code>colourpicker</code>.</p>
-<p>For a brief introduction to “Selecting Colors for Statistical Graphics” we recommend the paper by <a href="https://dx.doi.org/10.1016/j.csda.2008.11.033">Zeileis et al. (2009)</a>. For a more detailed discussion of color palettes based on the HCL (Hue-Chroma-Luminance) color space using R we refer to <a href="https://arxiv.org/abs/1903.06490">Zeileis et al. (2019)</a>.</p>
-<p>For this excercise we want to find a suitable color palette for visualizing sequences with the following state space (alphabet):</p>
-<div class="layout-chunk" data-layout="l-body">
-<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-State
-</th>
-<th style="text-align:left;">
-Short Label
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-Single, no child
-</td>
-<td style="text-align:left;">
-S-NC
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Single, child(ren)
-</td>
-<td style="text-align:left;">
-S-C
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-LAT, no child
-</td>
-<td style="text-align:left;">
-LAT-NC
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-LAT, child(ren)
-</td>
-<td style="text-align:left;">
-LAT-C
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Cohabiting, no child
-</td>
-<td style="text-align:left;">
-COH-NC
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Cohabiting, child(ren)
-</td>
-<td style="text-align:left;">
-COH-C
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Married, no child
-</td>
-<td style="text-align:left;">
-MAR-NC
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Married, 1 child
-</td>
-<td style="text-align:left;">
-MAR-1C
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Married, 2+ children
-</td>
-<td style="text-align:left;">
-MAR-2+C
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p> </p>
-<h2 id="defining-the-sequence-color-palette">Defining the sequence color palette</h2>
-<p>The state space is a combination of partnership status and fertility. For each partnership state we assign a unique color.</p>
-<ul>
-<li>Single = Blue</li>
-<li>LAT = Green</li>
-<li>Cohabitation = Orange</li>
-<li>Marriage = Purple/Magenta</li>
-</ul>
-<p>In order to indicate differences in fertility within partnership states we increase the chroma of the respective color.</p>
-<p> </p>
-<h2 id="choosing-colors-with-rcolorbrewer">Choosing colors with <code>RColorBrewer</code></h2>
-<p>Typing <code>display.brewer.all()</code> provides you with an overview of the color palettes available in the <code>RColorBrewer</code> package.</p>
-<p align="center">
-<img src="images/rChapter2-4_brewerpal.png" style="width:80.0%" />
-</p>
-<p>Knowing the names of the palettes we want to use (<code>"Blues", "Greens", "Oranges", "Purples"</code>) we can continue by choosing specific colors from these palettes. Usually this is an iterative process which involves inspecting multiple palettes.</p>
-<p>For example, <code>RColorBrewer</code> gives us different sets of Blues when we inspect sequential palettes of different length. It is up to you to decide which colors fit your purposes best and to extract them for your sequence color palette.</p>
+<h2 id="sequencing-counting-transitions-and-subsequences">Sequencing – counting transitions and subsequences</h2>
+<p>The chapter starts with two tiny sequences that were constructed to illustrate differences between counting the number of transitions and the number of subsequences. The sequence data are constructed with the following code:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-display.brewer.pal(3, &quot;Blues&quot;)
-display.brewer.pal(7, &quot;Blues&quot;)</code></pre>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<p><img src="rChapter2-4_color_files/figure-html5/unnamed-chunk-3-1.png" width="672" /><img src="rChapter2-4_color_files/figure-html5/unnamed-chunk-3-2.png" width="672" /></p>
-</div>
-<p>This is the code for extracting the colors and creating a vector that contains the colors in the desired order:</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-col1 &lt;- brewer.pal(3, &quot;Blues&quot;)[2:3]   # Single states
-col2 &lt;- brewer.pal(3, &quot;Greens&quot;)[2:3]  # LAT states
-col3 &lt;- brewer.pal(3, &quot;Oranges&quot;)[2:3] # Cohabitation states
-col4 &lt;- brewer.pal(7, &quot;Purples&quot;)[5:7] # Marriage states
+seqX &lt;- c(&quot;S&quot;,&quot;LAT&quot;,&quot;COH&quot;,&quot;MAR&quot;)
+seqY &lt;- c(&quot;S&quot;,&quot;LAT&quot;,&quot;COH&quot;,&quot;S&quot;)
 
-# define complete color palette
-colspace1 &lt;- c(col1, col2, col3, col4)</code></pre>
+ex1.seq &lt;- seqdef(rbind(seqX,seqY), alphabet = seqX)</code></pre>
 </div>
-<p>The resulting color palette can be inspected using the <code>swatchplot</code> function of the <code>colorspace</code> package. The resulting color palette can be inspected using the <code>swatchplot</code> function of the <code>colorspace</code> package. The resulting color palette can be inspected using the <code>swatchplot</code> function of the <code>colorspace</code> package. The resulting color palette can be inspected using the <code>swatchplot</code> function of the <code>colorspace</code> package.</p>
+<p>The number of transitions can be obtained with the <code>seqtransn</code> function, the number of <strong>distinct</strong> subsequences is computed with <code>seqsubsn</code>. Both functions are part of the <code>TraMineR</code> package..</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-swatchplot(colspace1)</code></pre>
+# Number of transitions
+seqtransn(ex1.seq)</code></pre>
+<pre><code>
+     Trans.
+seqX      3
+seqY      3</code></pre>
+<pre class="r"><code>
+# Number of subsequences
+seqsubsn(ex1.seq)</code></pre>
+<pre><code>
+     Subseq.
+seqX      16
+seqY      15</code></pre>
 </div>
+<p>In Table 2-9 we show all distinct subsequences extracted from <em>Sequence x</em> (<code>seqx</code>). The subsequences can be extracted by using the <code>combn</code> function. The functions extracts only subsequences of given length each time it is executed. In the following loop we specify <code>rev(seq_along(seqX))</code> to extract subsequences of length 4 to 1. The extracted subsequences are stored as data.frames in the resulting list <code>subseqs</code>. In the next step, we put all these subsequences into one data frame using <code>bind_rows(subseqs)</code>. Then we remove all duplicates using <code>distinct</code> and add an empty row for the empty subsequence <span class="math inline">\(\lambda\)</span>. The resulting dataset can be nicely printed in the console with <code>print(seqdef(subseqs), format = "SPS")</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
-<p><img src="rChapter2-4_color_files/figure-html5/unnamed-chunk-6-1.png" width="672" /></p>
-</div>
-<h2 id="choosing-colors-with-colorspace">Choosing colors with <code>colorspace</code></h2>
-<p>Like in the previous step we start by plotting the color palettes available in the package:</p>
-<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Extract &amp; display all possible subsequences of Sequence x
+subseqs &lt;- vector(mode = &quot;list&quot;, length = length(seqX))
 
-</div>
-<p align="center">
-<img src="images/rChapter2-4_hcl_palettes.png" style="width:80.0%" />
-</p>
-<p>Again, we continue with inspecting the suitable palettes.</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-swatchplot(sequential_hcl(5, palette = &quot;Blues&quot;))</code></pre>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<p><img src="rChapter2-4_color_files/figure-html5/unnamed-chunk-9-1.png" width="672" /></p>
-</div>
-<p>Note that the resulting color vector starts with the darkest blue, whereas our intended color palette should start with a light blue. Accordingly, the colors must be extracted in rerverse order (as in the code below) or one could change the order of the vector by adding the option <code>rev = TRUE</code> when running <code>sequential_hcl</code>.</p>
-<p>This is our final choice using the palettes provided by `colorspace´:</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-col1 &lt;- sequential_hcl(5, palette = &quot;Blues&quot;)[3:2]
-col2 &lt;- sequential_hcl(5, palette = &quot;Greens&quot;)[2:1]
-col3 &lt;- sequential_hcl(5, palette = &quot;Oranges&quot;)[3:2]
-col4 &lt;- sequential_hcl(5, palette = &quot;magenta&quot;)[3:1]
+for (i in rev(seq_along(seqX))) {
+  subseqs[[i]] &lt;- as.data.frame(t(combn(seqX, i)))
+}
 
-colspace2 &lt;- c(col1, col2, col3, col4)
+# Store all distinct subsequences in one dataset
+subseqs &lt;- bind_rows(subseqs)
+subseqs &lt;- distinct(subseqs)
 
-swatchplot(colspace2)</code></pre>
+#Add and fill empty row
+subseqs &lt;- add_row(subseqs, .before = 1)
+subseqs[1,1] &lt;- &quot;-&quot;
+
+#Print subsequences
+seqdss(seqdef(subseqs))</code></pre>
+<pre><code>
+   Sequence     
+1  -            
+2  S            
+3  LAT          
+4  COH          
+5  MAR          
+6  S-LAT        
+7  S-COH        
+8  S-MAR        
+9  LAT-COH      
+10 LAT-MAR      
+11 COH-MAR      
+12 S-LAT-COH    
+13 S-LAT-MAR    
+14 S-COH-MAR    
+15 LAT-COH-MAR  
+16 S-LAT-COH-MAR</code></pre>
 </div>
-<div class="layout-chunk" data-layout="l-body">
-<p><img src="rChapter2-4_color_files/figure-html5/unnamed-chunk-11-1.png" width="672" /></p>
-</div>
-<h2 id="comparison-of-the-two-different-color-palettes">Comparison of the two different color palettes</h2>
-<p>Both approaches produce satisfactory results:</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-swatchplot(&quot;RColorBrewer&quot; = colspace1,
-           &quot;colorspace&quot; = colspace2)</code></pre>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<p><img src="rChapter2-4_color_files/figure-html5/unnamed-chunk-13-1.png" width="672" /></p>
-</div>
-<p>For our final decision we compare the palettes by inspecting the state distribution plots of our example data using the <code>seqdplot</code> function (see <a href="rChapter2-4-1.html">Chapter 2-4-1</a>). We prefer the solution obtained by <code>colorspace</code> and will proceed with the respective color palette.</p>
-<p align="center">
-<img src="images/rChapter2-4_dplot_colorpals2.png" style="width:80.0%" />
-</p>
-<h2 id="references" class="appendix">References</h2>
-<p>Zeileis, A., Hornik, K., &amp; Murrell, P. (2009). <em>Escaping RGBland: Selecting colors for statistical graphics.</em> Computational Statistics &amp; Data Analysis, 53(9), 3259–3270. doi: 10.1016/j.csda.2008.11.033</p>
-<p>Zeileis, A., Fisher, J. C., Hornik, K., Ihaka, R., McWhite, C. D., Murrell, P., … Wilke, C. O. (2019). <em>colorspace: A Toolbox for Manipulating and Assessing Colors and Palettes.</em> (2014).</p>
+<!--
+seqtransn(ex1.seq, norm = TRUE) # normalized
+seqsubsn.max <- rep(alphabet(ex1.seq), length.out = max(seqlength(ex1.seq)))
+seqsubsn.max <- seqsubsn(seqdef(t(seqsubsn.max)))
+(log2(seqsubsn(ex1.seq))-1)/(log2(rep(seqsubsn.max,nrow(ex1.seq)))-1) # normalized
+-->
+<p>To be continued…</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -1561,6 +1442,15 @@ swatchplot(&quot;RColorBrewer&quot; = colspace1,
 <div class="d-appendix">
 </div>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->

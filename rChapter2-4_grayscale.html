@@ -19,7 +19,7 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-  <title>Sequence Analysis - Companion Site: 2.4 Visualizing sequences</title>
+  <title>Sequence Analysis - Companion Site: Visualizing sequences</title>
   
   <meta property="description" itemprop="description" content="... without using colors - The grayscale edition"/>
   
@@ -27,7 +27,7 @@
   
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Sequence Analysis - Companion Site: 2.4 Visualizing sequences"/>
+  <meta property="og:title" content="Sequence Analysis - Companion Site: Visualizing sequences"/>
   <meta property="og:type" content="article"/>
   <meta property="og:description" content="... without using colors - The grayscale edition"/>
   <meta property="og:locale" content="en_US"/>
@@ -35,14 +35,14 @@
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Sequence Analysis - Companion Site: 2.4 Visualizing sequences"/>
+  <meta property="twitter:title" content="Sequence Analysis - Companion Site: Visualizing sequences"/>
   <meta property="twitter:description" content="... without using colors - The grayscale edition"/>
   
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output"]}},"value":[{"type":"character","attributes":{},"value":["2.4 Visualizing sequences"]},{"type":"character","attributes":{},"value":["... without using colors - The grayscale edition\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[2]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output"]}},"value":[{"type":"character","attributes":{},"value":["Visualizing sequences"]},{"type":"character","attributes":{},"value":["... without using colors - The grayscale edition\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[2]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -1303,7 +1303,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"2.4 Visualizing sequences","description":"... without using colors - The grayscale edition","authors":[]}
+{"title":"Visualizing sequences","description":"... without using colors - The grayscale edition","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1353,7 +1353,7 @@ Stata
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>2.4 Visualizing sequences</h1>
+<h1>Visualizing sequences</h1>
 <p>… without using colors - The grayscale edition</p>
 </div>
 
@@ -1467,7 +1467,7 @@ MARc2+
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="rChapter2-4_grayscale_files/figure-html5/unnamed-chunk-3-1.png" width="576" /></p>
 </div>
-<p>We added labels to figure above to illustrate which grays constitute our palette. With the following code we specify and illustrate our final palette.</p>
+<p>We added labels to the figure above to illustrate which grays constitute our palette. With the following code we specify and illustrate our final palette.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 colgrey.partner.child &lt;- c(rep(&quot;#FFFFFF&quot;,2),
@@ -1481,7 +1481,7 @@ barplot(rep(1,9), col = colgrey.partner.child, axes = FALSE)                    
 <p><img src="rChapter2-4_grayscale_files/figure-html5/unnamed-chunk-5-1.png" width="576" /></p>
 </div>
 <p>According to the definition of our alphabet we need two single states, two LAT states, two cohabitation states, and three marriage states. Adding shading lines allows for distinguishing different fertility levels. Shading lines are added by specifying vectors for <code>density</code> and <code>angle</code>. We use different angles (i.e., 0° and 45°) to separate the two parity states within marriage.</p>
-<p>Note that we have to create two overlapping graph objects by typing <code>par(new=TRUE)</code>. The first plot creates bars with the desired colors, the second one adds black shading lines</p>
+<p>Note that we have to create two overlapping graph objects by typing <code>par(new=TRUE)</code>. The first plot creates bars with the desired colors, the second one adds black shading lines.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 barplot(rep(1,9), col = colgrey.partner.child, axes = FALSE)                           
@@ -1511,7 +1511,7 @@ legend_large_box(&quot;center&quot;, legend = longlab.partner.child,
 <div class="layout-chunk" data-layout="l-body-outset">
 <p><img src="rChapter2-4_grayscale_files/figure-html5/unnamed-chunk-9-1.png" width="768" /></p>
 </div>
-<p>Although the legend looks OK at first glance, it has two crucial drawbacks: (1) The grayscale boxes (with shading lines) are too small to be distinguished easily; (2) two different partnership states are appearing in the first two columns of the legend. Both issues call for some extra coding because the cannot be solved with the options available in the standard version of the legend function.</p>
+<p>Although the legend looks OK at first glance, it has two crucial drawbacks: (1) The grayscale boxes (with shading lines) are too small to be distinguished easily; (2) two different partnership states are appearing in the first two columns of the legend. Both issues call for some extra coding because they cannot be solved with the options available in the standard version of the legend function.</p>
 <p>Addressing the first issue we draw on a tweaked version of the legend suggested by <a href="http://ms.mcmaster.ca/~bolker/">Ben Bolker</a> and <a href="https://www.pauljhurtado.com/">Paul Hurtado</a> in a thread at <a href="https://stackoverflow.com/questions/13644149/increasing-the-size-of-the-coloured-squares-on-histogram-legends-in-r">Stack Overflow</a>.</p>
 <p>Here you can dowload the tweaked version of the legend function: <i class="fas  fa-download "></i> <a href="legend_large_box.R">legend_large_box.R</a>.</p>
 <p>We include the function by sourcing the file within our R-script by typing:</p>
@@ -1562,8 +1562,8 @@ legend_large_box(&quot;center&quot;, legend = longlab.partner.child2,
 <p><img src="rChapter2-4_grayscale_files/figure-html5/unnamed-chunk-13-1.png" width="1152" /></p>
 </div>
 <h2 id="sequence-index-plot-of-representative-sequences">Sequence index plot <br/>of representative sequences</h2>
-<!-- Sequence index plots (and the more recently suggested relative frequency sequence plots) are the most powerful tool to visualize the longitudinal information stored in sequence data. Individual sequences are rendered as horizontal stacked bars depicting the states over successive positions. Although sequence index plots can be very insightful this kind of visualization can become quite overwhelming and even have the potential to distort the information dut to the issue of overplotting. This is particuarly true if the plot is used to render many sequences and if the sequences comprise many states. Both is true for our example sequence data. Visualizing sequences without using colors makes things even more difficult. USE FOR BOOK -->
-<p>In the book we elaborate on the pros and cons of sequence index plots. Based on this discussion we recommend to abstain from standard index plots of all sequences in large data sets. This is even more true if colors are not available for visualization. Accordingly, the subsequent example plot only renders a selection of 10 representative sequences extracted by <code>seqrep</code> using sequences with a yearly granularity.</p>
+<p>In the book we elaborate on the pros and cons of sequence index plots (see Chapter 2.4.2 in the book; tre corresponding code can be found <a href="rChapter2-4-2.html">here</a>). Based on this discussion we recommend to abstain from standard index plots of all sequences in large data sets. This is even more true if colors are not available for visualization.</p>
+<p>Accordingly, the subsequent example plot only renders a selection of 10 representative sequences extracted by <code>seqrep</code> using sequences with a yearly granularity.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 # Identify 10 representative sequences
@@ -1574,12 +1574,12 @@ partner.child.year.rep &lt;- seqrep(partner.child.year.seq,
 # Extract sequences to be plotted and save in object
 plot.seq &lt;- partner.child.year.seq[attributes(partner.child.year.rep)$Index,]
 
-# extract same sequences using reduced alphabet (partnership status only)
+# extract same sequences from sequence data using reduced alphabet (partnership status only)
   # this will be used for sorting the index plots by the 
   # first occurence of the partnership status &quot;MAR&quot; (marriage)
 plot.aux &lt;- partner.year.seq[attributes(partner.child.year.rep)$Index,]</code></pre>
 </div>
-<p>Like in the previous examples two overlapping plots and legends have to be created in order to obtain the “color” palette and the shading lines. Note the differences in the specification of colors, <code>angle</code>, and <code>density</code> between the index plot and the legend. The differences result from the necessity to define extra empty cells in the legend (see <a href="#legend-link">section above</a>)</p>
+<p>Like in the previous examples two overlapping plots and legends have to be created in order to obtain the “color” palette and the shading lines. Note the differences in the specification of colors, <code>angle</code>, and <code>density</code> between the index plot and the legend. They result from the necessity to define extra empty cells in the legend (see <a href="#legend-link">section above</a>)</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 # Save final plot as png file
@@ -1632,8 +1632,8 @@ dev.off()</code></pre>
 <p><img src="images/rChapter2-4_iplot_grayYearly.png" width="450" /></p>
 </div>
 <h2 id="state-distribution-plots-using-yearly-monthly-sequence-data">State distribution plots using <br/>yearly &amp; monthly sequence data</h2>
-<p>Although they are often less insightful than sequence index plots state distribution plots are widely used and often falsely interpreted (see chapter 2-3-2). One reason for the popularity is that they are quite easy to render. Even with our alphabet of size nine and monthly sequence data of length 264 it is possible to produce accesible plots using monthly data without colors.</p>
-<p>Below we provide the code to produce the plots with yearly and monthly data. We again have to create overlapping plots and legends.</p>
+<p>Although they are often less insightful than sequence index plots state distribution plots are widely used and often falsely interpreted (see chapter 2-4-2). One reason for their popularity is that they are quite easy to render. Even with our alphabet of size nine and monthly sequence data of length 264 it is possible to produce accesible plots without using colors.</p>
+<p>Below we provide the code to produce the plots with yearly and monthly data. We again have to create overlapping plots and legends to add the shading lines.</p>
 <h3 id="yearly-sequence-data">Yearly sequence data</h3>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
