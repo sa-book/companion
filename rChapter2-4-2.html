@@ -19,30 +19,30 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-  <title>Sequence Analysis - Companion Site: 3.4 Nonalignment techniques</title>
+  <title>Sequence Analysis - Companion Site: Data representation graphs</title>
   
-  <meta property="description" itemprop="description" content="Alternative metrics to align sequences"/>
+  <meta property="description" itemprop="description" content="The figures from chapter 2.4.2"/>
   
   <link rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/"/>
   
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Sequence Analysis - Companion Site: 3.4 Nonalignment techniques"/>
+  <meta property="og:title" content="Sequence Analysis - Companion Site: Data representation graphs"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="Alternative metrics to align sequences"/>
+  <meta property="og:description" content="The figures from chapter 2.4.2"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="Sequence Analysis - Companion Site"/>
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Sequence Analysis - Companion Site: 3.4 Nonalignment techniques"/>
-  <meta property="twitter:description" content="Alternative metrics to align sequences"/>
+  <meta property="twitter:title" content="Sequence Analysis - Companion Site: Data representation graphs"/>
+  <meta property="twitter:description" content="The figures from chapter 2.4.2"/>
   
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output"]}},"value":[{"type":"character","attributes":{},"value":["3.4 Nonalignment techniques"]},{"type":"character","attributes":{},"value":["Alternative metrics to align sequences\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[2]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output"]}},"value":[{"type":"character","attributes":{},"value":["Data representation graphs"]},{"type":"character","attributes":{},"value":["The figures from chapter 2.4.2\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[2]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -1258,6 +1258,9 @@
   </script>
   
   <!--/radix_placeholder_distill-->
+  <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="site_libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+  <link href="site_libs/font-awesome-5.0.12/css/fontawesome-all.min.css" rel="stylesheet" />
   <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
@@ -1300,7 +1303,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"3.4 Nonalignment techniques","description":"Alternative metrics to align sequences","authors":[]}
+{"title":"Data representation graphs","description":"The figures from chapter 2.4.2","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1350,13 +1353,372 @@ Stata
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>3.4 Nonalignment techniques</h1>
-<p><p>Alternative metrics to align sequences</p></p>
+<h1>Data representation graphs</h1>
+<p>The figures from chapter 2.4.2</p>
 </div>
 
 
 <div class="d-article">
-<p>The book covers the following metrics based on common attributes (that is, nonalignment techniques): longest common subsequence (LCS), number of matching subsequences (NMS), and the subsequence vectorial representation-based metric (SVRspell). The <code>TraMineR</code> documentation of the <code>seqdist</code> command offers detailed explanation of how to implement these dissimilarity measures.</p>
+<h3 class="d-toc-header">Table of Contents</h3>
+<nav class="d-toc" id="TOC">
+<ul>
+<li><a href="#different-sets-of-sequences-same-state-distribution">Different sets of sequences, <br/>same state distribution</a></li>
+<li><a href="#the-relative-frequency-index-plot">The relative frequency index plot</a></li>
+<li><a href="#bonus-material-additional-relative-frequency-sequence-plots">Bonus material: <br/>Additional relative frequency sequence plots</a></li>
+</ul>
+</nav>
+<hr class="d-toc-separator"/>
+<p>The figures in the book are printed in grayscale. Here we present both the colored and the grayscale versions of the figures.</p>
+<p>The first plots presented in chapter 2.4.1 are based on a reduced alphabet distinguishing four different partnership states. For the last examples we use a extended state space that combines information on partnership status and fertility. The corresponding tabular presentation can be found <a href="rChapter2-3.html">here</a>.</p>
+<h2 id="different-sets-of-sequences-same-state-distribution">Different sets of sequences, <br/>same state distribution</h2>
+<p>Using two small example dataset each containing ten constructed partnership biographies, Figure 2-5 illustrates that the aggregation of different sets of sequences can yield identical aggregated state distributions.</p>
+<p>The two example datasets are defined as:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# ===============================================
+# Generating two example datasets; k = 5; n = 10
+# ===============================================
+
+ex1 &lt;- tibble(state1 = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+              state2 = c(1, 1, 1, 1, 2, 2, 1, 1, 3, 3),
+              state3 = c(1, 1, 3, 3, 3, 3, 2, 2, 4, 4),
+              state4 = c(1, 1, 3, 3, 4, 4, 4, 4, 1, 1),
+              state5 = c(1, 1, 4, 4, 4, 4, 2, 2, 3, 1))
+
+
+ex2 &lt;- tibble(state1 = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+              state2 = c(1, 1, 1, 1, 2, 2, 1, 1, 3, 3),
+              state3 = c(1, 1, 4, 4, 2, 2, 3, 3, 3, 3),
+              state4 = c(4, 4, 4, 4, 1, 1, 1, 1, 3, 3),
+              state5 = c(4, 4, 4, 4, 2, 2, 1, 1, 1, 3))</code></pre>
+</div>
+<p>In a next step the datasets are defined as sequence objects:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Define long and short labels
+shortlab.partner &lt;- c(&quot;S&quot;, &quot;LAT&quot;, &quot;COH&quot;, &quot;MAR&quot;)
+longlab.partner &lt;-  c(&quot;Single&quot;, &quot;LAT&quot;, &quot;Cohabiting&quot;, &quot;Married&quot;)
+
+# Definition of color palettes using the colorspace package
+  # colors
+  colspace.partner &lt;- sequential_hcl(4, palette = &quot;Heat&quot;, rev = TRUE)
+
+  # grays
+  grays &lt;- sequential_hcl(4, palette = &quot;Light gray&quot;, rev = TRUE)
+  
+
+# Define sequence objects
+
+partner.ex1.seq  &lt;- seqdef(ex1, states = shortlab.partner,
+                           labels = longlab.partner, alphabet = c(1:4),
+                           cpal = colspace.partner) 
+
+partner.ex2.seq  &lt;- seqdef(ex2, states = shortlab.partner,
+                           labels = longlab.partner, alphabet = c(1:4),
+                           cpal = colspace.partner)</code></pre>
+</div>
+<p>This gives us the following two sets of sequences, which are plotted as state distribution and index plots in the next step. Both sets can be described by the same distribution plot, although they produce different index plots.</p>
+<p> </p>
+<div class="layout-chunk" data-layout="l-body">
+<table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Example sequences - set 1
+</th>
+<th style="text-align:left;">
+Example sequences - set 2
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(S,5)
+</td>
+<td style="text-align:left;">
+(S,3)-(MAR,2)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,5)
+</td>
+<td style="text-align:left;">
+(S,3)-(MAR,2)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,2)-(COH,2)-(MAR,1)
+</td>
+<td style="text-align:left;">
+(S,2)-(MAR,3)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,2)-(COH,2)-(MAR,1)
+</td>
+<td style="text-align:left;">
+(S,2)-(MAR,3)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,1)-(LAT,1)-(COH,1)-(MAR,2)
+</td>
+<td style="text-align:left;">
+(S,1)-(LAT,2)-(S,1)-(LAT,1)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,1)-(LAT,1)-(COH,1)-(MAR,2)
+</td>
+<td style="text-align:left;">
+(S,1)-(LAT,2)-(S,1)-(LAT,1)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,2)-(LAT,1)-(MAR,1)-(LAT,1)
+</td>
+<td style="text-align:left;">
+(S,2)-(COH,1)-(S,2)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,2)-(LAT,1)-(MAR,1)-(LAT,1)
+</td>
+<td style="text-align:left;">
+(S,2)-(COH,1)-(S,2)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,1)-(COH,1)-(MAR,1)-(S,1)-(COH,1)
+</td>
+<td style="text-align:left;">
+(S,1)-(COH,3)-(S,1)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,1)-(COH,1)-(MAR,1)-(S,2)
+</td>
+<td style="text-align:left;">
+(S,1)-(COH,4)
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p> </p>
+<p>Note that the color palette specified in <code>seqdef</code> will be used as the default when the respective sequence object is plotted with one of the <code>seqplot</code> functions. This behavior can be changed by adding the <code>cpal</code> argument to <code>seqplot.</code> Thus, the gray version of the figure shown below is produced by adding <code>cpal = grays</code> or re-defining the sequence objects whith the respective palette.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+png(file = &quot;figures/rChapter2-4-2_Fig2-5_dplot_iplots_color.png&quot;,
+    width = 1000, height = 800, res = 130)
+
+layout.fig1 &lt;- layout(matrix(c(1,2,3,4,4,4), 2, 3, byrow = TRUE),
+                      heights = c(.75,.25), widths = c(.35, .325, .325))
+layout.show(layout.fig1)
+
+
+par(mar = c(1, 3, 3, 2), las = 1)
+seqdplot(partner.ex1.seq, ylab = &quot;Relative frequency&quot;, 
+         with.legend = &quot;FALSE&quot;, border = NA,  axes = FALSE) 
+title(main = &quot;State Distribution Plot&quot;, cex.main = 2, line = 1.35)
+axis(1, at=c(.5:4.5), labels = c(1:5))
+
+par(mar = c(0, 2, 2, 2), mgp = c(3, 1, -.97))
+seqiplot(partner.ex1.seq, sortv = seqfpos(partner.ex1.seq,&quot;MAR&quot;),
+         with.legend = &quot;FALSE&quot;, yaxis = FALSE, axes = FALSE,
+         main = &quot;Sequence Index Plot I&quot;, cex.main = 2)
+axis(1, at=c(.5:4.5), labels = c(1:5))
+seqiplot(partner.ex2.seq, sortv = seqfpos(partner.ex2.seq,&quot;MAR&quot;),
+         with.legend = &quot;FALSE&quot;, yaxis = FALSE, axes = FALSE,
+         main = &quot;Sequence Index Plot II&quot;, cex.main = 2)
+axis(1, at=c(.5:4.5), labels = c(1:5))
+
+par(mar = c(0, 2, 0, 2))
+seqlegend(partner.ex1.seq, cex = 1.5, position = &quot;center&quot;, ncol = 4)
+
+
+dev.off()</code></pre>
+</div>
+<p> </p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="images/rChapter2-4-2_Fig2-5_dplot_iplots_color.png" width="500" /><img src="images/rChapter2-4-2_Fig2-5_dplot_iplots_gray.png" width="500" /></p>
+</div>
+<h2 id="the-relative-frequency-index-plot">The relative frequency index plot</h2>
+<p>This section illustrates how to render relative frequency index plot using the standard <code>seqIplot</code> function instead of <code>TraMineRextras' seqplot.rf</code>. Although <code>seqIplot</code> produces an appealing result, the function lacks flexibility. First, it does not allow for supressing the box-and-whiskerplot which is depicting the dissimilarities to the medoids. Second, it is not suited for producing grayscale figures that use shading lines to differentiate between states.</p>
+<p>Accordingly, we generated a tweaked version of <code>seqplot.rf</code> which does not render the graph but stores the information required to generate the desired visualization “manually”. This information is saved in a list object and the different elements of this list will be used to render the plot.</p>
+<p>Here you can download the tweaked version of <code>seqplot.rf</code>: <i class="fas  fa-download "></i> <a href="%22source/relfreqseq-obj.R%22">relfreqseq-obj.R</a>.</p>
+<p>Generating a relative frequency index plot requires sorting of the sequences to be sorted</p>
+<p>according to a substantively meaningful principle. By default <code>seqplot.rf</code> (and <code>relfreqseq-obj.R</code>) sorts the sequences according to their score on the first factor derived by applying multidimensional scaling on a matrix of pairwise dissimilarities between sequences. This distance matrix has to be calculated prior to the call of the <code>seqplot.rf</code> function. The following command is generating such a matrix using Optimal Matching with the default cost specification (indel = 1, substitution = 2) on our family fomration sequence data (yearly granularity). For further details on dissimilarity measures see material on <a href="rChapter3.html">Chapter3</a>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+partner.child.year.om &lt;- seqdist(partner.child.year.seq, method=&quot;OM&quot;, sm= &quot;CONSTANT&quot;)</code></pre>
+</div>
+<p>Once the dissimilarity matrix is generated, the information required for the plots can be extracted and save as a list object by the new <code>relfreqseq-obj</code> function.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+source(&quot;relfreqseq-obj.R&quot;)
+k37.mds &lt;- relfreqseq.obj(partner.child.year.seq,
+                          diss=partner.child.year.om, 
+                          k=37)</code></pre>
+</div>
+<p>Based on this object we finally can produce Figure 2-6. Note that we do not use <code>legend_large_box</code> instead of the the regular legend function to obtain a more appealing result. We also rearrange the states shown in the legend by adding empty entries to the initial label object. See companion page <a href="rChapter2-4_grayscale.html#legend-link">Color palette: Grayscale Edition</a> for further details on the tweaked legend.</p>
+<p>Below we show the code for the grayscale version (<code>cpal = colgrey.partner.child</code>) of the figure which requires overlapping index plots and legends (<code>par(new=TRUE)</code>) to combine a grayscale palette with shaded lines. For the identical colored figure these two elements of the figure have to be rendered only once.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+png(file = &quot;Fig2-6_relfreqIplot_mds_gray.png&quot;,
+    width = 1000, height = 750, res = 100)
+
+layout.fig &lt;- layout(matrix(c(1,2,3,3), 2, 2, byrow = TRUE),
+                      heights = c(.75,.25))
+layout.show(layout.fig)
+
+par(mar=c(3, 2, 3, 2))
+seqIplot(k37.mds[[1]], 
+         with.legend=FALSE,
+         axes = FALSE,
+         yaxis = FALSE, ylab = NA,
+         main=&quot;Medoid sequences (k = 37)&quot;, cex.main = 2,  
+         sortv=k37.mds[[2]],
+         cpal = colgrey.partner.child)
+par(new=TRUE)
+seqIplot(k37.mds[[1]], 
+         with.legend=FALSE,
+         axes = FALSE,
+         yaxis = FALSE, ylab = NA,
+         main=&quot;Medoid sequences (k = 37)&quot;, cex.main = 2,  
+         sortv=k37.mds[[2]],
+         cpal=rep(&quot;#000000&quot;,9),
+         density=c(0,20,0,20,0,20,0,20,20), 
+         angle=c(0,45,0,45,0,45,0,45,0))
+par(mgp=c(3,1,-0.5)) # adjust parameters for x-axis
+axis(1, at=(seq(0,22, by = 2)), labels = seq(18,40, by = 2))
+mtext(text = &quot;Age&quot;,
+      side = 1,#side 1 = bottom
+      line = 2)
+
+par(mar=c(3, 2, 3, 2),
+    mgp=c(3,1,-0.5)) # adjust parameters for x-axis
+boxplot(k37.mds[[3]]~k37.mds[[2]], 
+        horizontal=TRUE, 
+        width=k37.mds[[4]], 
+        frame=FALSE, 
+        main=&quot;Dissimilarities to medoid&quot;, cex.main = 2, 
+        at=k37.mds[[6]],
+        yaxt=&#39;n&#39;, ylab = NA, xlab = NA)
+mtext(text = &quot;Distance&quot;,
+      side = 1,#side 1 = bottom
+      line = 2)
+
+par(mar=c(1, 1, 4, 1))
+plot(NULL ,xaxt=&#39;n&#39;,yaxt=&#39;n&#39;,bty=&#39;n&#39;,ylab=&#39;&#39;,xlab=&#39;&#39;, xlim=0:1, ylim=0:1)
+
+legend_large_box(&quot;center&quot;, legend = longlab.partner.child2,
+                 ncol=4, fill=colgrey.partner.child2, 
+                 border = bordercol.partner.child,
+                 box.cex=c(4.5,1.5),  y.intersp=2,
+                 inset=c(0,-.4), xpd=TRUE)
+par(new=TRUE)
+legend_large_box(&quot;center&quot;, legend = longlab.partner.child2,
+                 ncol=4, bg = &quot;transparent&quot;, 
+                 border = bordercol.partner.child,
+                 box.cex=c(4.5,1.5),  y.intersp=2,
+                 inset=c(0,-.4), xpd=TRUE,
+                 density=c(0,20,0,0,20,0,0,20,0,0,20,20), 
+                 angle=c(0,45,0,0,45,0,0,45,0,0,45,0))
+
+title(main = paste(&quot;Representation quality: R2 =&quot;, 
+                   round(as.numeric(k37.mds[&quot;R2&quot;]),2),
+                   &quot;and F =&quot;, round(as.numeric(k37.mds[&quot;Fstat&quot;]),2)), 
+      line = 2, font.main = 1)
+
+dev.off()</code></pre>
+</div>
+<p> </p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="images/rChapter2-4-3_Fig2-6_relfreqIplot_mds_gray.png" width="500" /><img src="images/rChapter2-4-3_Fig2-6_relfreqIplot_mds_color.png" width="500" /></p>
+</div>
+<h2 id="bonus-material-additional-relative-frequency-sequence-plots">Bonus material: <br/>Additional relative frequency sequence plots</h2>
+<p>The quality and the appearance of relative frequency sequence plots heavily depend on the underlying analytical choices. Below we illustrate how the plot looks like with a different sorting criterion, i.e. the time spent in marriage. The marital states are the last threes states of the alphabet (<code>alphabet(partner.child.year.seq)[7:9]</code>), the respective state frequencies are extracted by TraMineR’s <code>seqistatd</code> function, and summed up using <code>rowSums</code>. The plot is generated in excactly the same way as above. We only have to replace <code>k37.mds</code> with <code>k37.mardur</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+k37.mardur &lt;- relfreqseq.obj(partner.child.year.seq,
+                             diss=partner.child.year.om,
+                             sortv = rowSums(seqistatd(partner.child.year.seq)[,7:9]),
+                             k=37)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="images/rChapter2-4-3_Fig2-6-bonus_relfreqIplot_mardur_color.png" width="500" /></p>
+</div>
+<p>The dissimilarities to medoid plot and the lower R2 show that this sorting criterion performs worse than the previous one. In the next figure we re-plot only the two medoid sequences of the two solution to ease the comparison. In terms of code this means, that the box-whisker-plot from the previous code snippet (<code>boxplot(k37.mds[[3]]~k37.mds[[2]] ...</code>) has to replaced by another <code>seqIplot</code>. In addition, we slightly adjust the two index plots’ titles to print the repsective R2s.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+png(file = &quot;Fig2-6-bonus_relfreqIplot_mds_vs_mardur_color.png&quot;,
+    width = 1000, height = 750, res = 100)
+
+layout.fig1 &lt;- layout(matrix(c(1,2,3,3), 2, 2, byrow = TRUE),
+                      heights = c(.75,.25))
+layout.show(layout.fig1)
+
+
+par(mar=c(3, 2, 3, 2))
+seqIplot(k37.mds[[1]], 
+         with.legend=FALSE,
+         axes = FALSE,
+         yaxis = FALSE, ylab = NA,
+         main= paste(&quot;Medoids sorted by MDS factor; R2 =&quot;, 
+                     round(as.numeric(k37.mds[&quot;R2&quot;]),2)),
+         cex.main = 1.4,  
+         sortv=k37.mds[[2]])
+
+par(mgp=c(3,1,-0.5)) # adjust parameters for x-axis
+axis(1, at=(seq(0,22, by = 2)), labels = seq(18,40, by = 2))
+mtext(text = &quot;Age&quot;,
+      side = 1,#side 1 = bottom
+      line = 2)
+
+par(mar=c(3, 2, 3, 2))
+seqIplot(k37.mardur[[1]], 
+         with.legend=FALSE,
+         axes = FALSE,
+         yaxis = FALSE, ylab = NA,
+         main= paste(&quot;Medoids sorted by marriage duration; R2 =&quot;, 
+                     round(as.numeric(k37.mardur[&quot;R2&quot;]),2)),
+         cex.main = 1.4,
+         sortv=k37.mardur[[2]])
+
+par(mgp=c(3,1,-0.5)) # adjust parameters for x-axis
+axis(1, at=(seq(0,22, by = 2)), labels = seq(18,40, by = 2))
+mtext(text = &quot;Age&quot;,
+      side = 1,#side 1 = bottom
+      line = 2)
+
+par(mar=c(1, 1, 1, 1))
+plot(NULL ,xaxt=&#39;n&#39;,yaxt=&#39;n&#39;,bty=&#39;n&#39;,ylab=&#39;&#39;,xlab=&#39;&#39;, xlim=0:1, ylim=0:1)
+
+legend_large_box(&quot;center&quot;, legend = longlab.partner.child2,
+                 ncol=4, fill=colspace.partner.child2, 
+                 border = bordercol.partner.child,
+                 box.cex=c(4.5,1.5),  y.intersp=2,
+                 inset=c(0,-.4), xpd=TRUE)
+
+dev.off()</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="images/rChapter2-4-3_Fig2-6-bonus_relfreqIplot_mds_vs_mardur_color.png" width="500" /></p>
+</div>
+<p>While there is a notable share of resemblance between the two plots, they also show some marked differences. The medoids in the right panel are much more dominated by the state “Married 2+ children”. Note that both graphs still represent the same data. The sorting criterion just led to a different selection of medoids and consequently to different visual representations of the same data.</p>
+<p>Ultimately, relative frequency sequence plots are a data reduction strategy whose results depend on the input parameters. Luckily, the R2 values and F test allow to evaluate and to compare the quality of different solutions. It is also worthwile to inspect how the state distributions at different positions of the sequence compare to those shown in the state distribution plot (which presents in summary of the entire data set as opposed to a selection of representative sequences). Based on these criteria we prefer the sorting based on multidimensional scaling for generating relative frequency sequence plots with our example data.</p>
+<p>In general, we recommend to test different specifications in terms of the sorting criterion, the dissimilarity measure, and the number of chosen frequency groups. In our example, for instance, we used a rather low number of frequency groups in order to ensure readibilty of the grayscale figures. The results, however, were robust to changes in the number of frequency groups.</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

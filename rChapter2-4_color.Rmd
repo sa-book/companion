@@ -1,7 +1,7 @@
 ---
-title: "2.4 Visualizing Sequences"
+title: "Visualizing sequences"
 description: |
-  Using (predefined) color palettes for setting colors.
+  ... using (predefined) color palettes for setting colors.
 # author:
 #   - name: "Marcel Raab"
 #     url: http://marcelraab.de
@@ -174,7 +174,7 @@ swatchplot("RColorBrewer" = colspace1,
            "colorspace" = colspace2)
 ```
 
-For our final decision we compare the  palettes by inspecting the state distribution plots for our sequence data. We prefer the solution obtained by `colorspace` and will proceed with the respective color palette.
+For our final decision we compare the palettes by inspecting the state distribution plots of our example data using the `seqdplot` function (see [Chapter 2-4-1](rChapter2-4-1.html)). We prefer the solution obtained by `colorspace` and will proceed with the respective color palette.
 
 
 <p align="center">

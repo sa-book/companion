@@ -1353,7 +1353,7 @@ Stata
 
 <div class="d-title">
 <h1>3.3 Alignment techniques</h1>
-<p>Calculate the pairwise dissimilarity matrix using different aligment techniques</p>
+<p><p>Calculate the pairwise dissimilarity matrix using different aligment techniques</p></p>
 </div>
 
 
@@ -1677,7 +1677,7 @@ rownames(alphabetprop) &lt;- alphabet(partner.child.year.seq.now)</code></pre>
 features &lt;- seqcost(partner.child.year.seq.now, method=&quot;FEATURES&quot;,
                     state.features = alphabetprop)</code></pre>
 </div>
-The resulting substitution costs matrix is:
+<p>The resulting substitution costs matrix is:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>
 $indel
@@ -1750,7 +1750,7 @@ MARc2+-&gt; 1.00 0.67  0.67   0.33  0.67   0.33  0.67    0.33     0.00</code></p
 [3,]    6  4.3  0.0</code></pre>
 </div>
 <h2 id="how-to-explore-additional-alignment-based-extensions-of-om">How to explore additional alignment-based extensions of OM</h2>
-<p>The book covers the following alternatives for alignment-based OM: data-driven costs, dynamic Hamming distance, time-warp edit distance. The <code>TraMineR</code> documentation offers detailed explanation of how to implement these dissimilarity measures in the standard code presented here.</p>
+<p>The book covers the following alternatives for alignment-based OM: data-driven costs (transition rates between states), dynamic Hamming distance, time-warp edit distance. The <code>TraMineR</code> documentation offers detailed explanation of how to implement these dissimilarity measures in the standard code presented here. Specifically, you might want to look at the documentation of following functions: <code>seqtrate</code>, <code>seqdist</code>, <code>seqcost</code>, <code>seqsubm</code>.</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

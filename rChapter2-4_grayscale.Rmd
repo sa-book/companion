@@ -1,5 +1,5 @@
 ---
-title: "2.4 Visualizing sequences"
+title: "Visualizing sequences"
 description: |
   ... without using colors - The grayscale edition
 # author:
@@ -60,7 +60,7 @@ text(5.52, .3, "COH",cex=.75,pos=3)
 text(9.12, .3, "LAT",cex=.75,pos=3)
 ```
 
-We added labels to figure above to illustrate which grays constitute our palette. With the following code we specify and illustrate our final palette.
+We added labels to the figure above to illustrate which grays constitute our palette. With the following code we specify and illustrate our final palette.
 
 
 ```{r, eval=FALSE, echo=TRUE}
@@ -82,10 +82,9 @@ colgrey.partner.child <- c(rep("#FFFFFF",2),
 barplot(rep(1,9), col = colgrey.partner.child, axes = FALSE)                           
 ```
 
-According to the definition of our alphabet we need two single states, two LAT states, two cohabitation states, and three marriage states.
-Adding shading lines allows for distinguishing different fertility levels. Shading lines are added by specifying vectors for `density` and `angle`. We use different angles (i.e., 0° and 45°) to separate the two parity states within marriage.
+According to the definition of our alphabet we need two single states, two LAT states, two cohabitation states, and three marriage states. Adding shading lines allows for distinguishing different fertility levels. Shading lines are added by specifying vectors for `density` and `angle`. We use different angles (i.e., 0° and 45°) to separate the two parity states within marriage.
 
-Note that we have to create two overlapping graph objects by typing `par(new=TRUE)`. The first plot creates bars with the desired colors, the second one adds black shading lines
+Note that we have to create two overlapping graph objects by typing `par(new=TRUE)`. The first plot creates bars with the desired colors, the second one adds black shading lines.
 
 ```{r, eval=FALSE, echo=TRUE}
 barplot(rep(1,9), col = colgrey.partner.child, axes = FALSE)                           
@@ -138,7 +137,7 @@ legend_large_box("center", legend = longlab.partner.child,
 
 ```
 
-Although the legend looks OK at first glance, it has two crucial drawbacks: (1) The grayscale boxes (with shading lines) are too small to be distinguished easily; (2) two different partnership states are appearing in the first two columns of the legend. Both issues call for some extra coding because the cannot be solved with the options available in the standard version of the legend function. 
+Although the legend looks OK at first glance, it has two crucial drawbacks: (1) The grayscale boxes (with shading lines) are too small to be distinguished easily; (2) two different partnership states are appearing in the first two columns of the legend. Both issues call for some extra coding because they cannot be solved with the options available in the standard version of the legend function. 
 
 Addressing the first issue we draw on a tweaked version of the legend suggested by [Ben Bolker](http://ms.mcmaster.ca/~bolker/) and [Paul Hurtado](https://www.pauljhurtado.com/) in a thread at [Stack Overflow](https://stackoverflow.com/questions/13644149/increasing-the-size-of-the-coloured-squares-on-histogram-legends-in-r).
 
@@ -212,9 +211,8 @@ legend_large_box("center", legend = longlab.partner.child2,
 
 ## Sequence index plot <br/>of representative sequences
 
-<!-- Sequence index plots (and the more recently suggested relative frequency sequence plots) are the most powerful tool to visualize the longitudinal information stored in sequence data. Individual sequences are rendered as horizontal stacked bars depicting the states over successive positions. Although sequence index plots can be very insightful this kind of visualization can become quite overwhelming and even have the potential to distort the information dut to the issue of overplotting. This is particuarly true if the plot is used to render many sequences and if the sequences comprise many states. Both is true for our example sequence data. Visualizing sequences without using colors makes things even more difficult. USE FOR BOOK -->
+In the book we elaborate on the pros and cons of sequence index plots (see Chapter 2.4.2 in the book; tre corresponding code can be found [here](rChapter2-4-2.html)). Based on this discussion we recommend to abstain from standard index plots of all sequences in large data sets. This is even more true if colors are not available for visualization.
 
-In the book we elaborate on the pros and cons of sequence index plots. Based on this discussion we recommend to abstain from  standard index plots of all sequences in large data sets. This is even more true if colors are not available for visualization.
 Accordingly, the subsequent example plot only renders a selection of 10 representative sequences extracted by `seqrep` using sequences with a yearly granularity.
 
 
@@ -227,13 +225,13 @@ partner.child.year.rep <- seqrep(partner.child.year.seq,
 # Extract sequences to be plotted and save in object
 plot.seq <- partner.child.year.seq[attributes(partner.child.year.rep)$Index,]
 
-# extract same sequences using reduced alphabet (partnership status only)
+# extract same sequences from sequence data using reduced alphabet (partnership status only)
   # this will be used for sorting the index plots by the 
   # first occurence of the partnership status "MAR" (marriage)
 plot.aux <- partner.year.seq[attributes(partner.child.year.rep)$Index,]
 ```
 
-Like in the previous examples two overlapping plots and legends have to be created in order to obtain the "color" palette and the shading lines. Note the differences in the specification of colors, `angle`, and `density` between the index plot and the legend. The differences result from the necessity to define extra empty cells in the legend (see [section above](#legend-link))
+Like in the previous examples two overlapping plots and legends have to be created in order to obtain the "color" palette and the shading lines. Note the differences in the specification of colors, `angle`, and `density` between the index plot and the legend. They result from the necessity to define extra empty cells in the legend (see [section above](#legend-link))
 
 
 ```{r, eval=FALSE, echo=TRUE}
@@ -292,9 +290,9 @@ knitr::include_graphics("images/rChapter2-4_iplot_grayYearly.png")
 
 ## State distribution plots using <br/>yearly & monthly sequence data
 
-Although they are often less insightful than sequence index plots state distribution plots are widely used and often falsely interpreted (see chapter 2-3-2). One reason for the popularity is that they are quite easy to render. Even with our alphabet of size nine and monthly sequence data of length 264 it is possible to produce accesible plots using monthly data without colors. 
+Although they are often less insightful than sequence index plots state distribution plots are widely used and often falsely interpreted (see chapter 2-4-2). One reason for their popularity is that they are quite easy to render. Even with our alphabet of size nine and monthly sequence data of length 264 it is possible to produce accesible plots without using colors. 
 
-Below we provide the code to produce the plots with yearly and monthly data. We again have to create overlapping plots and legends.
+Below we provide the code to produce the plots with yearly and monthly data. We again have to create overlapping plots and legends to add the shading lines.
 
 
 ### Yearly sequence data
