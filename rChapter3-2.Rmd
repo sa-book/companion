@@ -26,7 +26,7 @@ options("kableExtra.html.bsTable" = T)
 
 
 # load data required for this subchapter
-load("data/3-0_ChapterSetup.RData")
+load("C:/Users/struffolino/Documents/GitHub/companion/data/3-0_ChapterSetup.RData")
 
 # (down)load required packages using pacman
 source("0-0_LoadInstallPackages.R")
