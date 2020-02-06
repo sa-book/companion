@@ -259,7 +259,11 @@ fig.data %>%
              y = `Sequence Quality`, 
              color = Sequence)) +
   geom_line(size=1) +
-  theme_minimal()
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  guides(col=guide_legend(nrow=2,byrow=TRUE)) 
+  #theme(legend.title = element_text(face = "bold", hjust = .5),
+   #     legend.text = element_text(size = 6))
 ```
 
 Once we have stored the quality index and the other indices in one object, we can display them as a comprehenisve table (**Table 2-10** in the book).

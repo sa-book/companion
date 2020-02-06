@@ -1637,8 +1637,13 @@ fig.data %&gt;%
              y = `Sequence Quality`, 
              color = Sequence)) +
   geom_line(size=1) +
-  theme_minimal()</code></pre>
+  theme_minimal() +
+  theme(legend.position=&quot;bottom&quot;) +
+  guides(col=guide_legend(nrow=2,byrow=TRUE)) </code></pre>
 <p><img src="rChapter2-5_files/figure-html5/unnamed-chunk-15-1.png" width="624" /></p>
+<pre class="r"><code>
+  #theme(legend.title = element_text(face = &quot;bold&quot;, hjust = .5),
+   #     legend.text = element_text(size = 6))</code></pre>
 </div>
 <p>Once we have stored the quality index and the other indices in one object, we can display them as a comprehenisve table (<strong>Table 2-10</strong> in the book).</p>
 <div class="layout-chunk" data-layout="l-body-outset">
