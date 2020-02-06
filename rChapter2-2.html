@@ -19,33 +19,30 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-  <title>Sequence Analysis - Companion Site: Chapter 02</title>
+  <title>Sequence Analysis - Companion Site: Sequence length and granularity</title>
   
-  <meta property="description" itemprop="description" content="Defining, Describing, and Visualizing Sequences"/>
+  <meta property="description" itemprop="description" content="Chapter 2-2 Defining sequences"/>
   
   <link rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/"/>
   
-  <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2020-02-06"/>
-  <meta property="article:created" itemprop="dateCreated" content="2020-02-06"/>
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Sequence Analysis - Companion Site: Chapter 02"/>
+  <meta property="og:title" content="Sequence Analysis - Companion Site: Sequence length and granularity"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="Defining, Describing, and Visualizing Sequences"/>
+  <meta property="og:description" content="Chapter 2-2 Defining sequences"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="Sequence Analysis - Companion Site"/>
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Sequence Analysis - Companion Site: Chapter 02"/>
-  <meta property="twitter:description" content="Defining, Describing, and Visualizing Sequences"/>
+  <meta property="twitter:title" content="Sequence Analysis - Companion Site: Sequence length and granularity"/>
+  <meta property="twitter:description" content="Chapter 2-2 Defining sequences"/>
   
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Chapter 02"]},{"type":"character","attributes":{},"value":["Defining, Describing, and Visualizing Sequences\n"]},{"type":"character","attributes":{},"value":["2020-02-06"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output"]}},"value":[{"type":"character","attributes":{},"value":["Sequence length and granularity"]},{"type":"character","attributes":{},"value":["Chapter 2-2 Defining sequences\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[2]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -1261,6 +1258,8 @@
   </script>
   
   <!--/radix_placeholder_distill-->
+  <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="site_libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
   <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
@@ -1303,7 +1302,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Chapter 02","description":"Defining, Describing, and Visualizing Sequences","authors":[],"publishedDate":"2020-02-06T00:00:00.000+01:00"}
+{"title":"Sequence length and granularity","description":"Chapter 2-2 Defining sequences","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1353,65 +1352,205 @@ Stata
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Chapter 02</h1>
-<p>Defining, Describing, and Visualizing Sequences</p>
+<h1>Sequence length and granularity</h1>
+<p>Chapter 2-2 Defining sequences</p>
 </div>
 
 
 <div class="d-article">
-<table>
-<colgroup>
-<col style="width: 54%" />
-<col style="width: 45%" />
-</colgroup>
+<p><strong>Table 2-2</strong> in Chapter 2-2 compares different approaches towards defining sequence data.</p>
+<p>The sequences consist of monthly information on respondents’ partnership status between age 18 to 40 (monthly data). The sequences are stored in the object <code>partner.month.seq</code> and distinguish four states:</p>
+<div class="layout-chunk" data-layout="l-body">
+<table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
-<tr class="header">
-<th>TOC</th>
-<th>Content (click for jumping to examples)</th>
+<tr>
+<th style="text-align:left;">
+State
+</th>
+<th style="text-align:left;">
+Short Label
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td>2.1 Basic Concepts and Terminology</td>
-<td><a href="rChapter2-1.html">Defining sequence data &amp; notation formats</a></td>
+<tr>
+<td style="text-align:left;">
+Single
+</td>
+<td style="text-align:left;">
+S
+</td>
 </tr>
-<tr class="even">
-<td>2.2 Defining sequence</td>
-<td>Defining the alphabet</td>
+<tr>
+<td style="text-align:left;">
+LAT
+</td>
+<td style="text-align:left;">
+LAT
+</td>
 </tr>
-<tr class="odd">
-<td></td>
-<td>Changing sequence granularity</td>
+<tr>
+<td style="text-align:left;">
+Cohabiting
+</td>
+<td style="text-align:left;">
+COH
+</td>
 </tr>
-<tr class="even">
-<td>2.3 Description of Sequence Data I</td>
-<td><a href="rChapter2-3.html">Basic Description</a></td>
-</tr>
-<tr class="odd">
-<td>2.4 Visualization of Sequence Data</td>
-<td><a href="rChapter2-4_grayscale.html">Color palette: Grayscale Edition</a></td>
-</tr>
-<tr class="even">
-<td></td>
-<td><a href="rChapter2-4_color.html">Color palette: Colored Edition</a></td>
-</tr>
-<tr class="odd">
-<td></td>
-<td><a href="rChapter2-4-1.html">Data summarization graphs (chapter 2.4.1)</a></td>
-</tr>
-<tr class="even">
-<td></td>
-<td><a href="rChapter2-4-2.html">Data representation graphs (chapter 2.4.2)</a></td>
-</tr>
-<tr class="odd">
-<td>2.5 Description of Sequence Data II</td>
-<td><a href="rChapter2-5.html">Unidimensional and composite indices</a></td>
+<tr>
+<td style="text-align:left;">
+Married
+</td>
+<td style="text-align:left;">
+MAR
+</td>
 </tr>
 </tbody>
 </table>
-<p>Chapter 2 introduces the basic concepts and discusses how to define sequence data. The corresponding material provided on this site shows <code>TraMineR</code>’s capabilites of processing different data formats. It is further illustrated how the alphabet and the granularity of sequences can be easily changed with <code>TraMineR</code>’s built-in helper functions.</p>
-<p>With visualizition being one of the key features of sequence analysis we provide extensive material on optimizing the qualitiy of figures by choosing appropriate color palettes. Although the use of color is highly recommended for visualizing sequences, the associated print-costs are often prohibitively high (for instance in the case of our book). We therefore provide some material illustrating how to produce acceptable results by using a grayscale color palette and by adding texture.</p>
-<p>We further show useful commands for a comprehensive description of the sequence data. Finally, we turn to more advanced composite measures of sequence complexity. These indices are not only interesting in themselves, but also because they can be used either as independent or as dependent variable in subsequent regression analyses.</p>
+</div>
+<p>In addition to simply using the original data, two alternative approaches of defining the sequences are discussed:</p>
+<ul>
+<li>The first alternative aims at reducing the complexity of the original data by imposing a threshold rule that defines a minimum length for partnership spells. If a spell falls below this threshold value, it would be discounted and the respective states coded as being single rather than in a relationship. The data manipulation required for this alternative sequence specification was done in Stata. Hence, we only have to import the dataset from Stata and define it a sequence object using similar code than in <a href="rChapter2-1.html">Chapter 2-1</a>.</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# import data from Stata 
+family2 &lt;- read_dta(&quot;partnerRecodedThreshold12.dta&quot;)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# store recoded partnership sequence data in a separate object
+seqvars2.partner &lt;- family2 %&gt;%
+  select(starts_with(&quot;state&quot;))
+
+# define long and short labels
+shortlab.partner &lt;- c(&quot;S&quot;, &quot;LAT&quot;, &quot;COH&quot;, &quot;MAR&quot;)
+longlab.partner &lt;-  c(&quot;Single&quot;, &quot;LAT&quot;, &quot;Cohabiting&quot;, &quot;Married&quot;)
+
+# define sequence object using monthly data
+partner.month.seq2 &lt;- seqdef(seqvars2.partner, 
+                         states = shortlab.partner, 
+                         labels = longlab.partner,
+                         weights = family2$weight40)</code></pre>
+</div>
+<ul>
+<li>The second strategy changes the granularity of the sequence data from monthly to yearly. That is, twelve states from the original sequence are condensed to one state in the new sequence by applying the <code>seqgranularity</code> function from the <code>TraMineRextras</code> package.</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# change granularity --&gt; years instead of months (using modal values)
+
+#-----------------------------------------------------------------------#
+# Note: The original sequence object created by seqgranularity          |
+# seems to be OK at first glance. However, if we want to use it         |
+# for calculating distances, we obtain an error message. That is,       |
+# because the sequence variables are returned as strings rather than    |
+# factor variables. In order to *make the data great again*, we convert |
+# the sequence variables to factors after seqgranularity has been       |
+# executed.                                                             |
+# ----------------------------------------------------------------------#
+
+# reduced state space (partner bio)
+partner.year.seq &lt;- seqgranularity(partner.month.seq, 
+                               tspan=12, method=&quot;mostfreq&quot;)
+
+# convert sequence variables to factors (this should actually be done by seqgranularity)
+# we assign the levels using the first variable from the original sequence object
+cols &lt;- colnames(partner.year.seq)
+seqlevels &lt;- levels(partner.month.seq[,1]) 
+
+partner.year.seq[cols] &lt;- lapply(partner.year.seq[cols],
+                                       function(x)(factor(x ,levels = seqlevels)))</code></pre>
+</div>
+<p>Now we can produce <strong>Table 2-2</strong> from the book which shows a small selction of four sequences using the three different specifications.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# =========================================================
+# Table 2-2 - Different alternatives of defining sequences
+# =========================================================
+
+# Using original Sequence data (monthly granularity) (column 1)
+col1 &lt;- print(partner.month.seq[c(4, 8, 16, 21), ], format = &quot;SPS&quot;)
+
+# Using recoded monthly data only considering
+# spells lasting at least 12 months (column 2)
+col2 &lt;- print(partner.month.seq2[c(4, 8, 16, 21), ], format = &quot;SPS&quot;)
+
+# Using sequences with yearly granularity (Column 3)
+col3 &lt;- print(partner.year.seq[c(4, 8, 16, 21), ], format = &quot;SPS&quot;)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-page">
+
+<pre class="r"><code>
+# Print selection of sequences from differently specified sequence data
+tibble(col1, col2, col3) %&gt;%
+  kable(col.names = c(&quot;Original sequence&quot;, 
+                      &quot;Strategy 1 – recode&quot;, 
+                      &quot;Strategy 2 – aggregate&quot;)) %&gt;%
+  kable_styling(bootstrap_options = 
+                  c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;, &quot;responsive&quot;))</code></pre>
+<table class="table table-striped table-hover table-condensed table-responsive" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Original sequence
+</th>
+<th style="text-align:left;">
+Strategy 1 – recode
+</th>
+<th style="text-align:left;">
+Strategy 2 – aggregate
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(S,89)-(LAT,26)-(COH,14)-(LAT,6)-(S,34)-(LAT,4)-(MAR,91)
+</td>
+<td style="text-align:left;">
+(S,89)-(LAT,26)-(COH,14)-(S,44)-(MAR,91)
+</td>
+<td style="text-align:left;">
+(S,7)-(LAT,3)-(COH,1)-(S,3)-(MAR,8)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(LAT,13)-(S,6)-(LAT,33)-(S,24)-(LAT,41)-(S,35)-(LAT,10)-(COH,14)-(MAR,88)
+</td>
+<td style="text-align:left;">
+(LAT,13)-(S,6)-(LAT,33)-(S,24)-(LAT,41)-(S,45)-(COH,14)-(MAR,88)
+</td>
+<td style="text-align:left;">
+(LAT,1)-(S,1)-(LAT,2)-(S,2)-(LAT,4)-(S,3)-(LAT,1)-(COH,1)-(MAR,7)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(S,56)-(LAT,69)-(COH,47)-(MAR,92)
+</td>
+<td style="text-align:left;">
+(S,56)-(LAT,69)-(COH,47)-(MAR,92)
+</td>
+<td style="text-align:left;">
+(S,5)-(LAT,5)-(COH,4)-(MAR,8)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+(LAT,4)-(S,134)-(LAT,9)-(COH,3)-(MAR,52)-(LAT,5)-(COH,25)-(MAR,32)
+</td>
+<td style="text-align:left;">
+(S,150)-(MAR,52)-(S,5)-(COH,25)-(MAR,32)
+</td>
+<td style="text-align:left;">
+(S,12)-(MAR,5)-(COH,2)-(MAR,3)
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

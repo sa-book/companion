@@ -1,0 +1,145 @@
+---
+title: "Sequence length and granularity"
+description: |
+  Chapter 2-2 Defining sequences
+# author:
+#   - name: "Marcel Raab"
+#     url: http://marcelraab.de
+#     affiliation: University of Mannheim
+#     affiliation_url: https://www.uni-mannheim.de
+#   - name: "Emanuela Struffolino"
+#     url: https://www.wzb.eu/en/persons/emanuela-struffolino
+#     affiliation: WZB Berlin
+#     affiliation_url: https://www.wzb.eu
+# date: "`r Sys.Date()`"
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval=TRUE, echo=TRUE)
+
+options("kableExtra.html.bsTable" = T)
+
+
+# load data required for this subchapter
+load("data/2-3_BasicDescription.RData")
+
+# (down)load required packages using pacman
+source("0-0_LoadInstallPackages.R")
+
+```
+
+
+**Table 2-2** in Chapter 2-2 compares different approaches towards defining sequence data. 
+
+The sequences consist of monthly information on respondents' partnership status between age 18 to 40 (monthly data). The sequences are stored in the object `partner.month.seq` and distinguish four states:
+
+
+```{r echo=FALSE}
+kable(tibble(state = longlab.partner, shortlabel = shortlab.partner), 
+      col.names = c("State", "Short Label")) %>%
+  kable_styling(bootstrap_options = 
+                  c("responsive", "hover", "condensed"),
+                full_width = F)
+```
+
+In addition to simply using the original data, two alternative approaches of defining the sequences are discussed: 
+
+- The first alternative aims at reducing the complexity of the original data by imposing a threshold rule that defines a minimum length for partnership spells. If a spell falls below this threshold value, it would be discounted and the respective states coded as being single rather than in a relationship. The data manipulation required for this alternative sequence specification was done in Stata. Hence, we only have to import the dataset from Stata and define it a sequence object using similar code than in [Chapter 2-1](rChapter2-1.html).
+
+```{r, eval = FALSE}
+# import data from Stata 
+family2 <- read_dta("partnerRecodedThreshold12.dta")
+```
+
+```{r}
+# store recoded partnership sequence data in a separate object
+seqvars2.partner <- family2 %>%
+  select(starts_with("state"))
+
+# define long and short labels
+shortlab.partner <- c("S", "LAT", "COH", "MAR")
+longlab.partner <-  c("Single", "LAT", "Cohabiting", "Married")
+
+# define sequence object using monthly data
+partner.month.seq2 <- seqdef(seqvars2.partner, 
+                         states = shortlab.partner, 
+                         labels = longlab.partner,
+                         weights = family2$weight40)
+
+```
+
+- The second strategy changes the granularity of the sequence data from monthly to yearly. That is, twelve states from the original sequence are condensed to one state in the new sequence by applying the `seqgranularity` function from the `TraMineRextras` package.
+
+```{r}
+# change granularity --> years instead of months (using modal values)
+
+#-----------------------------------------------------------------------#
+# Note: The original sequence object created by seqgranularity          |
+# seems to be OK at first glance. However, if we want to use it         |
+# for calculating distances, we obtain an error message. That is,       |
+# because the sequence variables are returned as strings rather than    |
+# factor variables. In order to *make the data great again*, we convert |
+# the sequence variables to factors after seqgranularity has been       |
+# executed.                                                             |
+# ----------------------------------------------------------------------#
+
+# reduced state space (partner bio)
+partner.year.seq <- seqgranularity(partner.month.seq, 
+                               tspan=12, method="mostfreq")
+
+# convert sequence variables to factors (this should actually be done by seqgranularity)
+# we assign the levels using the first variable from the original sequence object
+cols <- colnames(partner.year.seq)
+seqlevels <- levels(partner.month.seq[,1]) 
+
+partner.year.seq[cols] <- lapply(partner.year.seq[cols],
+                                       function(x)(factor(x ,levels = seqlevels)))
+```
+
+Now we can produce **Table 2-2** from the book which shows a small selction of four sequences using the three different specifications.
+
+```{r, eval=FALSE}
+# =========================================================
+# Table 2-2 - Different alternatives of defining sequences
+# =========================================================
+
+# Using original Sequence data (monthly granularity) (column 1)
+col1 <- print(partner.month.seq[c(4, 8, 16, 21), ], format = "SPS")
+
+# Using recoded monthly data only considering
+# spells lasting at least 12 months (column 2)
+col2 <- print(partner.month.seq2[c(4, 8, 16, 21), ], format = "SPS")
+
+# Using sequences with yearly granularity (Column 3)
+col3 <- print(partner.year.seq[c(4, 8, 16, 21), ], format = "SPS")
+```
+
+```{r, include=FALSE}
+# Using original Sequence data (monthly granularity) (column 1)
+col1 <- print(partner.month.seq[c(4, 8, 16, 21), ], format = "SPS")
+
+# Using recoded monthly data only considering
+# spells lasting at least 12 months (column 2)
+col2 <- print(partner.month.seq2[c(4, 8, 16, 21), ], format = "SPS")
+
+# Using sequences with yearly granularity (Column 3)
+col3 <- print(partner.year.seq[c(4, 8, 16, 21), ], format = "SPS")
+```
+
+```{r, layout="l-page"}
+# Print selection of sequences from differently specified sequence data
+tibble(col1, col2, col3) %>%
+  kable(col.names = c("Original sequence", 
+                      "Strategy 1 – recode", 
+                      "Strategy 2 – aggregate")) %>%
+  kable_styling(bootstrap_options = 
+                  c("striped", "hover", "condensed", "responsive"))
+```
+
+
+
+ 
