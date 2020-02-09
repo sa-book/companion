@@ -1661,7 +1661,9 @@ tab2.10 &lt;- data.frame(example.sps,
 # Generate table
 kable(tab2.10, digits = 2) %&gt;%
   kable_styling(bootstrap_options = c(&quot;responsive&quot;, &quot;hover&quot;, &quot;condensed&quot;),
-                full_width = F)</code></pre>
+                full_width = F) %&gt;%
+  scroll_box(width = &quot;100%&quot;)</code></pre>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:100%; ">
 <table class="table table-responsive table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -2005,6 +2007,7 @@ Quality
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 <p>We also illustrate how the indices could be used in regression analysis. Note that the aim of this exercise is not to build a good statistical model but to showcase how to work with the index scores obtained in SA.</p>
 <p>In the following code we generate a dataset containing the respondent’S gender (<code>sex</code>), level of education (<code>highschool</code>), and migration background (<code>migstatus</code>) using the pairfam example data rather than constructed sequences. The data are stored in <code>family</code> and the sequences combining partnership states and fertility have been saved in the sequence object <code>partner.child.year.seq</code>.</p>

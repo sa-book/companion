@@ -281,7 +281,8 @@ tab2.10 <- data.frame(example.sps,
 # Generate table
 kable(tab2.10, digits = 2) %>%
   kable_styling(bootstrap_options = c("responsive", "hover", "condensed"),
-                full_width = F)
+                full_width = F) %>%
+  scroll_box(width = "100%")
 ```
 
 We also illustrate how the indices could be used in regression analysis. Note that the aim of this exercise is not to build a good statistical model but to showcase how to work with the index scores obtained in SA.
