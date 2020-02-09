@@ -301,7 +301,11 @@ regdata <- family %>%
 lm.turbulence <- lm(Turbulence ~ sex + highschool + migstatus, data = regdata)
 lm.complexity <- lm(Complexity ~ sex + highschool + migstatus, data = regdata)
 
-tab_model(lm.turbulence,lm.complexity, file="output.html")
+tab_model(lm.turbulence,lm.complexity, show.ci = FALSE,
+          pred.labels = c("Intercept", "Gender: female",
+                          "Education: at least high school",
+                          "Migration background: 1st generation", 
+                          "2nd generation"), p.style="a", file="output.html")
 
 ```
 
