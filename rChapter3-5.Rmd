@@ -26,15 +26,10 @@ options("kableExtra.html.bsTable" = T)
 
 
 # load data required for this subchapter
-load("C:/Users/struffolino/Documents/GitHub/companion/data/3-0_ChapterSetup.RData")
+load("data/3-0_ChapterSetup.RData")
 
 # (down)load required packages using pacman
-source("0-0_LoadInstallPackages.R")
-# load and install (if necessary) required packages for this course
-pacman::p_load(TraMineR, TraMineRextras, WeightedCluster, cluster,
-               SDMTools, rio, survival, RColorBrewer, colorspace, vcd)
-library(MCMCpack)
-library(corrplot)
+source("source/LoadInstallPackages.R")
 
 ```
 

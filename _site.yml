@@ -7,7 +7,7 @@ navbar:
   right:
     - text: "Home"
       href: index.html
-    - text: "R"
+    - text: "Material for R"
       menu:
         - text: "Overview"
           href: UnderConstruction.html
@@ -15,18 +15,6 @@ navbar:
           href: rChapter2.html
         - text: "Chapter 03"
           href: rChapter3.html
-        - text: "Chapter 04"
-          href: UnderConstruction.html
-        - text: "Chapter 05"
-          href: UnderConstruction.html
-    - text: "Stata"
-      menu:
-        - text: "Overview"
-          href: stata.html
-        - text: "Chapter 02"
-          href: UnderConstruction.html
-        - text: "Chapter 03"
-          href: UnderConstruction.html
         - text: "Chapter 04"
           href: UnderConstruction.html
         - text: "Chapter 05"

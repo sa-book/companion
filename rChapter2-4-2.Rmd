@@ -27,7 +27,7 @@ options("kableExtra.html.bsTable" = T)
 load("data/2-4_VisualizationGrayscale.RData")
 
 # (down)load required packages using pacman
-source("0-0_LoadInstallPackages.R")
+source("source/LoadInstallPackages.R")
 
 ```
 

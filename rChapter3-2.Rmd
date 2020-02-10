@@ -13,9 +13,7 @@ description: |
 #     affiliation_url: https://www.wzb.eu
 # date: "`r Sys.Date()`"
 output:
-  distill::distill_article:
-    toc: true
-    toc_depth: 2
+  distill::distill_article
 ---
 
 
@@ -26,10 +24,10 @@ options("kableExtra.html.bsTable" = T)
 
 
 # load data required for this subchapter
-load("C:/Users/struffolino/Documents/GitHub/companion/data/3-0_ChapterSetup.RData")
+load("data/3-0_ChapterSetup.RData")
 
 # (down)load required packages using pacman
-source("0-0_LoadInstallPackages.R")
+source("source/LoadInstallPackages.R")
 
 ```
 

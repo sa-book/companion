@@ -24,10 +24,10 @@ knitr::opts_chunk$set(echo = FALSE)
 options("kableExtra.html.bsTable" = T)
 
 # load data required for this subchapter
-load("C:/Users/struffolino/Documents/GitHub/companion/data/3-0_ChapterSetup.RData")
+load("data/3-0_ChapterSetup.RData")
 
 # (down)load required packages using pacman
-source("0-0_LoadInstallPackages.R")
+source("source/LoadInstallPackages.R")
 ```
 
 # Analysing two channels simultaneously

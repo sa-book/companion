@@ -28,7 +28,7 @@ options("kableExtra.html.bsTable" = T)
 load("data/2-3_BasicDescription.RData")
 
 # (down)load required packages using pacman
-source("0-0_LoadInstallPackages.R")
+source("source/LoadInstallPackages.R")
 
 ```
 
@@ -69,12 +69,12 @@ attributes(family$state1)$labels
 
 The first examples in the book are based on sequences with a reduced alphabet only distinguishing partnership states. The following code generates a `data.frame` containing the recoded sequence variables using `dplyr`.
 
-```{r}
+```{r, eval=FALSE}
 # extracting and recoding the sequence variables (which all start with state)
 # recode to reduced state space capturing partnership status only 
 seqvars.partner <- family %>%
   select(starts_with("state")) %>%
-  mutate_all(funs(case_when(
+  mutate_all(~(case_when(
     . < 3 ~ 1,            # Single
     . %in% c(3,4) ~ 2,    # LAT
     . %in% c(5,6) ~ 3,    # Cohabiting
