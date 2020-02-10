@@ -323,6 +323,63 @@ turbulence2 <- seqST(partner.year.seq, norm = TRUE)
 cor(complexity2,turbulence2)
 ```
 
+## Bonus material: <br/>Generalized version of the sequence quality index
+
+The original sequence quality index presented above is constructed using a binary framework that distinguishes only between success and failure. Drawing from the conceptualization of the precarity index, we suggest a generalized version of the sequence quality index that allows for a more nuanced *quality hierarchy* of states:
+
+$$
+\frac{\sum_{i=1}^{k}{qp^{w}_{i}}}{\sum_{i=1}^{k}{q_{max}i^{w }_{i}}}, \quad \text{with} \quad p_i =
+  \begin{cases}
+    i  &  \text{if } x_i=S \\
+    0  &  \text{otherwise}
+  \end{cases}
+$$
+The vector $q$ is defined to indicate the quality of a state. The quality vector assigns values between 0 and 1 to every state of the alphabet. If not specified differently, the state at the bottom of the quality hierarchy is coded 0, whereas the state on the top is coded 1. For the states in-between each step up the hierarchy increases the value on the vector by $1/(l(A) - 1)$, with $l(A)$ indicating the length of the alphabet. 
+
+For illustrative purposes, we again take a traditionalist's perspective and impose the following rank order: $S < LAT < COH < MAR$. This translates to a quality vector $q=(0,\frac{1}{3},\frac{2}{3},1)$ for the four states of our alphabet. In the following table we compare the values of the *generalized sequence quality index* with the *binary sequence quality index* (in which only MAR is considered as success).  
+
+```{r, include=FALSE}
+ex1 <- tibble(state1 = c(1, 1, 1, 1, 1, 1),
+              state2 = c(1, 1, 2, 1, 3, 3),
+              state3 = c(1, 3, 3, 2, 4, 4),
+              state4 = c(1, 3, 4, 4, 1, 1),
+              state5 = c(1, 4, 4, 2, 3, 1))
+
+shortlab.partner <- c("S", "LAT", "COH", "MAR")
+longlab.partner <-  c("Single", "LAT", "Cohabiting", "Married")
+colspace.partner <- sequential_hcl(4, palette = "Heat", rev = TRUE)
+
+ex1.seq  <- seqdef(ex1, states = shortlab.partner,
+                   labels = longlab.partner, alphabet = c(1:4),
+                   cpal = colspace.partner) 
+
+
+
+bonus <- as_tibble(ex1.seq) %>% 
+  mutate_all(as.numeric) %>%
+  mutate_all(~(case_when(. == 1 ~ 0,
+                         . == 2 ~ 1/3,
+                         . == 3 ~ 2/3,
+                         . == 4 ~ 1,)))
+
+bonus <-  map_dfc(1:ncol(bonus), ~bonus[,.x]*.x) %>%
+  as_tibble() %>%
+  transmute(Generalized = rowSums(.)/15) %>%
+  mutate(Original = seqsuccess(ex1.seq, success = 4),
+         Sequence = print(ex1.seq, format = "SPS")) %>%
+  select(Sequence, Original, Generalized)
+
+```
+
+```{r, echo=FALSE}
+kable(bonus, digits = 2) %>%
+  kable_styling(bootstrap_options = 
+                  c("responsive", "hover", "condensed"),
+                full_width = F)
+```
+
+The generalized index allows to obtain more fine-grained results than the original quality index, but requires more analytical choices, i.e. the definition of a state hierarchy which assigns metric weights to each state. The function for the generalized sequence quality index will be (written and) uploaded soon. 
+
 ## References {.appendix}
 
 Manzoni, A., & Mooi-Reci, I. (2018). *Measuring Sequence Quality*. In G. Ritschard & M. Studer (Eds.), Sequence Analysis and Related Approaches (pp. 261–278). doi: 10.1007/978-3-319-95420-2_15

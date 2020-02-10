@@ -265,9 +265,14 @@ knitr::include_graphics("images/rChapter2-4-3_Fig2-6_relfreqIplot_mds_color.png"
 
 ## Bonus material: <br/>Additional relative frequency sequence plots
 
-The quality and the appearance of relative frequency sequence plots heavily depend on the underlying analytical choices. Below we illustrate how the plot looks like with a different sorting criterion, i.e. the time spent in marriage. The marital states are the last threes states of the alphabet (`alphabet(partner.child.year.seq)[7:9]`), the respective state frequencies are extracted by TraMineR's `seqistatd` function, and summed up using `rowSums`. The plot is generated in excactly the same way as above. We only have to replace `k37.mds` with `k37.mardur`.
+The quality and the appearance of relative frequency sequence plots heavily depend on the underlying analytical choices. Below we illustrate how the plot looks like with more frequency groups (k=100) and a different sorting criterion (time spent in marriage). The marital states are the last three states of the alphabet (`alphabet(partner.child.year.seq)[7:9]`), the respective state frequencies are extracted by TraMineR's `seqistatd` function, and summed up using `rowSums`. The plots are generated in excactly the same way as above. We only have to replace `k37.mds` with `k100.mds` and `k37.mardur` respectively.
 
 ```{r eval = FALSE, echo = TRUE}
+
+k100.mds <- relfreqseq.obj(partner.child.year.seq,
+                          diss=partner.child.year.om, 
+                          k=100)
+
 k37.mardur <- relfreqseq.obj(partner.child.year.seq,
                              diss=partner.child.year.om,
                              sortv = rowSums(seqistatd(partner.child.year.seq)[,7:9]),
@@ -275,10 +280,13 @@ k37.mardur <- relfreqseq.obj(partner.child.year.seq,
 ```
 
 ```{r layout="l-body-outset"}
+knitr::include_graphics("images/rChapter2-4-3_Fig2-6-bonus_relfreqIplot_mds_k100_color.png")
 knitr::include_graphics("images/rChapter2-4-3_Fig2-6-bonus_relfreqIplot_mardur_color.png")
 ```
 
-The dissimilarities to medoid plot and the lower R2 show that this sorting criterion performs worse than the previous one. In the next figure we re-plot only the two medoid sequences of the two solution to ease the comparison. In terms of code this means, that the box-whisker-plot from the previous code snippet (`boxplot(k37.mds[[3]]~k37.mds[[2]] ...`) has to replaced by another `seqIplot`. In addition, we slightly adjust the two index plots' titles to print the repsective R2s.
+Compared to the plot shown in the book (`k37.mds`) the addition of 63 additional frquency groups (`k100.mds`) leads to a slightly more nuanced index plot. The medoids, however, are not performing better in representing the sequences within their frequency groups (see R2).
+
+Regarding `k37.mardur` the dissimilarities to medoid plot and the lower R2 show that this sorting criterion performs worse than the MDS-bases plot with the same number of frequency groups (`k37.mds`). In the next figure we re-plot only the two medoid sequences of the two solutions to ease the comparison. In terms of code this means, that the box-whisker-plot from the previous code snippet (`boxplot(k37.mds[[3]]~k37.mds[[2]] ...`) has to replaced by another `seqIplot`. In addition, we slightly adjust the two index plots' titles to print the repsective R2s.
 
 ```{r eval = FALSE, echo = TRUE}
 png(file = "Fig2-6-bonus_relfreqIplot_mds_vs_mardur_color.png",
