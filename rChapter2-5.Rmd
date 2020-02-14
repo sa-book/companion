@@ -33,6 +33,8 @@ source("source/LoadInstallPackages.R")
 # sequence quality index
 source("source/seqsuccess.R")
 
+library(seqquality)
+
 ```
 
 
@@ -187,7 +189,7 @@ precarity <- seqprecarity(example.seq,
 
 ```
 
-We wrote a little function to implement the sequence quality index
+We wrote a function to implement the sequence quality index proposed by [Manzoni and Mooi-Reci (2018)](https://doi.org/10.1007/978-3-319-95420-2_15)
 
 $$
 \frac{\sum_{i=1}^{k}{p^{w}_{i}}}{\sum_{i=1}^{k}{i^{w }_{i}}}, \quad \text{with} \quad p_i =
@@ -199,45 +201,50 @@ $$
 
 where $i$ indicates the position within the sequence, $x_i=S$ denotes a successful state at position $i$, and $w$ is a weighting factor simultaneously affecting the impact size of failures, but also the strength and pace of recovery due to subsequent successes.
 
-Our function `seqsuccess` allows to obtain the quality index for multiple weighting factors simultaneously.
 
-You can download the function here: **`r icon::fa("download")` [seqsuccess.R]("source/seqsuccess.R")**.
-You can use it in R once you added it to your current environment by typing:
+With the function `seqquality` it is possible to obtain the quality index for multiple weighting factors simultaneously. The function also allows to compute a generalized version of the quality index ([see below](#GenSeqQual))
+
+We wrapped the function in a small R package which can be dowloaded via Github:
 
 ```{r, eval=FALSE}
-source("seqsuccess.R")
+install.packages("devtools")
+library(devtools)
+install_github("maraab23/seqquality")
+library(seqquality)
 ```
+Storing the function in a package allows to complement it with some documentation material. You can access the documentation by typing
 
+```{r, eval=FALSE}
+?seqquality
+```
 
 In the example code below we specify - from a traditionalist's point of view - marriage as the state of success using three different weights. We also generate an object containing the quality index for the default weight of one exclusively, which later will be used for creating **Table 2-10**.
 
 ```{r}
-seqsuccess(example.seq,
-           success = "MAR",
+seqquality(example.seq,
+           stqual = c(0,0,0,1),
            weight = c(.5,1,2))
 
-quality <- seqsuccess(example.seq, 
-                      success = "MAR")
+quality <- as.matrix(seqquality(example.seq, 
+                                stqual = c(0,0,0,1)))
 ```
 
-If only a single weight is specified, it is also possible to caluclate a time-varying version of the quality index (`time.varying = TRUE`) for each sequence position $i$, which can be used as a variable in panel regressions (see [Manzoni and Mooi-Reci (2018)](https://doi.org/10.1007/978-3-319-95420-2_15) for an application). Futhermore, multiple states of the alphabet can be jointly defined as success either by providing their numeric values or labels. In the example below, we specify marriage and cohabitation as success. 
+It is also possible to caluclate a time-varying version of the quality index (`time.varying = TRUE`) for each sequence position $i$, which can be used as a variable in panel regressions (see [Manzoni and Mooi-Reci (2018)](https://doi.org/10.1007/978-3-319-95420-2_15) for an application). Futhermore, multiple states of the alphabet can be jointly defined as success either by providing their numeric values or labels. In the example below, we specify marriage and cohabitation as success. 
 
 ```{r, eval=FALSE}
-seqsuccess(example.seq,
-          success = c("COH", "MAR"), # also possible: c(3,4)
-          time.varying = TRUE)
+seqquality(example.seq,
+           stqual = c(0,0,1,1),
+           time.varying = TRUE)
+
 ```
 
 
 ```{r, echo=FALSE}
-success.tvar <- seqsuccess(example.seq,
-                           success = c("COH", "MAR"),
+success.tvar <- seqquality(example.seq,
+                           stqual = c(0,0,1,1),
                            time.varying = TRUE)
 
-success.tvar <- as.data.frame(success.tvar)
-colnames(success.tvar) <- paste0("i=", 1:20) 
-
-paged_table(success.tvar, list(rows.print = 12))
+paged_table(success.tvar[,2:21], list(rows.print = 12))
 ```
 
 Reshaping the data to long format and some data cleaning allow to visualize how the sequences develop over time. In the example below this is done for a selection of four sequences.
@@ -247,6 +254,7 @@ Reshaping the data to long format and some data cleaning allow to visualize how 
 fig.data <- success.tvar %>%
   mutate(id = row_number(),
          Sequence = example.sps) %>%
+  select(-weight) %>%
   pivot_longer(cols =-c("id", "Sequence"), 
                names_to = "Position",
                values_to = "Sequence Quality") %>%
@@ -323,16 +331,22 @@ turbulence2 <- seqST(partner.year.seq, norm = TRUE)
 cor(complexity2,turbulence2)
 ```
 
-## Bonus material: <br/>Generalized version of the sequence quality index
+## Bonus material: <br/>Generalized version of the sequence quality index {#GenSeqQual}
 
 The original sequence quality index presented above is constructed using a binary framework that distinguishes only between success and failure. Drawing from the conceptualization of the precarity index, we suggest a generalized version of the sequence quality index that allows for a more nuanced *quality hierarchy* of states:
 
 $$
 \frac{\sum_{i=1}^{k}{q_{i}i^{w}_{i}}}{\sum_{i=1}^{k}{q_{max}i^{w }_{i}}}
 $$
-The vector $q$ is defined to indicate the quality of a state. The quality vector assigns values between 0 and 1 to every state of the alphabet. If not specified differently, the state at the bottom of the quality hierarchy is coded 0, whereas the state at the top is coded 1. For the states in-between each step up the hierarchy increases the value on the vector by $1/(l(A) - 1)$, with $l(A)$ indicating the length of the alphabet. 
+where $q_{i}$ is a weighting factor denoting the quality of a state at position $i$. The function normalizes the quality factor (`stqual`) to have values between 0 and 1. Therefore, $q_{max}=1$. If no quality vector is specified (`stqual= NULL`), the first state of the alphabet is coded 0, whereas the last state is coded 1. For the states in-between each step up the hierarchy increases the value of the vector by $1/(l(A) - 1)$, with $l(A)$ indicating the length of the alphabet. 
 
 For illustrative purposes, we again take a traditionalist's perspective and impose the following rank order: $S < LAT < COH < MAR$. This translates to a quality vector $q=(0,\frac{1}{3},\frac{2}{3},1)$ for the four states of our alphabet. In the following table we compare the values of the *generalized sequence quality index* with the *binary sequence quality index* (in which only MAR is considered as success).  
+
+```{r, eval=FALSE, echo=TRUE}
+original <- seqquality(ex1.seq, stqual = c(0,0,0,1))
+generalized <- seqquality(ex1.seq) 
+
+```
 
 ```{r, include=FALSE}
 ex1 <- tibble(state1 = c(1, 1, 1, 1, 1, 1),
@@ -349,32 +363,20 @@ ex1.seq  <- seqdef(ex1, states = shortlab.partner,
                    labels = longlab.partner, alphabet = c(1:4),
                    cpal = colspace.partner) 
 
-
-
-bonus <- as_tibble(ex1.seq) %>% 
-  mutate_all(as.numeric) %>%
-  mutate_all(~(case_when(. == 1 ~ 0,
-                         . == 2 ~ 1/3,
-                         . == 3 ~ 2/3,
-                         . == 4 ~ 1,)))
-
-bonus <-  map_dfc(1:ncol(bonus), ~bonus[,.x]*.x) %>%
-  as_tibble() %>%
-  transmute(Generalized = rowSums(.)/15) %>%
-  mutate(Original = seqsuccess(ex1.seq, success = 4),
-         Sequence = print(ex1.seq, format = "SPS")) %>%
-  select(Sequence, Original, Generalized)
+bonus <-  tibble(Sequence = print(ex1.seq, format = "SPS"),
+                 Original = round(seqquality(ex1.seq, stqual = c(0,0,0,1)),2),
+                 Generalized = round(seqquality(ex1.seq),2)) 
 
 ```
 
 ```{r, echo=FALSE}
-kable(bonus, digits = 2) %>%
+kable(bonus) %>%
   kable_styling(bootstrap_options = 
                   c("responsive", "hover", "condensed"),
                 full_width = F)
 ```
 
-The generalized index allows to obtain more fine-grained results than the original quality index, but requires more analytical choices, i.e. the definition of a state hierarchy which assigns metric weights to each state. The function for the generalized sequence quality index will be (written and) uploaded soon. 
+The generalized index allows to obtain more fine-grained results than the original quality index, but requires more analytical choices, i.e. the definition of a state hierarchy which assigns metric weights to each state. The function for the generalized sequence quality index requires further testing and should be considered work in progress. 
 
 ## References {.appendix}
 
